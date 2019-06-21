@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+  <title>iScroll</title>
+  <style type="text/css">
+    * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    body,
+    ul,
+    li {
+      padding: 0;
+      margin: 0;
+      border: 0;
+    }
+
+    #x_wrapper {
+      position: absolute;
+      z-index: 1;
+      width: 200px;
+      height: 50px;
+      overflow: hidden;
+      background-color: #ccc;
+    }
+
+    #x_wrapper #scroller {
+      width: 800px;
+      position: absolute;
+      z-index: 1;
+    }
+
+    #x_wrapper ul {
+      list-style: none;
+      font-size: 0;
+    }
+
+    #x_wrapper li {
+      font-size: 16px;
+      display: inline-block;
+      width: 100px;
+      text-align: center;
+      height: 50px;
+      line-height: 50px;
+      background-color: pink;
+    }
+
+    #y_wrapper {
+      position: absolute;
+      z-index: 1;
+      top: 100px;
+      height: 200px;
+      border: 1px solid skyblue;
+      left: 0;
+      width: 200px;
+      background: #ccc;
+      overflow: hidden;
+    }
+
+    #y_wrapper #scroller ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 200px;
+      text-align: left;
+    }
+
+    #y_wrapper #scroller li {
+      padding: 0 10px;
+      height: 40px;
+      line-height: 40px;
+      background-color: #fafafa;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div id="y_wrapper">
+      <div id="scroller">
+        <ul>
+          <li>Pretty row 1</li>
+          <li>Pretty row 2</li>
+          <li>Pretty row 3</li>
+          <li>Pretty row 4</li>
+          <li>Pretty row 5</li>
+          <li>Pretty row 6</li>
+          <li>Pretty row 7</li>
+          <li>Pretty row 8</li>
+        </ul>
+      </div>
+    </div>
+    <div id="x_wrapper">
+      <div id="scroller">
+        <ul>
+          <li>111</li>
+          <li>222</li>
+          <li>333</li>
+          <li>444</li>
+          <li>555</li>
+          <li>666</li>
+          <li>777</li>
+          <li>888</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="./iscroll.js"></script>
+  <script type="text/javascript">
+    var x_scroll, y_scroll;
+    window.onload = function () {
+      x_scroll = new IScroll('#x_wrapper', {
+        scrollX: true,
+        scrollY: false,
+        mouseWheel: true,
+      });
+      y_scroll = new IScroll('#y_wrapper', {
+        scrollbars: true,
+        mouseWheel: true, // 支持滚轮滚动
+        interactiveScrollbars: true, // 可拖动滚动条
+        shrinkScrollbars: 'scale', // 滚动到末端时缩放滚动条
+        fadeScrollbars: true // 不滚动时隐藏滚动条
+      });
+    }
+  </script>
+</body>
+
+</html>

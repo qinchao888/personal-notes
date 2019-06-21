@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{177:function(t,e,n){"use strict";n.r(e);var s={mounted:function(){console.log("test.vue mounted")}},o=n(0),u=Object(o.a)(s,function(){var t=this.$createElement;return(this._self._c||t)("div",[this._v("this is a test")])},[],!1,null,null,null);e.default=u.exports}}]);
