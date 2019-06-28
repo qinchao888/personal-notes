@@ -241,3 +241,11 @@ setTimeout 设置后需要使用 clearTimeout 清除，否则虽然 setTimeout �
 min-height: 0; /*min-width: 0;*/
 overflow: auto;
 ```
+
+### 固定高度的多行文本垂直水平居中
+
+```html
+<div style="display:table;height:400px;width:100%;">
+  <span style="display:table-cell;vertical-align:middle;text-align:center;">你要填写的内容</span>
+</div>
+```

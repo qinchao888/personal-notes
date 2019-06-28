@@ -28,7 +28,8 @@ module.exports = {
         text: '框架',
         items: [
           {text: 'Vue', link: '/frame/vue/'},
-          {text: 'React', link: '/frame/react/'},
+          {text: 'Vue Router', link: '/frame/vue-router/'},
+          {text: 'VueX', link: '/frame/vuex/'},
           {text: 'Element', link: '/frame/element/'},
           {text: 'Node', link: '/frame/node/'},
           {text: '小程序', link: '/frame/miniprogram/'}
