@@ -44,7 +44,13 @@ module.exports = {
           { text: 'Webpack', link: '/tools/webpack/' },
         ]
       },
-      {text: '博客', link: 'https://blog.csdn.net/greybearchao'}      
+      {
+        text: '其它',
+        items: [
+          { text: '配置', link: '/other/setting/' },
+          { text: '博客', link: 'https://blog.csdn.net/greybearchao' },
+        ]
+      },
       // {text: 'HTML', link: '/html/' },
       // {text: 'Css', link: '/css/' },
       // {text: 'JS', link: '/js/' },
@@ -84,6 +90,7 @@ module.exports = {
       ],
       '/base/interview/': [
         ['', '汇总'],
+        ['necessary', '面试'],
         ['example', '算法'],
       ],
       '/tools/chrome/': [
@@ -94,12 +101,16 @@ module.exports = {
       '/tools/webpack/': [
         ['', 'vue环境构建'],
         ['loader', 'loader'],
-        ['plugin', 'plugin']
+        ['plugin', 'plugin'],
+        ['webpack', '基础知识']
       ],
       '/frame/vue/': [
         ['', '基础总结'],
         ['senior', '高级用法'],
         ['code-rule', '编码规范']
+      ],
+      '/frame/vue-router/': [
+        ['', '基础总结'],
       ],
       '/frame/node/': [
         ['', '服务构建'],
@@ -107,11 +118,15 @@ module.exports = {
       ],
       '/frame/miniprogram/': [
         ['', '基础知识'],
+        ['mpvue', 'mpvue']
       ],
       '/frame/element/': [''],
       '/base/css/': [
         ['', 'CSS基础'],
         ['option', 'CSS属性'],
+      ],
+      '/other/setting/': [
+        ['', 'hosts']
       ],
       '/': [
         ['', '前端笔记'],

@@ -177,6 +177,19 @@ div{
 ### 1px 边框
 
 ```
+.border_b(@color) {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-bottom: 1px solid @color;
+    transform: scaleY(0.5);
+  }
+}
+
 /*单个边框*/
 .qb-alert-confirm-btn {
   position: relative;

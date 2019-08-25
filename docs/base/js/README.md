@@ -20,3 +20,14 @@ Math.pow(2, 3)
 var arr = [1, 2, 3]
 arr.slice(-1) // [3]
 ```
+判断数组中是否存在某个元素
+
+```js
+var arr = [1, 2, 3]
+
+// 推荐使用
+arr.includes(1)
+
+// 不推荐使用
+arr.indexOf(1) !== -1
+```

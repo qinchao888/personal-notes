@@ -245,3 +245,47 @@ console.log(isJSON(null)) // false
 console.log(isJSON('{"a":1}')) // true
 console.log(isJSON('{a: 1}')) // SyntaxError: Unexpected token a in JSON at position 1
 ```
+### 根据条件禁止 a 链接跳转
+
+```js
+<a onclick="check(event)" href="./2.html">跳转至2.html</a>
+
+function check (e) {
+  if (condition) { // 禁止跳转
+    window.event ? window.event.returnValue = false : e.preventDefault()
+  }
+}
+```
+
+### 实现图片上传并显示
+
+```html
+<body>
+  <div id="app">
+    <input type="file" onchange="change(event)"/>
+    <div id="img"></div>
+  </div>
+</body>
+<script>
+  function change(e) {
+    let img = document.getElementById('img')
+    let file = e.target.files[0]
+    // 使用FileReader对象将图片url转换成base64格式
+    let reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = function(e) {
+      console.log('this', this)
+      let imgUrl = this.result
+      img.style.backgroundImage = 'url(' + imgUrl + ')'
+    }
+  }
+</script>
+<style>
+#img {
+  width: 200px;
+  height: 200px;
+  border: 1px dashed #ddd;
+  background-size: cover;
+}
+</style>
+```

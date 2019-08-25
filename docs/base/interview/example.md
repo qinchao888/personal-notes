@@ -99,3 +99,98 @@ d.setDate(d.getDate() + 1);
 d.setHours(0, 0, 0, 0);
 console.log(d.getTime());
 ```
+
+### 将下面的数据归类
+
+```js
+/*
+归类为：将数据按照age相同的归为同一类 [[{..}], [{...}, ...]
+*/
+let nameList = [{
+  name: 'mark',
+  age: 15,
+  hair: 'long'
+}, {
+  name: 'tuwen',
+  age: 16,
+  hair: 'short'
+}, {
+  name: 'xiaoming',
+  age: 16,
+  hair: 'short'
+}, {
+  name: 'lilei',
+  age: 15,
+  hair: 'short'
+},
+{
+  name: 'lilei1',
+  age: 15,
+  hair: 'short'
+},
+{
+  name: 'lilei2',
+  age: 15,
+  hair: 'short'
+}, {
+  name: 'hanmei',
+  age: 17,
+  hair: 'long'
+}]
+
+let res = []
+while (nameList.length !== 0) {
+  let list = nameList.shift()
+  let arr = [list]
+  for (let i = 0; i < nameList.length; i++) {
+    if (nameList[i].age === list.age) {
+      arr = arr.concat(nameList.splice(i, 1))
+      i--
+    }
+  }
+  res.push(arr)
+}
+console.log(res)
+```
+### 输出结果为
+
+```js
+function a() {
+  var num = 0;
+  for (var i = 0; i < 10; i++) {
+    num = num++;
+  }
+  console.log(num);
+};
+a(); // 0
+```
+### 将下列数组中相同name数据的num值相加
+
+```JS
+const list = [
+  {name: 'aa', num: '1'},
+  {name: 'bb', num: '2'},
+  {name: 'cc', num: '3'},
+  {name: 'aa', num: '4'},
+  {name: 'bb', num: '5'},
+]
+
+/*res:
+[{name: "aa", num: "5"}
+{name: "bb", num: "7"}
+{name: "cc", num: "3"}]
+*/
+
+function merge (list) {
+  let res = []
+  list.forEach(item => {
+    let curData = res.find(data => data.name === item.name)
+    if (curData) {
+      curData.num = Number(item.num) + Number(curData.num) + '' 
+    } else {
+      res.push(item)
+    }
+  })
+  return res
+}
+```

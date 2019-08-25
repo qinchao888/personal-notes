@@ -138,7 +138,7 @@ new Vue({
   }
 })
 ```
-（18）
+（18）插值 {{}} 中为null或undefined时不渲染。
 :::
 
 ### 创建根实例
@@ -167,7 +167,74 @@ render: function (createElement) {
     return createElement(App);
 }
 ```
-（19）插值 {{}} 中为null或undefined时不渲染。
+### 特性
+
+（1）HTML属性中绑定 null， undefined，false，该属性不显示。
+
+（2）{{}} 中使用的 null，undefined 不会被渲染。
+
+（3）“Mustache”语法 (双大括号)不能作用在HTML特性上，因此需要使用v-bind指令。即HTML属性中不能使用{{}}语法。
+
+```html
+<button :disabled="null">button</button>
+<!-- 渲染：<button data-v-6a4fb36a="">button</button> -->
+
+<div :title="false">name</div>
+<!-- 渲染：<div data-v-6a4fb36a="">name</div> -->
+
+<div>{{null}}{{undefined}}</div>
+<!-- 渲染：<div data-v-6a4fb36a=""></div> -->
+```
+### Mustache语法（{{}}）
+
+（1） {{}} 中只能使用单个表达式，不能使用语句。
+
+```html
+<div>{{ var a = 1 }}</div><!--这是语句不是表达式-->
+```
+
+（2）模板表达式被放在沙盒中，只能访问全局变量的一个白名单，如 Math，Date。不能访问用户自定义的全局变量。如果需要访问需要将全局变量引入至 data 中。
+
+```html
+<div>{{name}}</div>
+
+<script>
+const name = 'hello'
+export default {
+  data () {
+    return {
+      name: name
+    }
+  }
+}
+</script>
+```
+
+### 动态参数
+
+<p class="fr_t">vue版本2.6.0+支持</p>
+
+（1）可用于绑定动态的属性名称和事件名称。
+
+（2）动态参数必须为一个字符串，否则会触发警告。
+
+（3）如果绑定的值为 null，则表明是移除绑定。
+
+（4）DOM中使用模板时属性名称会强制转化为小写，事件名称不会。
+
+（5）动态参数中不能使用空格和引号。
+
+```html
+<a :[name]="name">123456</a>
+<!-- 渲染为：<a data-v-6a4fb36a="" aa="aa">123456</a> -->
+
+<a :[`aA`+name]="name">123456</a>
+<!-- 渲染为：<a data-v-6a4fb36a="" aaaa="aa">123456</a> -->
+
+<!-- 这会触发一个编译警告 -->
+<a v-bind:['foo' + bar]="value"> ... </a>
+```
+
 ### 多重值
 
 常用于提供多个带前缀的值。
@@ -199,6 +266,42 @@ filters中不支持传递当前的this，不能传递data中定义的数据。�
 
 每次页面数据发生改变时都会重新执行methods方法，而computed属性是基于依赖进行缓存的。计算属性只有在它的相关依赖发生改变时才会重新求值。不必再次执行函数。
 
+```html
+<template>
+  <div class="mainIndex">
+    <div>computed:{{time1}}</div>
+    <div>methods:{{time2()}}</div>
+    <div>val1:{{val1}}</div>
+    <div>val2:{{val2}}</div>
+    <button @click="change">change</button>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      val1: '',
+      val2: '',
+    }
+  },
+  computed: {
+    time1 () {
+      return Date.now()
+    },
+  },
+  methods: {
+    time2 () {
+      return Date.now()
+    },
+    change () { // 每次触发时time1和val1的值不会变化，time2()和val2的值每次都会变化。
+      this.val1 = this.time1 // 依赖于缓存，不会重新计算
+      this.val2 = this.time2() // 重新计算
+      console.log('change')
+    }
+  }
+}
+</script>
+```
 ### computed 和 watch 的使用
 
 如果一个值依赖多个属性（多对一），用computed肯定是更加方便的。如果一个值变化后会引起一系列操作，或者一个值变化会引起一系列值的变化（一对多），用watch更加方便一些。
