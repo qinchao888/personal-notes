@@ -4,7 +4,85 @@ lang: zh-CN
 sidebarDepth: 2
 ---
 
+## HTML
+
+### 行内元素有哪些？块级元素有哪些？ 空(void)元素有那些？
+
+（1）行内元素：a span img input select textarea button label
+
+（2）块级元素：div ul ol li dl dt dd h1~h6 p pre form table tr td th thead tbody tfoot
+
+（3）常见的空元素：br hr img input link meta
+
+（4）inline-block元素：img input
+
+### 常见的浏览器内核有哪些？
+
+1. Trident内核：IE,MaxThon,TT,The World,360,搜狗浏览器等。[又称MSHTML]
+
+2. Gecko内核：Netscape6及以上版本，FF,MozillaSuite/SeaMonkey等
+
+3. Presto内核：Opera7及以上。 [Opera内核原为：Presto，现为：Blink;]
+
+4. Webkit内核：Safari,Chrome等。 [ Chrome的：Blink（WebKit的分支）]
+
+Webkit是苹果公司基于KHTML开发的。他包括Webcore和JavaScriptCore（SquirrelFish,V8）两个引擎。
+
+小程序内核：
+
+1. 在iOS 上，小程序的 javascript 代码是运行在 JavaScriptCore 中
+
+2. 在Android 上，小程序的 javascript 代码是通过 X5 内核来解析
+
+3. 在开发工具上， 小程序的 javascript 代码是运行在 nwjs(chrome内核) 中
+
+X5内核和chrome内核都是基于webkit内核，可以认为它们是webkit内核的一个分支。
+X5内核是腾讯基于优秀开源Webkit深度优化的浏览器渲染引擎，搭载在最新一代的手机QQ浏览器上，更快，更便捷。
+
+### cookies，sessionStorage 和 localStorage 的区别？
+
+1. 数据都是存储在客户端。
+2. cookie存储的数据量要比sessionStorage和localStorage存储的数据量要少。cookie存储的数据不能超过4kb，而sessionStorage和localStorage存储的数据量可以达到5M或更大。
+3. sessionStorage在用户关闭浏览器时，存储的数据消失。localStorage是持久存储，除非用户主动删除本地的数据。cookie在过期时间之前数据都是有效的。
+
+### DOM对象和BOM对象
+
+BOM对象的顶级对象是window对象，DOM对象的顶级对象是document对象，document对象是window对象的一个属性。
+即 window.document === document
+
+BOM对象中的navigator、location、screen、history对象均是window对象的一个属性。
+
+### "use strict"的使用及优点
+
+“use strict”：启用严格模式。
+
+1. 使用未声明的变量会报错。
+2. 不允许使用delete删除变量或对象。
+3. 全局中的this值为undefined。
+4. 不允许使用with等。
+
+优点：消除了代码的不安全，提高了编译器效率，提升了运行速度。
+
+附：
+
+with作用：将代码的作用域设置到一个特定的作用域中。
+
+缺点：js解释器会检查with块中的变量是否属于with包含的对象，降低了with语句的执行效率。
+
+### 前端性能优化的方法？
+
+1. 减少http请求次数，代码压缩，使用合适的图片大小。
+2. 减少Dom操作。
+3. 避免使用css表达式（expression）。
+4. 将js脚本至底。
+5. 使用浏览器缓存文件。
+6. 使用CDN加速。
+
 ## Css
+
+### Css可以继承的属性
+
+font-size、font-family、color、text-align、text-indent、line-height、visibility、opacity、cursor等。
 
 ### Css盒模型
 
@@ -330,3 +408,16 @@ function leaks(){
 3. 事件监听: 没有正确销毁 (低版本浏览器可能出现)
 4. 闭包: 会导致父级中的变量无法被释放
 5. dom 引用: dom 元素被删除时，内存中的引用未被正确清空
+
+### null 和 undefined的区别
+
+(1) null表示一个空对象，undefined表示一个变量声明未赋值。
+(2) null转化为数值时为0，undefined转化为数值为NaN。
+(3) null是原型链的终点。
+
+### 值为undefined的情况
+
+1. 变量声明未赋值。
+2. 调用函数时，应该传入的参数未传入，该参数为undefined。
+3. 访问对象中不存在的属性或数组中不存在的数据。
+4. 函数没有返回值，默认为undefined。
