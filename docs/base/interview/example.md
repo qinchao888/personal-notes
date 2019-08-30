@@ -194,3 +194,109 @@ function merge (list) {
   return res
 }
 ```
+### 传递两个参数m，n，返回长度为m，所有元素都为n的数组，要求不能用循环
+
+#### 实现：使用递归和 concat 方法
+
+```js
+function fn (m, n) {s
+  return m ? fn(m - 1, n).concat(n) : [] 
+}
+console.log(fn(3, 2)) // [2, 2, 2]
+```
+### 以下代码输出
+
+```js
+var length = 10;
+function fn(){
+  console.log(this.length);
+}
+
+var obj = {
+  length:5,
+  method:function(){
+    fn() // 10, 由window对象调用
+    arguments[0]() // 2, 由arguments对象调用
+  }
+}
+
+obj.method(fn,1)
+```
+### 传入一个值length，输出从0 ~ length构成的数组
+
+```js
+function getArr (len) {
+  return Array.from({length: len}, (item, index) => index)
+}
+console.log(getArr(4)) // [0, 1, 2, 3]
+```
+
+### 给定有序并且数值递增的数组，求三数相加等于100
+
+```js
+function getArr () { // 返回从 0~99的数组
+  return Array.from({length: 100}, (item, index) => index)
+}
+let arr = getArr ()
+// console.log('arr', arr)
+
+function threeSum (arr) {
+  let res = []
+  for (let i = 0; i < arr.length - 2; i++) {
+    let val1 = arr[i]
+    let left = i + 1
+    let right = arr.length - 1
+    while (left < right) { // 定义左指针和右指针
+      let val2 = arr[left]
+      let val3 = arr[right]
+      if (val1 + val2 + val3 === 100) {
+        res.push([val1, val2, val3])
+      }
+      if (val1 + val2 + val3 >= 100) {
+        right--
+      }
+      if (val1 + val2 + val3 <= 100) {
+        left++
+      }
+    }
+  }
+  return res
+}
+console.log(threeSum(arr))
+```
+
+### 给定一个数组，求其中三数相加等于10，并且这三个数只会在结果中出现一次
+
+```js
+let arr = [0, 1, 1, 1, 2, 2, 3, 4, 9, 8, 8 ,7, 10]
+arr.sort()
+console.log(arr)
+function threeSum (arr) {
+  let res = []
+  for (let i = 0; i < arr.length - 2; i++) {
+    let val1 = arr[i]
+    if (val1 === arr[i - 1]) continue // arr[i]值必须唯一，否则会出现重复的值
+    let left = i + 1
+    let right = arr.length - 1
+    while (left < right) { // 定义左指针和右指针
+      let val2 = arr[left]
+      let val3 = arr[right]
+      if (val1 + val2 + val3 === 10) {
+        res.push([val1, val2, val3])
+      }
+      if (val1 + val2 + val3 <= 10) {
+        while(arr[left] === val2) {
+          left++
+        }
+      }
+      if (val1 + val2 + val3 >= 10) {
+        while(arr[right] === val3) {
+          right--
+        }
+      }
+    }
+  }
+  return res
+}
+console.log(threeSum(arr))
+```
