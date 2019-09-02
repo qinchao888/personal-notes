@@ -300,3 +300,174 @@ function threeSum (arr) {
 }
 console.log(threeSum(arr))
 ```
+
+###  JS实现斐波那契数列
+
+数列：1，1，2，3，5，8，13，21…
+给定f(1) = 1， f(2) = 1，之后每项值等于前两项之和，求f(n)？
+
+```js
+// 方法一：递归
+function f(n) {
+  if (n === 1 || n === 2) {
+    return 1
+  } else {
+    return f(n - 1) + f(n - 2)
+  }
+}
+
+// 方法二：非递归
+function fn (n) {
+  let n1 = 1, n2 = 1, res
+  if (n == 1 || n == 2) return 1
+  for (let i = 0; i < n - 2; i++) {
+    res =  n1 + n2
+    n1 = n2
+    n2 = res
+  }
+  return res
+}
+```
+
+### 给定一个数，求其阶乘
+
+```js
+// 方法一：递归
+function f(n) {
+  if (n === 1) {
+    return 1
+  } else {
+    return n * f(n - 1)
+  }
+}
+
+// 方法二：
+function f(n) {
+  var res = 1
+  for (var i = n; i >= 1; i--) {
+    res = res * i
+  }
+  return res
+}
+
+console.log(f(5)) // 120
+```
+
+### 求一个数组中最大值和最小值之差
+
+```js
+var arr = [10, 5, 11, 7, 8, 9]
+var max = Math.max(...arr) // 或使用Math.max.apply(null, arr)
+var min = Math.min(...arr)
+console.log(max - min) // 6
+```
+附：apply方法中传入null或undefined时执行的JS对象是window对象。
+
+### 找出给定字符串中出现次数最多的字符
+
+```js
+var str = "abcdabbcdcc"
+
+// 方法一：
+function getMax(str) {
+  var maxStr = ''
+  var maxCount = 0
+  for (var i = 0; i < str.length; i++) {
+    var s = str.charAt(i)
+    var count = 0
+    for (var j = 0; j < str.length; j++) {
+      if (s === str.charAt(j)) {
+        count += 1
+      }
+    }
+    if (count > maxCount) {
+      maxCount = count
+      maxStr = s
+    }
+  }
+  return maxStr
+}
+
+// 方法二：
+function getMax(str) {
+  if (str.length <= 1) {
+    return str
+  }
+  var obj = {}
+  for (var i = 0; i < str.length; i++) {
+    if (!obj[str.charAt(i)]) { // 为每个字符初始化
+      obj[str.charAt(i)] = 1
+    } else { // 对已存在的字符值加一
+      obj[str.charAt(i)] += 1
+    }
+  }
+  var maxCount = obj[str.charAt(0)]
+  var maxStr = str.charAt(0)
+  for (var key in obj) {
+    if (obj[key] > maxCount) {
+      maxCount = obj[key]
+      maxStr = key
+    }
+  }
+  return maxStr
+}
+
+console.log(getMax(str)) // "c"
+```
+
+### 数组排序
+
+```js
+// 快速排序
+var arr = [10, 33, 44, 4, 12, 15, 0];
+function quickSort(arr) {
+  if (arr.length <= 1) {
+    return arr
+  }
+  var index = Math.floor((arr.length - 1) / 2)
+  var val = arr.splice(index,1) // 删除中间值
+  var left = []
+  var right = []
+  for (var i = 0; i <= arr.length - 1; i++) {
+    if (arr[i] < val) {
+      left.push(arr[i])
+    } else {
+      right.push(arr[i])
+    }
+  }
+  return quickSort(left).concat(val, quickSort(right))
+}
+console.log(quickSort(arr)) // [0, 4, 10, 12, 15, 33, 44]
+  
+// 冒泡排序
+var arr = [10, 33, 44, 4, 12, 15, 0];
+function sort(arr) { // 每相邻的两个元素比较，大的沉底
+  for (var i = 0; i < arr.length - 1; i++) { // 控制比较的次数
+    for (var j = 0; j < arr.length - 1 - i; j++) {
+      if (arr[j] > arr[j + 1]) {
+        var temp = arr[j]
+        arr[j] = arr[j + 1]
+        arr[j + 1] = temp
+      }
+    }
+  }
+  return arr
+}
+console.log(sort(arr)) // [0, 4, 10, 12, 15, 33, 44]
+  
+// 选择排序
+var arr = [10, 33, 44, 4, 12, 15, 0];
+function sort(arr) { // 每一个元素和后面的所有元素比较，小的元素上浮
+  for (var i = 0; i < arr.length - 1; i++) {
+    for (var j =  i + 1; j < arr.length; j++) {
+      if (arr[i] > arr[j]) {
+        var temp = arr[j]
+        arr[j] = arr[i]
+        arr[i] = temp
+      }
+    }
+  }
+  return arr
+}
+console.log(sort(arr)) // [0, 4, 10, 12, 15, 33, 44]
+```

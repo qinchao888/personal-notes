@@ -467,3 +467,165 @@ a.b = b
 2. 调用函数时，应该传入的参数未传入，该参数为undefined。
 3. 访问对象中不存在的属性或数组中不存在的数据。
 4. 函数没有返回值，默认为undefined。
+
+## vue
+
+### MVVM的理解
+
+Model：代表数据模型，用来处理数据和业务逻辑。
+
+View：将数据模型转化成UI进行展示。
+
+ViewModel：监听模型数据的改变和控制视图行为、处理用户交互。
+
+View 和 Model 是通过 ViewModel 进行交互，View 的变化会同步到 Model 上，而 Model 的变化也会同步到 View 上。
+
+优点：通过双向数据绑定将View层和Model层连接起来，开发者只需关注业务逻辑，不需要手动操作dom。
+
+缺点：Model层数据较多，不便于维护。由于数据的双向绑定也使用View层的代码不便于重用。
+
+### Vue生命周期
+
+beforeCreate：实例初始化之后，this指向当前的实例，此时不能访问data、computed、watch、methods中的方法和数据。（加载页面的loading，初始化一些非响应式变量）
+
+created：实例创建完成，可以访问data、computed、watch和methods中的方法和数据，此时未挂载到DOM，$el属性不能访问，$refs属性为空数组。（关闭页面的loading）。
+
+beforeMount：将template编译成render函数。
+
+mounted：实例挂载到DOM上。（发起ajax请求）
+
+beforeUpdate：数据更新时调用。
+
+updated：数据更新后调用。
+
+activated：keep-alive 组件激活时调用。
+
+deactivated：keep-alive 组件失活时调用。
+
+beforeDestroy：实例销毁之前调用。
+
+destroyed：实例销毁后调用。（移除事件监听和定时器）
+
+附：
+
+$refs：注册过的所有DOM元素和组件实例。
+
+$el：vue实例使用的根DOM元素。
+
+### el 和 $el 的区别
+
+el是vue实例的挂载目标，提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标。可以是 CSS 选择器，也可以是一个 HTMLElement 实例。在实例挂载之后可以通过vm.$el访问，如果在实例化时存在这个选项，实例将立即进入编译过程，否则，需要显式调用 vm.$mount() 手动开启编译。
+
+### 什么是vue生命周期
+
+vue实例从创建到销毁的过程就是生命周期。从开始创建、初始化数据、模板编译、挂载DOM->渲染、更新->渲染、销毁等一系列过程，称之为vue的生命周期。
+
+### vue中的生命周期updated如何使用
+
+data中的数据发生变化并且导致页面重新渲染触发updated。
+
+```html
+<!--此处必须绑定value，否则只修改value值无法触发页面渲染，不会触发updated-->
+<div>{{value}}</div>
+```
+```js
+data () {
+  return {
+    value: 1
+  }
+},
+mounted () {
+  this.value = 2
+},
+updated () {
+  console.log('updated')
+}
+```
+### vue中hash模式和history模式的区别
+
+hash表示的是地址栏URL中#符号(也称作为锚点), hash虽然会出现在URL中, 但是不会被包含在Http请求中, 因此hash值改变不会重新加载页面。页面刷新时不会出现问题。
+
+```js
+window.onhashchange = function(e) {}
+```
+
+history利用history.pushState()和history.replaceState()使得URL跳转不会重载页面。页面刷新时，如果服务器中没有相应的资源就会返回404。因此需要服务端配置对应的404页面。
+
+```js
+window.onpopstate = function (e) {}
+```
+
+api|hash|history
+---|---|---
+push | window.location.assign | window.history.pushState
+replace | window.location.replace | window.history.replaceState
+go | window.history.go | window.history.go
+back | window.history.go(-1) | window.history.go(-1)
+forward | window.history.go(1) | window.history.go(1)
+
+### vue中如何新增自定义指令
+
+1. 全局指令：Vue.directive()
+2. 局部指令：使用directives
+
+```js
+// 全局指令
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus() // 聚焦元素
+  }
+})
+// 局部指令
+directives: {
+  focus: {
+    inserted: function (el) {
+      el.focus()
+    }
+  }
+}
+// 使用 <input v-focus>
+```
+
+### vue中如何自定义一个过滤器
+
+1. 全局过滤器：Vue.filter()
+2. 局部过滤器：使用filters
+
+```js
+// 全局
+Vue.filter('formatMoney', function (value) {
+  return +value > 0 ? parseFloat((value / 100).toFixed(2)) : value
+})
+// 局部
+filters: {
+  formatMoney: function (value) {
+    return +value > 0 ? parseFloat((value / 100).toFixed(2)) : value
+  }
+}
+```
+
+### vue的事件修饰符
+
+.stop：阻止事件冒泡
+
+.prevent：阻止默认事件
+
+.capture：添加事件监听器时使用事件捕获模式
+
+.self：触发当前元素上的事件
+
+.once：点击事件只触发一次
+
+.passive：可以提升移动端的性能。浏览器每次都会去查询是否有preventDefault阻止此次事件。使用passive就是告诉浏览器，不用查询了，没有使用preventDefault阻止默认动作。一般用在滚动监听，@scoll，@touchmove。
+
+### $router 和 $route的区别
+
+$router：是VueRouter的实例，包括路由的跳转方法。
+
+$route：指当前的路由信息对象，可以获取name，path，params，query等信息。
+
+### vue.js的两个核心
+
+1. 数据驱动
+2. 组件系统（组件化）
+
