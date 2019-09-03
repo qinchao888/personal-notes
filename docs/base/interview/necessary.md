@@ -629,3 +629,61 @@ $route：指当前的路由信息对象，可以获取name，path，params，que
 1. 数据驱动
 2. 组件系统（组件化）
 
+###  vue-router 使用params与query传参有什么区别
+
+1. params和name一起使用，query和path一起使用。
+2. params使用this.$route.params获取，query使用this.$route.query获取。
+3. params在页面刷新时数据会丢失，query不会。
+4. params中的参数在url中不能看见，表现行为类似于post，query中的参数可以在url中看见，表现行为类似于get。
+
+```js
+// router.js
+{
+  path: '/test/:id'
+  name: 'test',
+  component: Test
+}
+
+// 页面A -> 页面B
+this.$route.push({name: 'test', params: {id: '123'}})
+// url: /test/123，刷新页面后this.$route.params返回{id: '123}，此时参数没有丢失
+
+this.$route.push({name: 'test', params: {id: '123', name: 'aaa'}})
+// url: /test/123，刷新页面后this.$route.params返回{id: '123}，此时参数name丢失
+
+// 若路由为：
+{
+  path: '/test'
+  name: 'test',
+  component: Test
+}
+this.$route.push({name: 'test', params: {id: '123', name: 'aaa'}})
+// url: /test，刷新页面后this.$route.params返回{}，此时参数全部丢失
+```
+
+## 小程序
+
+### 小程序页面间有哪些传递数据的方法
+
+1. 使用globalData
+
+```js
+App({
+  globalData: {
+    userInfo: null
+  }
+})
+
+// 获取
+const app = getApp()
+console.log(app.globalData)
+```
+2. 通过页面跳转 wx.navigateTo、wx.redirectTo、wx.reLaunch 中的url携带参数。
+
+获取：在Page中的onLoad中获取或App中的onLaunch和onShow中获取。
+
+附：wx.switchTab 和 wx.navigateBack不能携带参数。
+
+3. 使用缓存。
+
+wx.setStorageSync() 和 wx.setStorage()
