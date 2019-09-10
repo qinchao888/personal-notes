@@ -257,6 +257,8 @@ obj + 1 // [object Object]1
 ```
 {} + [] 值为 0 的原因：{} 被解析为代码块，即 {} + [] === + []，+ []会先通过 Number()将 []转化为0。
 
+{} + {} 在Chorme浏览器下被解析为({} + {})，因此返回'[object Object][object Object]'而在Firefox下第一个{}被解析为代码块返回值是NaN。这个和浏览器的解析引擎有关。
+
 
 ```js
 var obj = {
@@ -278,7 +280,7 @@ console.log(obj == 1) // true
 var num = 1
 function f () {
   console.log(num)
-  if (flase) {
+  if (false) {
     var num = 2
   }
 }
@@ -524,6 +526,39 @@ new Promise((resolve, reject) => {
 res 1
 Uncaught (in promise) Error: 1111
     at Promise.then.res */
+
+// 例5：
+new Promise((resolve, reject) => {
+  resolve(x + 1)
+}).then(res => {
+  console.log(1)
+}).catch(err => {
+  console.log('err', err)
+}).then(res => {
+  console.log(22)
+})
+/**
+err ReferenceError: x is not defined
+    at Promise (2.html:43)
+    at new Promise (<anonymous>)
+    at 2.html:42
+22
+*/
+
+// 例6：
+new Promise((resolve, reject) => {
+  resolve(1)
+}).then(res => {
+  console.log(1)
+}).catch(err => { // 没有报错时会跳过catch方法
+  console.log('err', err)
+}).then(res => {
+  console.log(22)
+})
+/**
+1
+22
+*/
 ```
 ## Generator函数
 
@@ -674,4 +709,3 @@ console.log(p.__proto__.constructor.name) // Person
 
 // 属性分为三种：实例属性，原型属性，构造函数的属性
 ```
-## 数据类型的深入理解

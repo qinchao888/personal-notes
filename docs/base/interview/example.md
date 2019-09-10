@@ -688,3 +688,97 @@ var arr = [1,2,3,4,5,6,7,8,9,10,11,23,44,86];
 var result2 = binary_search2(arr, 0, 13, 10);
 console.log(result2);   // 9
 ```
+
+### 自定义函数实现数组去重
+
+```js
+// 第一种：不操作原数组，返回一个新数组
+Array.prototype.distinct = function () {
+  return [...new Set(this)]
+}
+var arr = [1, 2, 1, 3]
+console.log(arr.distinct()) // [1, 2, 3]
+console.log(arr) // [1, 2, 1, 3]
+
+// 第二种：操作原数组
+/**
+清空数组
+1. this.splice(0, this.length)
+2. this.length = 0
+*/
+Array.prototype.distinct = function () {
+  var res = [...new Set(this)]
+  this.length = 0
+  this.push(...res) // 直接修改原数组this
+  return this
+}
+var arr = [1, 2, 1, 3]
+console.log(arr.distinct()) // [1, 2, 3]
+console.log(arr) // [1, 2, 3]
+```
+
+### 以下代码执行结果
+
+```js
+var p = [];
+var A = new Function();
+A.prototype = p;
+var a = new A;
+console.log(a) // Array {}
+a.push(1);
+console.log(a) // [1]
+console.log(a.length); // 1
+console.log(p.length); // 0
+```
+分析：new操作符过程：
+
+```js
+1. var obj = {}
+2. obj.__proto__ = A.prototype
+3. A.apply(obj)
+```
+
+### 多维数组降维
+
+```js
+var arr= [2,3,3,4,[2,3,4,[13,3,[3,4,6],4]]]
+
+// 方法一：
+var res = (arr + '').split(',').map(item => +item)
+
+// 方法二：递归
+var res = []
+function fn (arr) {
+  arr.forEach(item => {
+    if (item instanceof Array) {
+      fn(item)
+    } else {
+      res.push(item)
+    }
+  })
+}
+fn(arr)
+```
+
+### 变量提升和函数提升
+
+```js
+// 例1:
+console.log(typeof a) // function 
+function a () {}
+var a = 10
+console.log(typeof a) // number
+
+// 例2:
+// Uncaught SyntaxError: Identifier 'a' has already been declared
+console.log(typeof a)
+function a () {}
+let a = 10
+console.log(typeof a)
+```
+函数提升优先级要高于变量提升，且不会被变量声明覆盖，但是会被变量赋值覆盖，也会被后面的同名函数替换。
+
+<p class="fr_th">原文（参考《JavaScript高级程序设计》第7.3章节）：JavaScript从来不会告诉你是否多次声明了同一个变量；遇到这种情况，它只会对后续的声明视而不见（不过，它会执行后续声明中的变量初始化）。</p>
+
+
+

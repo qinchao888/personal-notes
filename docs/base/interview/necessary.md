@@ -272,6 +272,18 @@ z-index:0的元素层叠水平相同，遵循后来居上的原则，即后面�
 3. @import 必须 IE5+ 才能使用。
 4. link支持使用js控制DOM去改变样式，而@import不支持;
 
+### 提高css加载速度的方式
+
+1. 使用CDN加速
+2. 代码压缩
+3. 缓存css文件（为避免更新css文件后浏览器不更新，给css文件后添加当前的版本号）
+
+```html
+<link href="/static/css/index.css?version=20190905" rel="stylesheet">
+<!--不要使用时间戳，因为时间戳每次都在变化，浏览器无法缓存-->
+```
+4. 减少http请求，合并多个css文件
+
 ## JS
 
 ### 原型和原型链
@@ -467,6 +479,103 @@ a.b = b
 2. 调用函数时，应该传入的参数未传入，该参数为undefined。
 3. 访问对象中不存在的属性或数组中不存在的数据。
 4. 函数没有返回值，默认为undefined。
+
+### 判断一个对象是否为数组
+
+1. Array.isArray(obj)
+
+2. obj instanceof Array
+
+3. Array.prototype.isPrototypeOf(obj)
+
+4. Object.prototype.toString.call(obj)
+
+```js
+var obj = []
+Array.isArray(obj) // true
+obj instanceof Array // true
+Array.prototype.isPrototypeOf(obj) // true
+Object.prototype.toString.call(obj) // [object Array]
+```
+### 判断一个对象为一个空对象
+
+1. 使用 JSON.stringify()
+
+2. 使用 Object.getOwnPropertyNames()
+
+3. 使用 Object.keys()
+
+4. 使用 for ... in ...
+
+```js
+var obj = {}
+JSON.stringify(obj) === '{}' // true
+Object.getOwnPropertyNames(obj).length === 0 // true
+Object.keys().length === 0 // true
+
+function isEmptyObject (obj) {
+  for (var key in obj) {
+    return false
+  }
+  return true
+}
+```
+### 判断对象中是否有某个属性
+
+1. . 和 []
+
+2. in
+
+3. hasOwnProperty()
+
+```js
+var obj = {a: 1}
+obj.a // true
+'a' in obj // true
+obj.hasOwnProperty('a') // true
+```
+
+### for ... in 和 for ... of 的区别
+
+1. for ... in 会遍历原型链上的可枚举属性。
+
+2. for ... of 遍历的对象必须部署了 iterator 接口，用于遍历可迭代对象。
+
+3. for ... in 遍历数组获取的是key，即索引值，而 for ... of 获取的是数组的值。
+
+```js
+// 使用 for ... of 遍历普通对象时会报错
+var obj = {a: 1, b: 2}
+for (var value of obj) {
+  console.log(value) // Uncaught TypeError: obj is not iterable
+}
+
+var arr = ['a', 'b', 'c']
+for (var key in arr) {
+  console.log(key) // 0 1 2
+}
+for (var value of arr) {
+  console.log(value) // a b c
+}
+```
+
+### == 和 === 的区别
+
+#### 基本数据类型比较：
+
+1. == 先比较数据类型是否一致，一致返回true，不一致转化为相同数据类型比较。
+2. === 比较数据类型是否一致，不一致返回false。
+
+#### 复杂数据类型比较：
+
+== 和 === 对于 Object和Array来说没有区别，指向同一个对象（同一个内存地址）返回true，否则返回false。
+
+#### 基本数据类型和复杂数据类型比较：
+
+1. == 将复杂数据类型转化为基本数据类型后再比较（对象和数组类型先调用valueOf()再调用toString()）
+2. === 数据类型不一致，返回false
+
+<p class="fr_th">附：如果 x, y 类型不一致，且 x, y 为 String、Number、Boolean 中的某一类型，则将 x, y 使用 Number() 转化数值类型再进行比较。</p>
 
 ## vue
 

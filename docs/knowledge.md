@@ -60,7 +60,7 @@ function test() {
 
 名称 | 大小(px) | 对应的设备
 ---|---|---
-xm | <768 | 超小屏幕(手机)
+xs | <768 | 超小屏幕(手机)
 sm | >=768 | 小屏幕(平板)
 md | >=992 | 中等屏幕(桌面显示器)
 lg | >=1200 | 大屏幕(大桌面显示器)
@@ -497,7 +497,7 @@ console.log(window.a) // undefined
 
 // 例2：
 let a = 10
-function test (a) {
+function test () {
   a = 20
 }
 test()

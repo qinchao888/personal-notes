@@ -58,6 +58,36 @@ window.bus.$emit('myEvent', data)
 
 ### 7. class的使用，写一个简单的class
 
+使用class的优点：使对象原型的写法更加清晰，更像面向对象编程。
+
+特性：
+
+1. 数据类型为function
+2. 内部定义的方法都是挂载在原型上，方法都是不可枚举的。
+3. 类的内部默认启用严格模式，不存在变量提升。
+4. 调用时必须使用new创建，而构造函数可以使用new也可以不使用。
+5. 使用new创建对象时，内部的constructor函数会默认执行，如果未定义，会有个默认的空的constructor函数被添加。constructor中定义的方法为该对象的私有方法。
+
+```js
+function Person () {
+  this.sayHello = function () {
+    console.log('sayHello')
+  }
+}
+var person = new Person()
+person.sayHello()
+// {value: ƒ, writable: true, enumerable: true, configurable: true}
+console.log(Object.getOwnPropertyDescriptor(person, 'sayHello')) 
+
+class Person {
+  sayHello () {
+    console.log('sayHello')
+  }
+}
+// {value: ƒ, writable: true, enumerable: false, configurable: true}
+console.log(Object.getOwnPropertyDescriptor(Person.prototype, 'sayHello'))
+```
+
 ### 8. 闭包及在项目中的应用
 
 概念：
