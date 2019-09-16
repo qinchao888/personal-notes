@@ -92,7 +92,8 @@ module.exports = {
         ['', '汇总'],
         ['necessary', '面试'],
         ['example', '算法'],
-        ['company', '公司面试题']
+        ['company', '公司面试题'],
+        ['other', '其他']
       ],
       '/tools/chrome/': [
         ['', '调试工具']

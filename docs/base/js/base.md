@@ -101,6 +101,33 @@ function throttle(func, delay) {
   }
 }
 ```
+
+```js
+// 请求时间大于delay时，保证最后一次请求一定能够发出
+function debounce (fn, delay) {
+  var timer = null
+  return function () {
+    var args = arguments
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(function () {
+      fn.apply(this, args)
+    }, delay)
+  }
+}
+var f = debounce(async function (value) {
+    // 发起请求
+  var res = await new Promise((resolve, reject) => {
+    setTimeout(function () {
+      resolve({code: 200})
+    }, 1200)
+  })
+  console.log('res', res)
+}, 1000)
+f()
+setTimeout(f, 1100)
+```
 ### scrollTop，innerHeight等用法
 
 获取当前的滚动距离：

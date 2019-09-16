@@ -86,6 +86,21 @@ change：输入框内容改变并且鼠标失焦时触发。（比较失焦后�
 
 如：input中初始值为空，输入1111然后删除为空，此时不会触发change事件。
 
+### HTML中页面渲染过程
+
+1. 解析HTML生成DOM树，解析CSS生成CSSOM树。
+2. 将DOM树和CSSOM树结合，生成渲染树(Render Tree)。
+3. 布局绘制，回流和重绘。（回流一定引起重绘而重绘不一定会引起回流）
+
+### url中输入地址的流程
+
+1. URL解析：判断是否是一个合法的url地址。
+2. DNS解析
+3. TCP连接
+4. 发起HTTP请求
+5. 接受响应结果
+6. 浏览器解析html，进行布局和渲染。
+
 ## Css
 
 ### Css可以继承的属性
@@ -284,6 +299,19 @@ z-index:0的元素层叠水平相同，遵循后来居上的原则，即后面�
 ```
 4. 减少http请求，合并多个css文件
 
+### transition 的属性值
+
+transition：名称 过渡时间 速度曲线 延迟
+
+### box-shadow 的属性值
+
+box-shadow：水平阴影 垂直阴影 模糊距离 阴影尺寸 颜色 内侧阴影还是外侧阴影（inset，默认outset）
+
+1. 水平阴影：正负值，正值x轴右方向扩展。
+2. 垂直阴影：正负值，正值y轴下方向扩展。
+3. 模糊距离：正值，值越大越模糊，为 0 时没有模糊效果。
+4. 阴影尺寸：正负值，正值阴影扩大，负值阴影缩小。
+
 ## JS
 
 ### 原型和原型链
@@ -319,6 +347,22 @@ JavaScript 采用词法作用域(lexical scoping)，也就是静态作用域。
 因为 JavaScript 采用的是词法作用域，函数的作用域在函数定义的时候就决定了。
 
 而与词法作用域相对的是动态作用域，函数的作用域是在函数调用的时候才决定的。
+
+```js
+//  动态作用域：
+function foo() {
+    console.log(a);
+}
+
+function bar() {
+    var a = 3;
+    foo();
+}
+
+var a = 2;
+bar(); // 2;
+```
+如果js采用的时动态作用域，那么foo在bar中调用，就会先在bar中查询a,输出为3。
 
 ### 作用域链
 
@@ -435,6 +479,8 @@ common.js: require module.exports exports
 
 1. require是同步加载，import是异步加载。
 2. require运行时加载，import时编译时加载。
+3. import是es6的语法，最终会转化为require。
+4. 使用require引入文件时可以使用变量，而import不可以。
 
 ### 修改this指向的方式
 
@@ -520,6 +566,15 @@ function isEmptyObject (obj) {
   return true
 }
 ```
+
+### Object.getOwnPropertyNames()、Object.keys()和for...in...的区别
+
+#### Object.getOwnPropertyNames()：返回对象本身的所有属性名组成的数组（包括不可枚举、但不包括Symbol值作为名称的属性）。
+
+#### Object.keys()：返回对象的自身可枚举属性组成的数组。
+
+#### for...in... ：遍历对象本身和原型链上的所有可枚举的属性名。
+
 ### 判断对象中是否有某个属性
 
 1. . 和 []
@@ -534,6 +589,12 @@ obj.a // true
 'a' in obj // true
 obj.hasOwnProperty('a') // true
 ```
+
+### hasOwnProperty() 和 in 的区别
+
+#### hasOwnProperty()：检测一个对象是否含有特定的自身属性，会忽略原型链上继承的属性。
+
+#### in：包括原型链上继承的属性。
 
 ### for ... in 和 for ... of 的区别
 
@@ -576,6 +637,12 @@ for (var value of arr) {
 2. === 数据类型不一致，返回false
 
 <p class="fr_th">附：如果 x, y 类型不一致，且 x, y 为 String、Number、Boolean 中的某一类型，则将 x, y 使用 Number() 转化数值类型再进行比较。</p>
+
+### 将伪数组转化为数组的方式
+
+1. [...arguments]
+2. Array.from(arguments)
+3. Array.prototype.slice.call(arguments)
 
 ## vue
 
@@ -712,6 +779,9 @@ filters: {
   }
 }
 ```
+### vue中data数据初始化
+
+Object.assign(this.$data, this.$options.data())
 
 ### vue的事件修饰符
 
@@ -770,6 +840,35 @@ this.$route.push({name: 'test', params: {id: '123', name: 'aaa'}})
 // url: /test，刷新页面后this.$route.params返回{}，此时参数全部丢失
 ```
 
+### vue-router中页面跳转有哪些方式
+
+1. router.push()
+2. router.replace()
+3. router.forward()
+4. router.back()
+5. router.go(n)
+
+## es6
+
+### Promise的优缺点
+
+#### 优点：
+
+1. 避免请求的多层嵌套，如果存在多个请求并且每个请求依赖于前一个请求，使用Promise可以通过多个then处理。
+2. 内部抛出的错误方便处理，可以在catch中处理。
+
+#### 缺点：
+
+1. Promise一旦创建就会立即执行，无法取消。
+2. 如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。
+3. 当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
+
+### async/await 对比 Promise 的优势
+
+1. 写法简洁，多个嵌套的请求不需要太多的.then。
+2. Promise内部抛出的错误无法被try...catch，而async/await可以。
+3. 发生错误时，async/await的错误提示信息比Promise更加友好。
+
 ## 小程序
 
 ### 小程序页面间有哪些传递数据的方法
@@ -796,3 +895,17 @@ console.log(app.globalData)
 3. 使用缓存。
 
 wx.setStorageSync() 和 wx.setStorage()
+
+## 其他
+
+#### 网络协议的七大层
+
+1. 物理层
+2. 数据链路层
+3. 网络层  
+4. 传输层 
+5. 会话层
+6. 表示层 
+7. 应用层 
+
+[参考](https://www.cnblogs.com/carlos-mm/p/6297197.html)

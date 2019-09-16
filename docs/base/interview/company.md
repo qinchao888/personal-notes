@@ -10,6 +10,12 @@ sidebarDepth: 2
 
 ### 2. 导航守卫有哪些。
 
+全局守卫：beforeEach、beforeResolve、afterEach
+
+路由独享守卫：beforeEnter
+
+组件内守卫：beforeRouteEnter、beforeRouteUpdate、beforeRouteLeave
+
 ### 3. beforeEach 和 afterEach 中常用的操作
 
 #### beforeEach：
