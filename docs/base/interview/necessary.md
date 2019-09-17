@@ -4,6 +4,10 @@ lang: zh-CN
 sidebarDepth: 2
 ---
 
+:::tip
+1. JavaScript中所有函数参数都是按值传递的。基本类型值，传递的是实际值，引用类型，传递的是引用地址值。
+:::
+
 ## HTML
 
 ### 行内元素有哪些？块级元素有哪些？ 空(void)元素有那些？
@@ -650,6 +654,132 @@ for (var value of arr) {
 1. [...arguments]
 2. Array.from(arguments)
 3. Array.prototype.slice.call(arguments)
+
+### 普通函数 和 箭头函数的区别
+
+1. 定义的方式不同
+
+```js
+// 箭头函数
+var f = () => {}
+```
+
+2. this的指向不同。
+
+普通函数中的this是在函数调用时确定的，而箭头函数的this指向定义生效时所在的对象而不是使用时所在的对象。
+
+3. 箭头函数不能用作构造函数，不可以使用new命令，会抛出错误。
+
+4. 不可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用 rest 参数代替。
+
+```js
+const numbers = (...nums) => nums;
+numbers(1, 2, 3, 4, 5) // [1,2,3,4,5]
+```
+
+5. 不可以使用yield命令，因此箭头函数不能用作 Generator 函数。
+
+### new一个对象过程发生了什么？
+
+1. 创建一个新对象，如：var person = {};
+2. 新对象的__proto__属性指向构造函数的原型对象。
+3. 将构造函数的作用域赋值给新对象。（也所以this对象指向新对象）
+4. 执行构造函数内部的代码，将属性添加给person中的this对象。
+5. 返回新对象person。
+
+### 属性描述符对象的理解
+
+获取：Object.getOwnPropertyDescriptor(obj, prop)
+
+设置：
+
+1. Object.defineProperty(obj, prop, descriptor)
+
+```js
+var o, d;
+
+o = { get foo() { return 17; } };
+d = Object.getOwnPropertyDescriptor(o, "foo");
+// d {
+//   configurable: true,
+//   enumerable: true,
+//   get: /*the getter function*/,
+//   set: undefined
+// }
+
+o = { bar: 42 };
+d = Object.getOwnPropertyDescriptor(o, "bar");
+// d {
+//   configurable: true,
+//   enumerable: true,
+//   value: 42,
+//   writable: true
+// }
+
+o = {};
+Object.defineProperty(o, "baz", { // 不设置时writable，enumerable，configurable默认为false
+  value: 8675309
+});
+d = Object.getOwnPropertyDescriptor(o, "baz");
+// d {
+//   value: 8675309,
+//   writable: false,
+//   enumerable: false,
+//   configurable: false
+// }
+```
+
+2. Object.defineProperties(obj, prop)
+
+```js
+// 设置单个属性
+const object1 = {};
+Object.defineProperty(object1, 'property1', {
+  value: 42,
+  writable: false
+});
+
+// 设置多个属性
+var obj = {};
+Object.defineProperties(obj, {
+  'property1': {
+    value: true,
+    writable: true
+  },
+  'property2': {
+    value: 'Hello',
+    writable: false
+  }
+});
+```
+属性： get set value writable enumerable configurable
+
+数据属性：value writable enumerable configurable
+
+存取器属性：get set enumerable configurable
+
+### GC机制的理解
+
+对于JavaScript而言，最初的垃圾回收机制，是基于引用计数来做的。后来升级为标记清除。
+
+1. 垃圾回收只作用于对象，基本数据类型的变量存在于栈中会自动回收。
+2. GC分为两种引用计数和标记清除。
+3. 引用计数：变量每被引用一次，其数量就会加一，当引用计数为0时，该变量就会被回收。循环引用时，两个对象都至少被引用了一次，将不能自动被回收。所以会导致内存泄露。
+4. 标记清除可以解决循环引用问题。
+
+原文：垃圾收集器在运行的时候会给存储在内存中的所有变量都加上标记（当然，可以使用任何标记方式）。然后，它会去掉环境中的变量以及被环境中的变量引用的变量的标记。而在此之后再被加上标记的变量将被视为准备删除的变量，原因是环境中的变量已经无法访问到这些变量了。最后，垃圾收集器完成内存清除工作，销毁那些带标记的值并回收它们所占用的内存空间。
+
+```js
+// 循环引用
+function fn() {
+    var a = {};
+    var b = {};
+    a.b = b;
+    b.a = a;
+}
+fn();
+```
+当对象，无法从根对象沿着引用遍历到，即不可达（unreachable），进行清除。对于上面的例子，fn() 里面的 a 和 b 在函数执行完毕后，就不能通过外面的上下文进行访问了，所以就可以清除了。
 
 ## vue
 
