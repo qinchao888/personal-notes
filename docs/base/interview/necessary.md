@@ -52,6 +52,8 @@ BOM对象的顶级对象是window对象，DOM对象的顶级对象是document对
 
 BOM对象中的navigator、location、screen、history对象均是window对象的一个属性。
 
+DOM：操作文档，dom节点。BOM：操作浏览器，如调整窗口大小。
+
 ### "use strict"的使用及优点
 
 “use strict”：启用严格模式。
@@ -373,6 +375,11 @@ bar(); // 2;
 ### this的理解
 
 this总是指向函数的调用者，this不是在函数定义时确定的，而是在函数执行的时候确定的。
+
+1. 全局中的this指向window，严格模式下为undefined。
+2. call，apply，bind可以修改this的指向。
+3. setTimeout、setInterval中的this指向window。
+4. 箭头函数的 this 总是指向定义生效时所在的对象而不是运行时所在的对象。
 
 ### 闭包
 
