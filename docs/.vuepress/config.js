@@ -32,7 +32,10 @@ module.exports = {
           {text: 'VueX', link: '/frame/vuex/'},
           {text: 'Element', link: '/frame/element/'},
           {text: 'Node', link: '/frame/node/'},
-          {text: '小程序', link: '/frame/miniprogram/'}
+          {text: '小程序', link: '/frame/miniprogram/'},
+          {text: 'Angular1.6', link: '/frame/angular/'},
+          {text: 'mysql', link: '/frame/mysql/'},
+
         ]
       },
       {
@@ -121,6 +124,12 @@ module.exports = {
       '/frame/miniprogram/': [
         ['', '基础知识'],
         ['mpvue', 'mpvue']
+      ],
+      '/frame/angular/': [
+        ['', '基础知识']
+      ],
+      '/frame/mysql/': [
+        ['', '基础知识']
       ],
       '/frame/element/': [''],
       '/base/css/': [

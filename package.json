@@ -12,5 +12,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "anywhere": "^1.5.0",
+    "dist": "^0.1.2"
+  }
 }
