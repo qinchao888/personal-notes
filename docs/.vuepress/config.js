@@ -119,7 +119,8 @@ module.exports = {
       ],
       '/frame/node/': [
         ['', '服务构建'],
-        ['express', 'express框架']
+        ['express', 'express框架'],
+        ['sequelize', 'sequelize框架']
       ],
       '/frame/miniprogram/': [
         ['', '基础知识'],
