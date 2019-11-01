@@ -10,9 +10,9 @@ npm list -g --depth 0 // 查看当前所有s已全局安装的模块
 
 npm i // npm install
 
-npm i -s // npm install --save
+npm i -s // npm install --save（安装到dependencies中）
 
-npm i -d // npm install --save-dev
+npm i -d // npm install --save-dev（安装到devDependencies中s）
 
 npm view less versions // 查看所有的less版本
 
@@ -23,6 +23,8 @@ npm init -y // 生成package.json文件
 npm update 模块名 // 更新已安装的模块至最新版
 
 npm cache clean // 删除缓存下的所有文件
+
+npm install 模块名@3.1 --save-dev // 安装指定版本的模块
 
 ```
 

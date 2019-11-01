@@ -1,9 +1,15 @@
 ---
-title: express
+title: sequelize
 lang: zh-CN
 sidebarDepth: 2
 ---
 ## 基本用法
+
+:::tip 总结
+
+1. sequelize中虽然定义了createdAt、updatedAt not null，但是在创建时可以不用传这两个字段，sequelize会自动使用当前时间创建。
+
+:::
 
 ### 配置操作
 
@@ -124,4 +130,167 @@ source.hasOne(target)
 source.belongsTo(target)
 source.hasMany(target)
 source.belongsToMany(target)
+```
+
+### 类方法和实例方法
+
+tips：In sequelize V4 class and instance methods are removed.
+
+```js
+// sequelize v4.0+
+var User = sequelize.define('user', {attributes}, {options})
+
+// 类方法注册
+User.method1 = function () {} // 类方法，通过User.method1()调用
+
+// 实例方法注册
+User.prototype.method2 = function () {} // 实例方法，通过创建的实例调用
+
+User.build({...}).method2() // 创建实例并调用实例方法
+```
+
+```js
+// sequelize v4.0以下
+var User = sequelize.define('user', {attributes}, {
+  classMethods: {
+    method1: function () {
+      ...
+    }
+  },
+  instanceMethods: {
+    method2: function () {
+      ...
+    }
+  }
+})
+```
+
+### scope
+
+1. defaultScope 属性
+2. scopes 属性
+3. addScope() 函数
+
+```js
+var Task = sequelize.define('task', {
+  id: {
+    type: Sequelize.STRING,
+    primaryKey: true
+  },
+  taskId: {
+    type: Sequelize.STRING,
+    field: 'task_id'
+  },
+  name: Sequelize.STRING,
+  time: Sequelize.DATE
+}, {
+  freezeTableName: true,
+  createdAt: false,
+  updatedAt: false,
+  defaultScope: { // 默认
+    where: {
+      task_id: 'a'
+    }
+  },
+  scopes: {
+    isA: { // 对象格式
+      where: {
+        name: 'a'
+      }
+    },
+    fn: function (name, id) { // 函数格式
+      return {
+        where: {
+          name,
+          id
+        }
+      }
+    }
+  }
+})
+
+Task.findAll({raw: true})
+// SELECT `id`, `task_id` AS `taskId`, `name`, `time` FROM `task` AS `task` WHERE `task`.`task_id` = 'a';
+
+Task.scope({method: ['fn', 'a', 1]}).findAll({raw: true})
+// SELECT `id`, `task_id` AS `taskId`, `name`, `time` FROM `task` AS `task` WHERE `task`.`name` = 'a' AND `task`.`id` = 1;
+
+Task.scope('isA').findAll({raw: true})
+// SELECT `id`, `task_id` AS `taskId`, `name`, `time` FROM `task` AS `task` WHERE `task`.`name` = 'a';
+
+Task.addScope('isB', {
+  where: {
+    name: 'b'
+  }
+})
+
+Task.scope('isB').findAll({raw: true})
+// SELECT `id`, `task_id` AS `taskId`, `name`, `time` FROM `task` AS `task` WHERE `task`.`name` = 'b';
+
+// 再次使用addScope定义一个同名的限制会抛出异常，需要使用override: true
+Task.addScope('isB', {
+  where: {
+    name: 'bb'
+  }
+}, { override: true })
+
+Task.scope('isB').findAll({raw: true})
+// SELECT `id`, `task_id` AS `taskId`, `name`, `time` FROM `task` AS `task` WHERE `task`.`name` = 'bb';
+```
+
+### include 和 association
+
+association的使用场景：连接查询时，如果要连接查询的两个模型间事先没有定义连接关系，或者要使用定义之外的连接关系。这时，可以通过association来定义或重新定义模型关系。
+
+```js
+// 使用 include
+User.belongsTo(Company, {foreignKey:'companyId'});
+var include = [{ // 条件：必须定义了User和Company的关系
+	model: Company,
+	as: 'company'
+}];
+User.findOne({include:include})
+
+// 使用 association
+var include = [{ // 只需在此处定义User和Company的关系
+	association: Company.hasOne(User, {foreignKey:'companyId', as:'manager'}),
+	where: {isManager:true}
+}]
+Company.findOne({include:include})
+```
+## 常用语法
+
+### 自增自减
+
+[参考](https://itbilu.com/nodejs/npm/N1pPjUdMf.html)
+
+#### 单实例自增自减
+
+1. 增：increment()
+2. 减：decrement()
+
+```js
+Task.findOne().then(task => { // 自增1
+  task.increment('taskId').then(res => { // 此处的taskId也可以写成task_id
+    console.log('res00', res)
+  })
+})
+
+Task.findOne().then(task => { // 自增3
+  task.increment('taskId', {by: 3}).then(res => { // 此处的taskId也可以写成task_id
+    console.log('res00', res)
+  })
+})
+```
+
+#### 批量自增自减
+
+```js
+Task.update({
+  taskId: sequelize.literal('`task_id` + 1') // 此处需要使用数据库中定义的字段名称
+}, {
+  where: {
+    name: 'abc'
+  }
+})
 ```

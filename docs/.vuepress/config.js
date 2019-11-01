@@ -130,7 +130,8 @@ module.exports = {
         ['', '基础知识']
       ],
       '/frame/mysql/': [
-        ['', '基础知识']
+        ['', '基础知识'],
+        ['other', '其他用法']
       ],
       '/frame/element/': [''],
       '/base/css/': [

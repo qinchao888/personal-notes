@@ -21,6 +21,13 @@ git revert HEAD~1  // 撤销上上次的提交，注意：数字从0开始
 git revert 0ffaacc // 撤销指定的commit_id
 ```
 
+### merge远程分支
+
+```
+git merge远程分支 git merge origin/feature/qinchao/v1
+不可写成 git merge origin feature/qinchao/v1
+```
+
 ### 使用远程release分支的代码覆盖本地devp分支的代码
 
 ```
