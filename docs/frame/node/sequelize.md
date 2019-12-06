@@ -258,6 +258,39 @@ var include = [{ // 只需在此处定义User和Company的关系
 }]
 Company.findOne({include:include})
 ```
+
+### sequelize.literal 的用法
+
+```js
+// 嵌套查询
+User.findAll({
+  where: sequelize.literal(`company_id in (select id from companies where name = '哈哈')`)
+}).then(res => {
+  console.log(JSON.stringify(res, null, ' '))
+})
+// SELECT `id`, `name`, `sex`, `company_id` AS `companyId`, `is_manager` AS `isManager`, `createdAt`, `updatedAt` FROM `users` AS `user` WHERE company_id in (select id from companies where name = '哈哈')
+```
+### 运算符
+
+#### $in
+
+```js
+// 获取某些id的数据
+User.findAll({
+  where: {
+    id: [1, 2, 3, 4]
+  }
+})
+// 或
+User.findAll({
+  where: {
+    id: {
+      $in: [1, 2, 3, 4]
+    }
+  }
+})
+```
+
 ## 常用语法
 
 ### 自增自减

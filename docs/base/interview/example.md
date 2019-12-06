@@ -780,5 +780,44 @@ console.log(typeof a)
 
 <p class="fr_th">原文（参考《JavaScript高级程序设计》第7.3章节）：JavaScript从来不会告诉你是否多次声明了同一个变量；遇到这种情况，它只会对后续的声明视而不见（不过，它会执行后续声明中的变量初始化）。</p>
 
+### 将以下数据转化为树状结构
 
+```js
+const list = [
+  { id: '1', pId: '', name: '1' },
+  { id: '1.1', pId: '1', name: '1.1' },
+  { id: '1.1.1', pId: '1.1', name: '1.1.1' },
+  { id: '2', pId: '', name: '2' },
+  { id: '2.1', pId: '2', name: '2.1' },
+  { id: '2.1.1', pId: '2.1', name: '2.1.1' },
+  { id: '2.1.2', pId: '2.1', name: '2.1.2' }
+]
+function findChild (list) { // 方法一
+  var data = {}, res = []
+  arr.forEach(item => data[item.name] = item)
+  arr.forEach(item => {
+    if (item.pId) {
+      if (!data[item.pId].children) {
+        data[item.pId].children = []
+      }
+      data[item.pId].children.push(item)
+    } else {
+      res.push(item)
+    }
+  })
+  return res
+}
+
+function findChild (list) { // 方法二
+  const res = list.map(item => {
+    const children = list.filter(child => item.id === child.pId)
+    if (children.length) {
+      item.children = children
+    }
+    return item;
+  })
+  return res.filter(item => !item.pId)
+}
+console.log(JSON.stringify(findChild(list), null, ' '))
+```
 

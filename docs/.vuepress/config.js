@@ -35,8 +35,8 @@ module.exports = {
           {text: '小程序', link: '/frame/miniprogram/'},
           {text: 'Angular1.6', link: '/frame/angular/'},
           {text: 'mysql', link: '/frame/mysql/'},
-
-        ]
+          {text: 'typescript', link: '/frame/typescript/'},
+          {text: 'axios', link: '/frame/axios/'}        ]
       },
       {
         text: '工具',
@@ -45,6 +45,8 @@ module.exports = {
           { text: 'NPM', link: '/tools/npm/' },
           { text: 'Git', link: '/tools/git/' },
           { text: 'Webpack', link: '/tools/webpack/' },
+          { text: 'Mac', link: '/tools/mac/' },
+          {text: 'nginx', link: '/tools/nginx/'}
         ]
       },
       {
@@ -101,14 +103,18 @@ module.exports = {
       '/tools/chrome/': [
         ['', '调试工具']
       ],
-      '/tools/npm/': '',
+      '/tools/npm/': [
+        ['', '总结'],
+      ],
       '/tools/git/': [''],
+      '/tools/mac/': [''],
       '/tools/webpack/': [
         ['', 'vue环境构建'],
         ['loader', 'loader'],
         ['plugin', 'plugin'],
         ['webpack', '基础知识']
       ],
+      '/tools/nginx/': [''],
       '/frame/vue/': [
         ['', '基础总结'],
         ['senior', '高级用法'],
@@ -133,10 +139,16 @@ module.exports = {
         ['', '基础知识'],
         ['other', '其他用法']
       ],
+      '/frame/typescript/': [
+        ['', '基础知识'],
+        // ['other', '其他用法']
+      ],
       '/frame/element/': [''],
+      '/frame/axios/': [''],
       '/base/css/': [
         ['', 'CSS基础'],
         ['option', 'CSS属性'],
+        ['example', 'CSS动画'],
       ],
       '/other/setting/': [
         ['', 'hosts']

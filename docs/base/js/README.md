@@ -139,6 +139,57 @@ Array.from(arguments)
 
 arguments是伪数组，而rest是真实的数组可以使用数组的方法。
 
+### JS 实现数据存入excel中并导出
+
+```js
+function start () {
+  const str = 'name,age\r\n111,222' // 此处\r或\n或\r\n好像都可以
+  const filename = '下载.csv'
+  download(str, filename)
+}
+function download (str, filename) { // 导出成csv格式
+  const blob = new Blob([str], { type: 'type/plain' })
+  if (navigator.userAgent.indexOf('Edge') > -1) { // IE10+
+    window.navigator.msSaveBlob(blob, filename); 
+  } else if (window.saveAs) {
+    window.saveAs(blob, filename);
+  } else {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.querySelector('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+  }
+}
+/** 
+ * window.navigator.msSaveOrOpenBlob: 提供保存和打开按钮 
+ * window.navigator.msSaveBlobb: 只提供一个保存按钮 
+*/
+```
+### JS 实现随机颜色值
+
+核心代码：((Math.random() * 0xffffff + 1) | 0).toString(16).padStart(6, '0');
+
+(Math.random() * 0xffffff + 1)：生成 0 ～ ffffff之间的数值，|0：剔除小数部分再通过toString转化成16进制。
+
+```js
+var frag = document.createDocumentFragment();
+Array.from({length: 1000}).forEach(i => {
+  var div = document.createElement('span');
+  var color = ((Math.random() * 0xffffff + 1) | 0).toString(16).padStart(6, '0'); // 需要补齐六位
+  div.style = 'display:inline-block;width:50px;height:50px;padding:10px;background-color:#' + color;
+  frag.appendChild(div);
+})
+document.body.appendChild(frag)
+```
+
+### 生成从A-Z的数组
+
+```js
+// [A, B, ..., Z]
+Array.from({length: 21}, (item, index) => String.fromCharCode(index + 65));
+```
+
 ## 常见方法
 
 ### sort

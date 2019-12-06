@@ -178,6 +178,22 @@ console.log(RegExp.$2) // 08
 console.log(RegExp.$3) // 18
 ```
 
+### 命名捕获组
+
+目前暂时只有 Chrome 和 Node 支持。
+
+通过在要命名的每个组的括号的开头放置 ? 来分配这些子匹配项（或捕获组）的名称。
+
+```js
+const getNameParts  = /(?<first>\w+)\s(?<last>\w+)/g;
+const name = "Weyland Smithers";
+const subMatches = getNameParts.exec(name);
+
+const {first, last} = subMatches.groups
+first === 'Weyland'
+last === 'Smithers'
+```
+
 ### 反向引用
 
 <p class="fr_t">括号嵌套</p>
@@ -455,4 +471,13 @@ console.log(reg.test(str1)) // true
 console.log(reg.test(str2)) // true
 console.log(reg.test(str3)) // true
 console.log(reg.test(str4)) // false
+```
+### JS中写在[ ]中的小数点(.)不需要转译？
+
+[] 代表一个字符集合，.+ 等放在里面不会产生歧义。除了 []- 应该都不用转义。即 [] 中的 [] 和 - 需要转义，其它字符均不需要转义。
+
+```js
+var reg = /^[^.]$/;
+reg.test('.') // false
+reg.test(1) // true
 ```

@@ -111,3 +111,29 @@ var obj = {
 obj.o.s() // window
 // 可以理解：对象中的箭头函数的 this 始终指向 window，无论对象嵌套的层级多深。
 ```
+### 扩展运算符
+
+扩展运算符只能解构对象自身的可枚举属性。
+
+```js
+// 例1:
+class C {
+  p = 12;
+  m() { // 挂载在原型上，不可枚举
+  }
+}
+let c = new C();
+let clone = { ...c };
+clone.p; // ok
+clone.m(); // error!
+
+// 例2:
+const obj = {a: 1};
+Object.defineProperty(obj, 'b', {
+  value: function () {
+    return 1;
+  },
+  enumerable: true
+})
+console.log({...obj}); // {a: 1, b: ƒ}
+```

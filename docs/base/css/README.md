@@ -269,6 +269,24 @@ li:first-child:nth-last-child(3) + li {}
 /* 3个li项目的第一个列表项后面两个列表项，也就是第2项和第3项的样式 */
 li:first-child:nth-last-child(3) ~ li {}
 ```
+
+### :not 
+
+:not伪类不像其它伪类，它不会增加选择器的优先级。
+
+```html
+<style>
+h1#a { // 1 + 100
+	color: silver;
+}
+h1:not(#b) { // 1 + 100
+    color: red;
+}
+</style>
+<h1 class="a" id="a">这是一个标题</h1> <!-- red -->
+
+```
+
 ## 使用 css 管理事件
 
 [摘自](https://segmentfault.com/a/1190000019342789)

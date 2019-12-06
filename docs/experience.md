@@ -262,3 +262,143 @@ overflow: auto;
   <span style="display:table-cell;vertical-align:middle;text-align:center;">你要填写的内容</span>
 </div>
 ```
+
+### 插值{{}}中使用换行符
+
+```html
+<!-- 方式一：使用 v-html -->
+<body>
+<div id = "app" v-html="msg"></div>
+</body>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      msg: `1111<br/>222`
+    }
+  })
+</script>
+
+<!-- 方式二：使用 white-space: pre-wrap -->
+<!-- 作用：类似于 pre 标签-->
+<style>
+  #app {
+    white-space: pre-wrap;
+  }
+</style>
+<body>
+<div id = "app">{{msg}}</div>
+</body>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      msg: `1111\n222`
+    }
+  })
+// 或
+  new Vue({
+      el: '#app',
+      data: {
+        msg: `1111
+222`
+      }
+    })
+</script>
+```
+
+### 禁止输入框粘贴内容
+
+```html
+<input type="text" onpaste="return false;">
+```
+
+### 文本超出显示省略号
+
+```css
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+```
+
+### 拷贝和剪切内容至剪贴板
+
+```html
+<input type="text"  id="url" value="http://www.baid.com/">
+<!--拷贝-->
+<input type="button" value="copyLink" onclick="url.select();document.execCommand('copy')">
+<!--剪切-->
+<input type="button" value="cutLink" onclick="url.select();document.execCommand('cut')">
+```
+select()：选取文本。
+
+### 可编辑段落
+
+```html
+<p contenteditable="true">这是一个可编辑的段落。</p>
+```
+
+### ios下某些文字变色
+
+原因：safari总会把长串数字识别为电话号码，文字变成蓝色，点击还会弹出菜单添加到通讯录。
+
+```html
+<!--解决方案-->
+<meta name="format-detection" content="telephone=no" />
+```
+
+### iphoneX下使用rem适配导致页面显示不全
+
+```html
+<!--解决方案-->
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,viewport-fit=cover">
+```
+
+### ios下时间无法解析
+
+原因：ios不识别时间格式中的 '-'
+
+```js
+// 解决方案
+var time = '2019-11-29 17:30:30';
+time = time.replace(/-/g, '/');
+```
+
+### input type=button按钮在ios和android渲染效果不一致
+
+在IOS系统下按钮显示的效果是：有渐变的效果-由白变灰
+
+原因：IOS下有默认的按钮渲染方式（颜色渐变和圆角）
+
+解决方法：添加样式  -webkit-appearance:none;
+
+### ios input输入时白屏
+
+描述：部分 ios 机型下，在 input 框中输入内容时会导致包含 input 的那个大的div白屏。
+
+解决方案：给该父 div 添加 position: relative 即可。
+
+### ios input 默认设置 autofocus 时无法弹出软键盘
+
+在ios移动端， 弹出软键盘只能 行为事件才能触发 弹出软键盘， 脚本事件是不能触发 弹出软键盘。
+
+1. 行为事件：如点击，触屏等。
+2. 脚本事件：如 定时器定时触发。
+
+```html
+<input type="text" autofocus/>
+```
+
+### input 设置高度无效
+
+给 input 设置一个 border 或者 background-color 即可。
+
+```css
+input {
+  width: 100px;
+  height: 60px;
+  background-color: transparent; // 或设置 border: none
+}
+```

@@ -45,3 +45,17 @@ return {
 ```
 1. 第一个和第二个参数表示需要引用的变量，函数中的参数为形参，和前面的参数一一对应，参数名可以随意命名。
 2. 函数中的参数名称必须提供，否则无法接受引用的变量。
+
+### angular中的bindings
+
+```js
+angular.module('App').component('test', {
+    templateUrl: '/app/components/test/template.html',
+    controller: test,
+    bindings: {
+      value1: '<', // 单向绑定
+      value2: '=', // 双向绑定
+      fn1: '&', // 事件绑定
+    },
+})
+```
