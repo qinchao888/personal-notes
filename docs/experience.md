@@ -402,3 +402,94 @@ input {
   background-color: transparent; // 或设置 border: none
 }
 ```
+
+### vue中使用$route问题
+
+使用this.$route.path 或 this.$router.currentRoute.path无法获取对应的path。
+
+原因：使用路由懒加载导致的。
+
+#### 不使用懒加载
+
+生命周期顺序为：
+
+父组件的beforeCreate、created、beforeMount --> 所有子组件的beforeCreate、created、beforeMount --> 所有子组件的mounted --> 父组件的mounted 
+
+#### 使用懒加载
+
+生命周期顺序为：
+
+父组件的beforeCreate、created、beforeMount、mounted --> 子组件的beforeCreate、created、beforeMount、mounted,
+
+异步加载组件会导致生命周期的顺序发生改变。
+
+### 检测设备类型跳转至对应的pc或h5页面
+
+```js
+// main.js
+// 此种方法的缺点：会等当前页面路由完成后在跳转，即会执行前一个页面中的生命周期函数
+router.onReady(() => { // 检测设备类型跳转至相应的pc和移动页面
+  const isMobile = checkIsMobile()
+  const currentPath = router.currentRoute.path
+  if (isMobile && !currentPath.includes('/mobile')) { // 移动设备
+    router.replace( `/mobile${currentPath}`)
+  } else if (!isMobile && currentPath.includes('/mobile')){ // pc设备
+    router.replace(currentPath.replace('/mobile', '')
+    )
+  }  
+})
+
+// 较优的方法(直接在路由之前修改url路径)
+// router/index.js
+export default function createRouter () {
+  
+  const deviceIsMobile = checkIsMobile()
+  const urlIsMobile = location.pathname.indexOf('/mobile/') === 0
+  const fullPath = location.href.replace(`${location.origin}`, '')
+  if (urlIsMobile && !deviceIsMobile) { // pc页面
+    history.replaceState({}, '', fullPath.replace(/^\/mobile/i, ''))
+  } else if (!urlIsMobile && deviceIsMobile) { // h5页面
+    history.replaceState({}, '', `/mobile${fullPath}`)
+  }
+
+  return new VueRouter({
+    mode: 'history',
+    routes: [
+      {
+        path: '/order/:id',
+        component: _import('pc/Index'),
+      },
+      {
+        path: '/order/:id/finish',
+        component: _import('pc/Finish')
+      },
+      {
+        path: '/mobile/order/:id',
+        component: _import('mobile/Index'),
+      },
+      // {
+      //   path: '/mobile/order/:id/finish',
+      //   component: _import('Finish')
+      // },
+      {
+        path: '*',
+        component: _import('NotFound'),
+      }
+    ],
+    scrollBehavior (to, from, savedPosition) {
+      if (!savedPosition) {
+        return { x: 0, y: 0 };
+      }
+      return savedPosition;
+    }
+  })
+}
+
+function checkIsMobile () { // 检测是移动端还是pc端设备
+  const reg = /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone|Opera Mini|MiuiBrowser|XiaoMi)/i;
+  return reg.test(navigator.userAgent);
+}
+```
+### 使用rem布局或vw布局导致部分图片显示不圆的bug
+
+解决方案：将图片放大 10 倍再缩小 10 倍即可。

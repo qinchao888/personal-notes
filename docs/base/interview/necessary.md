@@ -578,6 +578,19 @@ function isEmptyObject (obj) {
 }
 ```
 
+### 判断一个对象是Promise对象
+
+```js
+// 方式一
+obj instanceof Promise // true
+
+// 方式二
+Object.prototype.toString.call(obj) // [object Promise]
+
+// 方式三
+obj && (typeof obj === 'object' || typeof obj === function) && typeof obj.then
+```
+
 ### Object.getOwnPropertyNames()、Object.keys()和for...in...的区别
 
 #### Object.getOwnPropertyNames()：返回对象本身的所有属性名组成的数组（包括不可枚举、但不包括Symbol值作为名称的属性）。

@@ -327,3 +327,32 @@ Task.update({
   }
 })
 ```
+## 开发总结
+
+### 获取数据库两列值相加在某个范围内的数据
+
+```js
+const startTime = moment(params.startTime).subtract(30, 'minutes').utc().format('YYYY-MM-DD HH:mm:ss');
+const endTime = moment(params.startTime).add(+params.duration + 30, 'minutes').utc().format('YYYY-MM-DD HH:mm:ss'); 
+// 时间不可直接用数据库存储的时间和时间戳进行计算，需要转化为相同类型
+const res = await models.LessonSchedule.findAll({
+  where: {
+    tutorId,
+    $and: [
+      models.sequelize.literal(`DATE_ADD(start_time, INTERVAL duration MINUTE) >= '${startTime}' AND start_time <= '${endTime}'`)
+    ]
+  }
+});
+
+/*
+SELECT 
+  *
+FROM
+    `lesson_schedule` AS `LessonSchedule`
+WHERE
+    (DATE_ADD(start_time,
+        INTERVAL duration MINUTE) >= '2019-12-11 16:00:00'
+        AND start_time <= '2019-12-11 18:30:00')
+        AND `LessonSchedule`.`tutor_id` = '1';
+*/
+```
