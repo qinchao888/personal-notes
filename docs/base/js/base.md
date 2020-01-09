@@ -6,6 +6,57 @@ sidebarDepth: 2
 
 ## 基础知识
 
+### 事件循环（Event Loop）的理解
+
+#### 知识点
+
+1. Call Stack （调用栈、后进先出（Last In, First Out. 即 LIFO）)
+2. Event Table
+3. Event Loop （事件循环）
+4. Event Queue（任务队列、事件队列或称为回调函数队列 ）
+
+当调用一个函数时，函数会被添加到调用栈中（调用栈是JS引擎的一部分，而不是浏览器特有的）。当函数调用完成时会从调用栈中弹出。
+
+当一个定时器被创建时，定时器内部的函数会被添加到 Web API 中，等时间到后，函数会被添加到任务队列中。注意：并不是时间到后立即添加到调用栈中执行。
+
+事件循环的唯一任务就是连接任务队列和调用栈。它会不停的检查调用栈中是否有任务执行，如果没有，就检查任务队列，从中弹出一个任务，放入调用栈中，如此循环往复。
+
+Event Table：可以理解成一张 事件->回调函数 对应表，用来存储 JavaScript 中的异步事件 (request, setTimeout, IO等) 及其对应的回调函数的列表。
+
+#### 流程
+
+1. 开始，任务先进入 Call Stack
+2. 同步任务直接在栈中等待被执行，异步任务从 Call Stack 移入到 Event Table 注册
+3. 当对应的事件触发（或延迟到指定时间），Event Table 会将事件回调函数移入 Event Queue 等待
+4. 当 Call Stack 中没有任务，就从 Event Queue 中拿出一个任务放入 Call Stack
+
+[参考：事件循环](https://segmentfault.com/a/1190000021445387)
+
+###  Microtask 和 Macrotask
+
+在事件循环中 queue 一共有两种，一种称为 Event Queue，还有一种称为 Job Queue。
+
+Event Queue 在 HTML 规范中被称为 Task Queue，但是为了区分，一般都叫作 Macrotask Queue
+Job Queue 是在 ECMAScript 规范中谈及处理 Promise 回调时提到的，但是由于和 V8 中的实现比较相似，所以一般都称为 Microtask Queue。
+
+#### Macrotask
+
+Macrotasks 包含了解析 HTML、生成 DOM、执行主线程 JS 代码和其他事件如 页面加载、输入、网络事件、定时器事件等。从浏览器的角度，Macrotask 代表的是一些离散的独立的工作。
+
+常见应用：
+
+setTimeout, setInterval, setImmediate, requestAnimationFrame, I/O, UI rendering
+
+#### Microtask
+
+Microtasks 则是为了完成一些更新应用程序状态的较小的任务，如处理 Promise 的回调和 DOM 的修改，以便让这些任务在浏览器重新渲染之前执行。Microtask 应该以异步的方式尽快执行，所以它们的开销比 Macrotask 要小，并且可以使我们在 UI 重新渲染之前执行，避免了不必要的 UI 渲染。
+
+常见应用：
+
+process.nextTick, Promises, Object.observe, MutationObserver
+
+[参考：Microtask 和 Macrotask](https://segmentfault.com/a/1190000019415672)
+
 ### 节流 和 防抖动
 
 节流：一段时间内一定会触发一次。(类似于滴水的水龙头)
@@ -300,3 +351,250 @@ console.log(b); // {x: {c: 1}}
 基本类型和引用类型的本质区别是，当这个变量被分配值时，它需要向操作系统申请内存资源，如果你向操作系统申请的内存空间的大小是固定的，那么就是基本类型，反之，则为引用类型。
 
 [参考](https://segmentfault.com/a/1190000017407403)
+
+### 逗号运算符
+
+返回值为最后一个表达式。
+
+```js
+// 当我们要编写短的 lambda 函数（匿名函数）时，这会派上用场
+const fn = (a, b, arr) => (arr.push(a, b), a * b)
+var arr = [1, 2]
+fn(3, 4, arr) // 12
+arr // [1, 2, 3, 4]
+```
+
+### void
+
+返回未定义，使用 void 运算符可确保你得到一个真正的 undefined。
+
+```js
+function test () { return 1 } 
+console.log(void test()) // undefined
+```
+
+### blob的用法
+
+```js
+mounted () {
+  this.getBlobUrl('http://localhost:8082/static/b.png')
+  this.canvasToBase64('http://localhost:8082/static/b.png')
+},
+methods: {
+  getBlobUrl (imgUrl) {
+    const that = this
+    const xhr = new XMLHttpRequest()
+    xhr.open('get', imgUrl, true)
+    xhr.responseType = 'blob'
+    xhr.onload = function () {
+      if (this.status === 200) {
+        var blob = this.response
+        that.url = URL.createObjectURL(new Blob([blob], {type: 'image/png'}))
+        that.getBase64(blob)
+        console.log('url', that.url)
+        console.log('blob', blob)
+      }
+    }
+    xhr.send()
+  },
+  getBase64 (blob) { // 使用FileReader将blob转化成base64
+    const that = this
+    const fileReader = new FileReader()
+    fileReader.onload = function (res) {
+      that.imgBase64 = res.target.result
+    }
+    fileReader.readAsDataURL(blob) // 将blob转化成base64
+  },
+  canvasToBase64 (imgSrc) { // 使用canvas将图片转化成base64(可以处理网络图片，但该图片必须允许跨域)
+    const that = this
+    var image = new Image()
+    // image.crossOrigin = ''
+    image.src = imgSrc
+    var canvas = document.createElement('canvas')
+    var ctx = canvas.getContext('2d')
+    image.onload = function () {
+      console.log('this', this)
+      canvas.width = this.width
+      canvas.height = this.height
+      ctx.drawImage(this, 0, 0)
+      // ctx.drawImage(this, 0, 0, canvas.width, canvas.height)
+      that.dataURL = canvas.toDataURL()
+    }
+  }
+}
+```
+## 位运算符的应用
+
+### 按位或(|)
+
+#### 取整
+
+```js
+function toInt(num) {
+  return num | 0
+}
+toInt(1.1111) // 1
+```
+
+### 按位与(&)
+
+#### 判断奇偶数
+
+奇数的二进制最后一位必然为1，所以任意一个奇数 & 1 一定等于1。
+
+```js
+val & 1 === 1 // 奇数
+val & 1 === 0 // 偶数
+```
+
+#### 系统权限设计
+
+假设某个管理系统有a, b, c, d四级权限，其中不同帐号分别有不同的权限（可能有1个或多个），例如admin 账户有a + b +c +d 四级权限，guest用户有b + c权限。
+
+基本思路：
+
+我们把权限分别用0001, 0010, 0100, 1000表示（即最通俗的1，2，4，8），如果admin用户有a, b, c, d四种权限，则admin的权限为 1 | 2 | 4 | 8 = 15，而guest用户权限为 4 | 8 = 12, 则判断用户是否有某种权限可以如下判断：
+
+```js
+admin & 4 === 4
+admin & 8 === 8
+admin & 2 === 2
+admin & 1 === 1
+```
+
+### 按位异或(^)
+
+#### 切换变量0和1
+
+```js
+function toggle(num) {
+  return num ^ 1
+}
+toggle(0) // 1
+toggle(1) // 0
+/**
+ * true ^ 1  -> 0
+ * false ^ 1 -> 1
+*/
+```
+
+#### 交换两个变量的值
+
+原理剖析：a = a ^ b; b = a ^ b 相当与 b = a ^ b ^ b = a ^ (b ^ b) = a ^ 0 = a;
+
+```js
+let a = 5,
+    b = 6;
+
+a = a ^ b;
+b = a ^ b;
+a = a ^ b;
+
+// 还可以通过运算
+a = a + b;
+b = a - b;
+a = a - b;
+
+// es 6
+[a, b] = [b, a]
+```
+
+### 按位非(~)
+
+负数的计算方式：其正数取反加一，即 -a = ~a + 1 <=> ~a = -(a + 1)
+
+公式：～a = -(a + 1)
+
+```js
+~10 // -11
+
+// 使用 ~~ 取整
+~~1.9999 // 1
+~~-1.999 // 2
+
+// 判断数组中某项是否存在
+if (~arr.indexOf(item)) {
+  // code
+}
+```
+
+### 按位移动操作符
+
+#### 左移
+
+向左移动指定的位数。向左被移出的位被丢弃，右侧用 0 补充。
+
+公式：x * 2^n
+
+```js
+3 << 2 // 12
+-3 << 2 // -12
+```
+```js
+// rgba转16进制
+/**
+ * 即为：FF0000 | FF00 | FF = FFFFFF
+ * 等价于16进制：FF << 4, FF << 2, FF
+ * 等价于2进制：FF << 16, FF << 8, FF
+ * x * 16 ^ 4  = x * 2 ^ 16
+ */
+function RGBToHex (rgb) { // FF0000 | FF00 | FF = FFFFFF
+  var arr = rgb.match(/\d+/g).slice(0, 3)
+  return `#${(arr[0] << 16 | arr[1] << 8 | arr[2]).toString(16).padStart(6, '0')}`
+}
+
+RGBToHex('rgb(0, 16, 255)') // 0010ff
+```
+
+#### 有符号右移(>>)
+
+向右移动指定的位数。向右被移出的位被丢弃，拷贝最左侧的位以填充左侧。即正数左侧补0，负数左侧补1。
+
+公式：x / 2^n
+
+```js
+4 >> 2 // 1
+-4 >> 2 // -1
+```
+```js
+// 16进制转为rgba
+function HexToRGB (hex) {
+  var arr = hex.replace(/([0-9a-fA-F])/g, '$1$1')
+  return `rgba(${arr[0] >> 16}, ${arr[1] >> 8 & 0xff}, ${arr[2] & 0xff}})`
+}
+
+HexToRGB('#fafbfc') // rgb(250, 251, 252)
+
+/**
+ * r: 0xfafbfc -> 0x0000fa
+ * g: 0xfafbfc -> 0x00fafb & 0xff
+ * b: 0xfafbfc -> 0x0000fc & 0xff
+*/
+```
+#### 无符号右移(>>>)
+
+向右被移出的位被丢弃，左侧用0填充。(结果一定是正数)
+
+```js
+4 >>> 2 // 1
+-4 >>> 2 // 1073741823
+```
+
+<p class="fg_th">例：一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法？</p>
+
+```js
+/**
+ * 因为n级台阶，第一步有n种跳法：跳1级、跳2级、到跳n级
+ * 跳1级，剩下n-1级，则剩下跳法是f(n-1)
+ * 跳2级，剩下n-2级，则剩下跳法是f(n-2)
+ * 所以f(n)=f(n-1)+f(n-2)+...+f(1)
+ * 那么f(n-1)=f(n-2)+f(n-3)+...+f(1)
+ * f(n) = 2f(n-1) = 4f(n-2) = 8f(n-3) = 2^(n-1)f(1)
+ * f(1) = 1
+ * 故f(n) = 1 << (n - 1)
+*/
+function jumpFloorII(number){
+  return 1 << (number-1);
+}
+```
+[参考](https://www.cnblogs.com/mopagunda/p/11221928.html)

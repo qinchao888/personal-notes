@@ -235,6 +235,13 @@ console.log(str.match(reg)) // ["abab", "ab", index: 0, input: "ababa abbb ababa
 var reg = /(?:ab)+/
 var str = 'ababa abbb ababab'
 console.log(str.match(reg)) // ["abab", index: 0, input: "ababa abbb ababab", groups: undefined]
+
+var str = '123456'
+str.split(/34/) // ["12", "56"]
+str.split(/34/) // ["12", "56"]
+str.split(/(34)/) // ["12", "34", "56"]
+str.split(/(?:34)/) // ["12", "56"]
+str.split(/(?:(34))/) // ["12", "34", "56"]
 ```
 ### 回溯
 

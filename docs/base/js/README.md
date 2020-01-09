@@ -190,6 +190,53 @@ document.body.appendChild(frag)
 Array.from({length: 21}, (item, index) => String.fromCharCode(index + 65));
 ```
 
+### 将给定的字符串每10个分割成一个数组
+
+```js
+var value = '测试12345678哈哈12345678aa？+-；‘’“”l';
+// var re = /\s*(?:;|$)\s*/;
+var result = value.split(/(?:([^]{10}))/);
+// ["", "测试12345678", "", "哈哈12345678", "", "aa？+-；‘’“”", "l"]
+/*
+出现空字符串的原因：
+第一次匹配会生成一个""和匹配的字符,
+第二次匹配是在剩下的字符中继续匹配，所以会再次生成一个""和匹配的字符,
+最后一次匹配是因为不满足匹配条件所以没有匹配成功，因此没有生成多余的""。
+*/
+var results = result.filter(item => !!item);
+// ["测试12345678", "哈哈12345678", "aa？+-；‘’“”", "l"]
+```
+
+### 判断奇偶数
+
+奇数的二进制最后一位必然为1，所以任意一个奇数 & 1 一定等于1。
+
+```js
+val & 1 === 1 // 奇数
+val & 1 === 0 // 偶数
+```
+
+### rgb与16进制颜色名转化
+
+```js
+// rgb转16进制
+function RGBToHex (rgb) { // FF0000 | FF00 | FF = FFFFFF
+  var arr = rgb.match(/\d+/g)
+  return `#${(arr[0] << 16 | arr[1] << 8 | arr[2]).toString(16).padStart(6, '0')}`
+}
+
+// 16进制转rgb
+function HexToRGB (hex) {
+  return `rgb(${hex.replace('#', '').match(/[a-zA-Z\d]{2}/g).reduce((total, item, index, arr) => total + parseInt(item, 16) + (index === arr.length - 1 ? '' : ', '), '')})`
+}
+
+// 16进制转为rgba
+function HexToRGB (hex) {
+  var arr = hex.replace(/([0-9a-fA-F])/g, '$1$1')
+  return `rgba(${arr[0] >> 16}, ${arr[1] >> 8 & 0xff}, ${arr[2] & 0xff}})`
+}
+```
+
 ## 常见方法
 
 ### sort

@@ -130,6 +130,8 @@ module.exports = {
       ],
       '/frame/miniprogram/': [
         ['', '基础知识'],
+        ['summary', '开发总结'],
+        ['utils', '常用工具函数'],
         ['mpvue', 'mpvue']
       ],
       '/frame/angular/': [

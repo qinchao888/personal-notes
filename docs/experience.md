@@ -493,3 +493,33 @@ function checkIsMobile () { // 检测是移动端还是pc端设备
 ### 使用rem布局或vw布局导致部分图片显示不圆的bug
 
 解决方案：将图片放大 10 倍再缩小 10 倍即可。
+
+### position: sticky在table中不生效
+
+[参考](https://xiaotiandada.github.io/2019/07/15/Position-Sticky-and-Table-Headers%E3%80%90%E8%A1%A8%E6%A0%BC%E5%A4%B4%E9%83%A8%E5%9B%BA%E5%AE%9A%E3%80%91/)
+
+简述：chrome 中 设置position: sticky; 在table，thead，tr中设置是无效的，只能设置在 th 中。
+
+```css
+.header-sticky tr th {
+  position: sticky;
+  top: 50px;
+  background-color: #fff !important;
+}
+```
+注：使用了 position: sticky; 后会忽略掉表格中的设置的border，即border的样式在顶部固定时并不会生效。
+
+解决办法：使用伪元素。
+
+[参考](https://stackoverflow.com/questions/41882616/why-border-is-not-visible-with-position-sticky-when-background-color-exists)
+
+```css
+.header-sticky tr th:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  border-top: 3px solid #71D189;
+}
+```

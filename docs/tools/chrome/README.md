@@ -132,3 +132,13 @@ f(1, 2)
 // function f called with arguments: 1, 2
 // 3
 ```
+
+### 使用调试工具截屏
+
+mac： alt + command + i 打开调试
+
+使用快捷键：command + shift + p 输入 screenshot
+
+当前区域截图：选择 Capture area screenshot
+
+长截图：选择 Capture full size screenshot
