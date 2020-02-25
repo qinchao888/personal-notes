@@ -237,6 +237,38 @@ function HexToRGB (hex) {
 }
 ```
 
+### for 循环和 forEach中删除元素
+
+1. for循环可以使用break跳出循环，但forEach不能。
+2. for循环可以控制循环起点（i初始化的数字决定循环的起点），forEach只能默认从索引0开始。
+3. for循环过程中支持修改索引（修改 i），但forEach做不到（底层控制index自增，我们无法左右它）。
+
+```js
+var arr = [{a:1}, {a:2}, {a:3}, {a:4}]
+for (var i = 0; i < arr.length; i++) { // 每次循环arr.length都会重新计算
+  console.log(arr.length)
+  if (arr[i].a === 2) {
+    arr.splice(i, 1)
+  }
+  console.log('i', arr[i]) // {a: 1} {a: 3} {a: 4}
+}
+
+for (var i = 0, len = arr.length; i < len; i++) {
+  console.log(arr.length)
+  if (arr[i].a === 2) {
+    arr.splice(i, 1)
+  }
+  console.log('i', arr[i]) // 会报错，删除元素后数据少了一个，但len并未改变
+}
+
+arr.forEach((item, index) => {
+  if (item.a === 2) {
+    arr.splice(index, 1)
+  }
+  console.log('i', arr[index]) // {a: 1} {a: 3} {a: 4}
+})
+```
+
 ## 常见方法
 
 ### sort

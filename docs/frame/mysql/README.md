@@ -699,3 +699,14 @@ create table userinfo1 select * from userinfo where 1 = 2; // 条件不满足不
 // 拷贝部分数据
 create table userinfo1 select name, id from userinfo;
 ```
+
+### SUM IF 的用法
+
+```sql
+SELECT 
+  member_id, SUM(IF(duration > 200, duration, 0))
+FROM
+  outbound_record
+GROUP BY member_id;
+```
+含义：如果 SUM(duration) > 200, 则将值计为 SUM(duration), 否则计为 0。

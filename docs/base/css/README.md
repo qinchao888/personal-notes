@@ -361,3 +361,78 @@ btn.addEventListener('transitionend', function () {
 }
 ```
 此时设置的是左上角的圆角，水平方向为 width 的 50%，竖直方向为 height 的 50%，此时的圆弧为椭圆的圆弧。水平方向的大小为短半径，竖直方向的大小为长半径。
+
+## 动画
+
+### transition
+
+作用机制：需要一个初始化的属性，当其发生变化时才能触发过渡效果。
+
+transition失效：display: none -> display:block，当初始属性为 display: none，浏览器读不到这个初始属性，所以当其变化为 display: block时，不会产生过渡效果。
+
+transition后面不要跟all，因为会造成浏览器大量的计算资源，可能会导致页面卡顿。
+
+#### 常见闪动的解决办法
+
+使用3d元素开启硬件减速。
+
+perpective、backface-visibility
+
+```html
+<style>
+.box {
+  width: 100px;
+  height: 100px;
+  transition: width 2s;
+  background-color: #000;
+  /* transform: translateZ(0); */
+}
+.box:hover {
+  width: 500px;
+}
+</style>
+<body>
+  <div class="box"></div>
+</body>
+```
+
+### animation
+
+step：作用于每个关键帧，而不是整个时间。
+
+```html
+<style>
+@keyframes run {
+  100% {
+    background-position-x: -2400px;
+  }
+}
+.rabbit {
+  width: 200px;
+  height: 200px;
+  background: url("./images/rabbit.png") no-repeat;
+  animation: run .5s steps(12) infinite;
+}
+</style>
+<div class="rabbit"></div>
+```
+
+```html
+<style>
+@keyframes run {
+  50% {
+    background-position-x: -1200px;
+  }
+  100% {
+    background-position-x: -2400px;
+  }
+}
+.rabbit {
+  width: 200px;
+  height: 200px;
+  background: url("./images/rabbit.png") no-repeat;
+  animation: run .5s steps(6) infinite;
+}
+</style>
+<div class="rabbit"></div>
+```

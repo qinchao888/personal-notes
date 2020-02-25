@@ -46,7 +46,9 @@ module.exports = {
           { text: 'Git', link: '/tools/git/' },
           { text: 'Webpack', link: '/tools/webpack/' },
           { text: 'Mac', link: '/tools/mac/' },
-          {text: 'nginx', link: '/tools/nginx/'}
+          {text: 'nginx', link: '/tools/nginx/'},
+          {text: 'js-sdk', link: '/tools/js-sdk/'},
+          {text: 'vscode', link: '/tools/vscode/'}
         ]
       },
       {
@@ -85,6 +87,7 @@ module.exports = {
       '/base/html/' : [
         ['', '基础汇总'],
         ['tag', '标签用法'],
+        ['canvas', 'canvas'],
         ['test1', '我是标题2']
       ],
       '/base/js/': [
@@ -115,6 +118,8 @@ module.exports = {
         ['webpack', '基础知识']
       ],
       '/tools/nginx/': [''],
+      '/tools/js-sdk/': [''],
+      '/tools/vscode/': [''],
       '/frame/vue/': [
         ['', '基础总结'],
         ['senior', '高级用法'],

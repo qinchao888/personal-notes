@@ -523,3 +523,13 @@ function checkIsMobile () { // 检测是移动端还是pc端设备
   border-top: 3px solid #71D189;
 }
 ```
+### 禁用手机浏览器长按保存图片功能
+
+```css
+img {
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+```

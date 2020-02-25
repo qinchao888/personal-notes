@@ -6,6 +6,14 @@ sidebarDepth: 2
 
 ## 参数获取
 
+### req.body req.query req.params 的区别
+
+req.body：获取的是 post 请求中 body 中的数据。
+
+req.query：获取的是 get 请求中参数中的数据。
+
+req.params：获取的是 url 路径中 类似于 :id的数据 (形如：app.get('/user/:id'))。
+
 ### get 请求
 
 使用 req.query 获取。
@@ -33,6 +41,21 @@ app.post('/postTest', (req, res) => {
 })
 ```
 
+### 参数转码
+
+```js
+http://192.168.0.109:9999/filetotxt?url=http://test.file.careerfrog.com.cn/api/files/585459?originalName=艾心怡-13588165743.pdf
+
+// 需要对上述参数中的中文转码，再对参数转码才能获取正确的 url
+
+1. 中文转码
+
+http://192.168.0.109:9999/filetotxt?url=http://test.file.careerfrog.com.cn/api/files/585459?originalName=%E8%89%BE%E5%BF%83%E6%80%A1-13588165743.pdf
+
+2. 参数转码
+
+http://192.168.0.109:9999/filetotxt?url=http%3A%2F%2Ftest.file.careerfrog.com.cn%2Fapi%2Ffiles%2F585459%3ForiginalName%3D%25E8%2589%25BE%25E5%25BF%2583%25E6%2580%25A1-13588165743.pdf
+```
 ## 总结
 
 ### 什么是 express

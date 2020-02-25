@@ -6,6 +6,79 @@ sidebarDepth: 2
 
 ## 基础用法
 
+### grep
+
+正则
+
+#### 常见参数
+
+```js
+-A num  // 打印出找到的匹配行后num
+-B num  // 打印出找到的匹配行前num行
+-C num  // 打印出找到的匹配行前后num行, 相当于-A num -B num
+-c      // 统计出匹配的总行数，同一行有两个匹配也只算一行
+-H      // 在每一行前面打印出匹配的文件名，在多个文件的情况下这个是默认选项
+-h      // 在多个文件的情况下不打印出匹配的文件名
+-n      // 打印出匹配所在行的行数
+-i      // 查找时忽略大小写
+-v      // 打印出不匹配的行
+-w      // 只匹配整个单词
+--color // 匹配的字符高亮
+/** never: 从不使用颜色表示不同类型
+ * always:总是使用颜色表示不同类型
+ * auto:  根据终端属性自动确定是否使用颜色表示不同类型 */
+```
+```js
+// 例
+// info 文件
+start
+this is first line
+this is second line
+this is last line
+end
+
+>grep -A1 second info
+this is second line
+this is last line
+
+>grep -B1 second info
+this is first line
+this is second line
+
+>grep -C1 second info
+this is first line
+this is second line
+this is last line
+
+>grep -c line info
+3
+
+>grep this info test // 等价于 grep -H this info test
+info:this is first line
+info:this is second line
+info:this is last line
+test:this is a test
+
+>grep -h this info test
+this is first line
+this is second line
+this is last line
+this is a test
+
+>grep -n line info
+2:this is first line
+3:this is second line
+4:this is last line
+
+>grep -v this info
+start
+end
+
+>grep --color=never line info // 没有高亮颜色
+>grep --color=auto line info 
+>grep --color=always line info // 有高亮颜色
+```
+
 ### 命令行操作
 
 | 命令   |      描述     |
