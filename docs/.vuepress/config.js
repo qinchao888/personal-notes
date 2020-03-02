@@ -95,6 +95,7 @@ module.exports = {
         ['base', '知识汇总'],
         ['reg', '正则'],
         ['es6', 'ES6'],
+        ['websocket', 'websocket']
       ],
       '/base/interview/': [
         ['', '汇总'],

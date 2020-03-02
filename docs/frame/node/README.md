@@ -213,6 +213,21 @@ res.writeHead(200, {
 ...
 ```
 
+### Buffer
+
+```js
+> var buf = Buffer.from('aGVsbG8gd29ybGQ=', 'base64')
+
+> buf
+<Buffer 68 65 6c 6c 6f 20 77 6f 72 6c 64>
+
+> buf.toString()
+'hello world'
+
+> buf.toString('base64')
+'aGVsbG8gd29ybGQ='
+```
+
 ## 总结
 
 ### 热更新

@@ -100,3 +100,25 @@ package-lock.json里是会保存项目所有的依赖(包括依赖的依赖)的�
 5. 它不会改变 package.json 或者任何 package-locks.json。
 
 [参考](https://www.jianshu.com/p/a6e79438871e)
+
+## npm package
+
+### socket.io
+
+用于 websocket。
+
+### pdf2json
+
+可用于解析pdf中的txt文本内容。
+
+### textract
+
+可用于解析doc、docx中的txt文本。
+
+### mmmagic
+
+类似于 mac 中的 'file --mime -b 文件' 的功能。可用于获取文件的 contentType 和 charset。
+
+### iconv-lite
+
+使用指定的charset对内容进行编码和解码。

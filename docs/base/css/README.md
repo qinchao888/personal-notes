@@ -186,6 +186,64 @@ linear-gradient(to right, rgba(200,200,200,0.95), rgba(200,200,200,0.6));
 ```
 ![image](../../images/bg2.png)
 
+### line-gradient
+
+line-gradient默认为垂直渐变。
+
+#### 设置百分比的用法
+
+```css
+background-image: linear-gradient(red 20%, pink 80%);
+/* 从顶端开始20%的空间填充red，距离顶端80%时开始填充pink，剩下的60%填充渐变色 */
+```
+<img src="../../images/css/linear-gradient1.png" width="200"/>
+
+百分比设置规则：
+1. 默认第一个颜色从顶端开始着色，其它颜色从距离顶端的百分比距离填充实色，剩余的空间填充渐变色。
+2. 如果后面设置的百分比小于前面的值，则该值会被当成前面所有值中的最大值。
+
+```css
+background-image: linear-gradient(red, pink);
+/* 等价于: */
+background-image: linear-gradient(red 0%, pink 100%);
+
+background-image: linear-gradient(red, pink, green, silver, blue);
+/* 等价于: */
+background-image: linear-gradient(red 0%, pink 25%, green 50%, silver 75%, blue 100%);
+```
+实现多重线条效果：
+
+```css
+background:linear-gradient(
+  red 0%,
+  red 25%,
+  pink 25%,
+  pink 50%,
+  silver 50%,
+  silver 75%,
+  yellow 75%,
+  yellow 100%
+);
+```
+<img src="../../images/css/linear-gradient2.png" width="200"/>
+
+例：
+```html
+<style>
+.price {
+  width: 100px;
+  height: 80px;
+  padding: 10px 0;
+  font-size: 60px;
+  font-weight: bold;
+  background-image: linear-gradient(transparent 60%, skyblue 60%);
+  text-align: center;
+}
+</style>
+<div class="price">10</div>
+```
+<img src="../../images/css/linear-gradient3.png" width="200"/>
+
 ## css选择器
 
 ### nth-of-type

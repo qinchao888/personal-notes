@@ -7,6 +7,8 @@ sidebarDepth: 2
 
 ### viewport 的理解
 
+[参考](https://www.cnblogs.com/zaoa/p/8630393.html)
+
 1. viewport 是移动端用来承载页面的虚拟容器，大部分设备的默认宽度为980px，可以设置尺寸，可以缩放。
 2. 网页是显示在 viewport 上，然后 viewport 再显示在浏览器上。
 3. 如果使用 375 * 667 的设备，viewport 会被缩放显示在该设备上，但是此缩放并不改变 viewport 的原始尺寸980px。
@@ -22,7 +24,7 @@ sidebarDepth: 2
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 ```
-设置 width=device-width 和 设置 initial-scale=1.0 效果一致。两个都设置是由于兼容性问题。
+设置 width=device-width 和 设置 initial-scale=1.0 效果一致。两个都设置是由于兼容性问题（在iphone和ipad上，无论是竖屏还是横屏，宽度都是竖屏时ideal viewport的宽度）。
 
 1. 布局视口(layout viewport)：用于承载页面的viewport。
 2. 视觉视口(visual viewport)：浏览器。
