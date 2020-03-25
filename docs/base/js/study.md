@@ -1,0 +1,122 @@
+---
+title: JS
+lang: zh-CN
+sidebarDepth: 2
+---
+
+## 原型
+
+```js
+function Person () {}
+
+Person.prototype === new Person().__proto__ // true
+
+Person.prototype === Object.getPrototypeOf(new Person()) // true
+
+Person.prototype.constructor === Person // true
+
+Object.prototype.__proto__ === null // true
+
+Person.prototype.__proto__ === Object.prototype // true
+```
+
+### __proto__
+
+```js
+/**
+ * __proto__：绝大部分浏览器都支持这个非标准的方法访问原型，然而它并不存在于 Person.prototype 中，
+ * 实际上，它是来自于 Object.prototype ，与其说是一个属性，不如说是一个 getter/setter，
+ * 当使用 obj.__proto__ 时，可以理解成返回了 Object.getPrototypeOf(obj)。
+ * 
+ */
+
+function Person () {}
+
+Person.prototype.hasOwnProperty('__proto__') // false
+
+Object.prototype.hasOwnProperty('__proto__') // true
+```
+
+## 作用域
+
+作用域：定义变量的区域。作用域规定了如何查找变量，即确定了当前执行的代码对变量的访问权限。
+
+JavaScript 采用词法作用域(lexical scoping)，也就是静态作用域。
+
+```js
+var scope = "global scope";
+function checkscope(){
+  var scope = "local scope";
+  function f(){
+      return scope;
+  }
+  return f();
+}
+checkscope(); // local scope
+
+var scope = "global scope";
+function checkscope(){
+  var scope = "local scope";
+  function f(){
+      return scope;
+  }
+  return f;
+}
+checkscope()(); // local scope
+
+// 函数的作用域是函数定义时决定的，而不是运行时决定的。
+```
+
+## 执行上下文
+
+三个属性：
+1. 变量对象(Variable object，VO)
+2. 作用域链(Scope chain)
+3. this
+
+### 变量对象
+
+变量对象是与执行上下文相关的数据作用域，存储了在上下文中定义的变量和函数声明。
+
+1. 全局上下文的变量对象初始化是全局对象
+2. 函数上下文的变量对象初始化只包括 Arguments 对象
+3. 在进入执行上下文时会给变量对象添加形参、函数声明、变量声明等初始的属性值
+4. 在代码执行阶段，会再次修改变量对象的属性值
+
+```js
+this === this.self === window === this.window
+
+function foo() {
+  console.log(a);
+  a = 1;
+}
+foo(); // Uncaught ReferenceError: a is not defined
+
+function foo() {
+  console.log(a);
+  var a = 1;
+}
+foo(); // undefined
+```
+
+### 作用域链
+
+当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级(词法层面上的父级)执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由多个执行上下文的变量对象构成的链表就叫做作用域链。
+
+## this
+
+Reference
+
+1. base value
+2. referenced name
+3. strict reference
+
+::: tip description
+ A Reference consists of three components, the base value, the referenced name and the Boolean valued strict reference flag. The base value is either undefined, an Object, a Boolean, a String, a Number, or an environment record (10.2.1). A base value of undefined indicates that the reference could not be resolved to a binding. The referenced name is a String.
+:::
+
+GetBase: 返回 reference 的 base value。
+
+GetValue: 返回对象属性真正的值（不再是一个 Reference）。
+
+IsPropertyReference: 如果 base value 是一个对象，就返回true。

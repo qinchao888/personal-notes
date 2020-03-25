@@ -18,6 +18,7 @@ sidebarDepth: 2
 7. request请求异常时，可以在开发者工具的console面板输入showRequestInfo()查看相关信息。
 8. 一个小程序主体部分由三个文件组成，其中app.js和app.json为必需的文件，一个小程序页面由四个文件组成，其中page.wxml和page.js为必需的文件。
 9. 静态的样式统一写到 class 中。style 接收动态的样式，在运行时会进行解析，请尽量避免将静态的样式写进 style 中，以免影响渲染速度。
+10. 小程序顶部高度64px，底部高度48px，中间624px （iphone6）。
 ```
 {
   "pages":[

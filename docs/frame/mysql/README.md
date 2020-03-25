@@ -51,6 +51,12 @@ show create table userinfo // 查看创建userinfo表的语句
 > 输入密码
 > use 数据库名称
 > 执行sql语句
+
+-- 连接远程数据库
+> mysql -h host -P 3306 -u 用户名 -p密码
+
+-- 例
+> mysql -h 10.10.10.10 -P 3306 -u qinchao -p123456
 ```
 
 ### 添加字段
@@ -63,6 +69,12 @@ ALTER TABLE `partner_corp_contact` ADD COLUMN `job_name` VARCHAR(32) AFTE
 
 ```js
 ALTER TABLE `member` drop column `member_job_name`
+```
+
+### 更新
+
+```js
+update tablename set age='newage' where age='';
 ```
 
 ### 表中插入新的数据

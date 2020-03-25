@@ -36,7 +36,8 @@ module.exports = {
           {text: 'Angular1.6', link: '/frame/angular/'},
           {text: 'mysql', link: '/frame/mysql/'},
           {text: 'typescript', link: '/frame/typescript/'},
-          {text: 'axios', link: '/frame/axios/'}        ]
+          {text: 'axios', link: '/frame/axios/'},
+          {text: 'redis', link: '/frame/redis/'}]
       },
       {
         text: '工具',
@@ -92,6 +93,7 @@ module.exports = {
       ],
       '/base/js/': [
         ['', 'JS'],
+        ['study', '基础学习'],
         ['base', '知识汇总'],
         ['reg', '正则'],
         ['es6', 'ES6'],
@@ -153,8 +155,10 @@ module.exports = {
       ],
       '/frame/element/': [''],
       '/frame/axios/': [''],
+      '/frame/redis/': [''],
       '/base/css/': [
         ['', 'CSS基础'],
+        ['summary', 'CSS开发技巧'],
         ['option', 'CSS属性'],
         ['example', 'CSS动画'],
       ],

@@ -331,6 +331,23 @@ overflow: auto;
 <input type="button" value="copyLink" onclick="url.select();document.execCommand('copy')">
 <!--剪切-->
 <input type="button" value="cutLink" onclick="url.select();document.execCommand('cut')">
+
+
+<body>
+<button onclick="copy()">1111</button>
+<script>
+function copy () {
+  var text = Math.random() + '';
+  var input = document.createElement('input')
+  input.value = text
+  /* 不能设置display:none或visibility:hidden */
+  input.style = 'opacity: 0;position:absolute;z-index:-1000;'
+  document.body.appendChild(input)
+  input.select()
+  document.execCommand('copy');
+  console.log('复制成功！')
+}
+</script>
 ```
 select()：选取文本。
 

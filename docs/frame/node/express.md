@@ -401,3 +401,16 @@ app.get('/', function (req, res) {
 })
 ```
 附：Pug是一款健壮、灵活、功能丰富的HTML模板引擎,专门为 Node.js 平台开发。
+
+### 设置超时时间
+
+```js
+const server = app.listen(8888, () => {
+  console.log('http://localhost:8888')
+})
+
+server.setTimeout(1000)
+
+// 或
+server.timeout = 1000
+```

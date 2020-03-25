@@ -3,6 +3,20 @@ title: Css
 lang: zh-CN
 sidebarDepth: 2
 ---
+
+::: tip 总结
+1. 屏幕大小
+
+xl: ≥1920px 
+
+lg: 一般用于大屏设备（min-width：1200px）
+
+md: 一般用于中屏设备（min-width：992px）
+
+sm: 一般用于小屏设备（min-width：768px）
+
+xs: 用于超小型设备（max-width：768px）
+:::
 ## flex
 
 参考：[菜鸟教程](https://www.runoob.com/cssref/css3-pr-flex.html)
@@ -81,6 +95,90 @@ item2 -> flex-basis为 200px，可扩展，可收缩。
 
 <p class="fr_th">内容宽度 + (600 - 200 - 内容宽度) / 2</p>
 
+
+```html
+<style>
+.box {
+  display: flex;
+  background-color: seagreen;
+  width: 200px;
+  height: 50px;
+}
+
+/* 第一种 
+* 此时该元素宽度为125px
+* 计算方式：可用空间 200 - 100 - 50 = 50，可扩展：50 * 0.5 = 25，总宽度为：100 + 25 = 125
+*/
+.item:first-child {
+  background-color: skyblue;
+  flex-grow: 0.5;
+  flex-basis: 100px;
+  width: 10px;
+}
+
+/* 第二种 
+* 此时该元素宽度为125px
+* 计算方式：可用空间 200 - 10 - 50 = 140，可扩展：140 * 0.5 = 70，总宽度为：10 + 70 = 80
+*/
+.item:first-child {
+  background-color: skyblue;
+  flex-grow: 0.5;
+  width: 10px;
+}
+
+.item:last-child {
+  width: 50px;
+  background-color: firebrick;
+}
+</style>
+<body>
+  <div class="box">
+    <div class="item"></div>
+    <div class="item"></div>
+  </div>
+</body>
+```
+
+### justify-content: space-evenly无效
+
+justify-content: space-evenly，使每个元素之间的间距一致。
+
+justify-content: space-around，使第一个元素和最后一个元素与边界的距离等于其它元素之间距离的一半。
+
+```html
+<!-- 解决办法，使用伪元素替代 -->
+<style>
+.box {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  height: 80px;
+  background-color: pink;
+}
+.box>div:nth-of-type(1) {
+  width: 60px;
+  background-color: skyblue;
+}
+.box>div:nth-of-type(2) {
+  width: 60px;
+  background-color: seagreen;
+}
+.box>div:nth-of-type(3) {
+  width: 60px;
+  background-color: firebrick;
+}
+.box::before, .box::after {
+  content: "";
+}
+</style>
+<body>
+  <div class="box">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</body>
+```
 ## 2D 和 3D 转化
 
 ### transform

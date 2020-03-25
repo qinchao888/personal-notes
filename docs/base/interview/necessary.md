@@ -263,6 +263,49 @@ z-index:0的元素层叠水平相同，遵循后来居上的原则，即后面�
   <div class="box">box</div>
 </div>
 ```
+
+#### 给定一张图片，显示宽度最大为500px，并且垂直居中显示（当高度超出屏幕高度时显示滚动条）。
+
+```html
+<style>
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  overflow: auto; /* 不可设置display:table，否则无法触发overflow:auto */
+}
+/* 配合display: table-cell;vertical-align: middle; 实现垂直水平居中 */
+.modal-content { 
+  display: table;  
+  width: 100%;
+  height: 100%;
+}
+.img-wrap {
+  display: table-cell; 
+  vertical-align: middle;
+  text-align: center;
+}
+.img {
+  max-width: 500px;
+}
+</style>
+<body>
+  <div class="modal">
+    <div class="modal-content">
+      <div class="img-wrap">
+      <img class="img" src="./checkbox.png"/>
+        <!-- <img class="img" src="./test.png"/> -->
+      </div>
+    </div>
+  </div>
+</body>
+```
+
 ### 选择器优先级
 
 !important > 行内样式 > #id > .class > tag > * > 继承 > 默认

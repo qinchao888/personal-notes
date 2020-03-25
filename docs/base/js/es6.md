@@ -281,6 +281,50 @@ async function dbFuc(db) {
 }
 ```
 
+### promise.all控制任务执行数量
+
+[参考](https://segmentfault.com/a/1190000020992680?utm_source=tag-newest)
+
+要点：使用 iterator 实现
+
+```js
+function sleep (time) {
+  return new Promise(resolve => setTimeout(resolve, time))
+}
+
+async function execute (id) {
+  console.log('start', id)
+  await sleep(1000)
+  console.log('end', id)
+}
+
+function promiseLimit(arr, func, count = 1) {
+  const iterator = arr.values();
+  return new Array(count).fill(iterator).map(async it => {
+    for (const value of it) {
+      await func(value)
+    }
+  });
+}
+/* 每次执行两个任务，当其中一个执行完成，下一个任务开始执行 */
+Promise.all(promiseLimit(Array.from({length:10}, (v, i) => i), execute, 2))
+
+/* 每次执行两个任务，当两个任务全部执行完成，执行后面的两个任务 */
+async function promiseLimit2(arr, func, count = 1) {
+  const iterator = arr.values();
+  const taskList = new Array(count).fill(iterator).map(async it => {
+    for (const value of it) {
+      await func(value)
+      break;
+    }
+  });
+  await Promise.all(taskList);
+  arr.splice(0, count);
+  arr.length && promiseLimit2(arr, execute, count);
+}
+promiseLimit2(Array.from({length:10}, (v, i) => i), execute, 2)
+```
+
 ### 其它
 
 #### 多个文件 import 的相同模块里的对象，是否永远都是同一个对象？

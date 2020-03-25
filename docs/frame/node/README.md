@@ -339,3 +339,30 @@ this is a error
 /* 附：使用 cat 命令创建新文件
 cat > a.txt  // cat 只能创建新文件,不能编辑已有文件 */
 ```
+
+### csv文件操作
+
+文件保存方式： CSV UTF-8(逗号分隔)
+
+1. utf8编码（向excel中追加内容，不可直接编辑excel，否则编码类型会发生变化。）
+
+```js
+> code test.csv
+// 在vscode中追加内容保存即可，注意右下角的编码方式。
+
+// 解码
+const data = fs.readFileSync('./static/test.csv').toString()
+```
+
+2. gbk编码（可以直接在excel中修改内容保存）
+
+```js
+> code test.csv
+// 将编码方式手动修改成gbk编码（点击右下角编码->save width encoding->gbk）
+
+// 解码
+const fs = require('fs')
+const iconv = require('iconv-lite')
+const buffer = fs.readFileSync('./static/test.csv')
+const data = iconv.decode(Buffer.from(buffer), 'gbk')
+```
