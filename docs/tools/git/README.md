@@ -133,6 +133,8 @@ git checkout -b feature/new/v1
 git stash pop // 应用先前在master分支上的所有修改
 ```
 
+git stash 只能暂存修改的文件，不能暂存新增的文件，如果需要暂存新增的文件，使用 git stash -a 即可。
+
 ### 报错信息
 
 <p class="fg_t">例1：git pull 提示 no tracking information。</p>

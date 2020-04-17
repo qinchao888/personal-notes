@@ -592,3 +592,86 @@ step：作用于每个关键帧，而不是整个时间。
 </style>
 <div class="rabbit"></div>
 ```
+
+## table
+
+### 实现头部固定，内容滚动的布局
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+.content {
+  max-width: 400px;
+}
+table {
+  display: block;
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow-x: auto;
+}
+/* thead {
+  display: table;
+  width: 100%;
+} */
+tbody {
+  display: inline-block; /* 不可设置display:block，会导致竖直方向上的滚动条位置异常 */
+  max-height: 200px;
+  overflow-y: scroll;
+}
+th {
+  min-width: 200px; /* 必须同时设置min-width和max-width，直接设置width无效 */
+  max-width: 200px;
+  text-align: left;
+}
+td {
+  min-width: 200px;
+  max-width: 200px;
+  padding: 10px 0;
+}
+.w100 {
+  min-width: 100px;
+  max-width: 100px;
+}
+</style>
+<body>
+  <div id="app" class="content">
+    <table>
+      <thead>
+        <tr>
+          <th>title1</th>
+          <th>title2</th>
+          <th class="w100">title3</th>
+          <th>title4</th>
+          <th>title5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in 20">
+          <td>内容一一一一一一</td>
+          <td>内容二二二二二</td>
+          <td class="w100">内容三</td>
+          <td>内容四四四四四四四</td>
+          <td>内容五五五五五五五五</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script>
+new Vue({
+  el: '#app'
+})
+</script>
+</html>
+```

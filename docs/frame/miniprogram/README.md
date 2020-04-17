@@ -29,6 +29,13 @@ sidebarDepth: 2
 ```
 :::
 
+### 小程序获取测试号
+
+1. 登录微信开放社区：https://developers.weixin.qq.com/community/develop/mixflow
+2. 登录：https://developers.weixin.qq.com/sandbox
+
+测试号无法获取 unionid。（原因：小程序必须绑定在微信开放平台上，不绑定是无法获取到unionid）
+
 ### 小程序的运行环境
 
 |  运行环境  |  逻辑层  | 渲染层  |
