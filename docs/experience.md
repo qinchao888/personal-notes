@@ -550,3 +550,24 @@ img {
   user-select: none;
 }
 ```
+
+### 移动端video禁用进度条
+
+```js
+<video width="100%" height="100%" id="video" playsinline webkit-playsinline="true" x-webkit-airplay="true" x5-video-player-type="h5-page" x5-video-orientation="landscape" controlslist="nofullscreen" poster="../images/transparent.png">
+```
+
+### video中设置poster属性后在部分安卓机中点击无法播放视频的bug
+
+部分安卓手机的微信浏览器中不识别 touchstart 事件，换成 click 事件即可。
+
+```js
+var video = document.getElementById('video');
+document.addEventListener('touchstart', function(){ 
+  video.play();
+}, false);
+
+document.addEventListener('click', function(){ 
+  video.play();
+}, false);
+```

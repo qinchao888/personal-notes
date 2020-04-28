@@ -139,3 +139,23 @@ props: {
 <my-component></my-component>
 ```
 在单文件组件和字符串模板中组件名应该总是 PascalCase 的——但是在 DOM 模板中总是 kebab-case 的或在所有的地方都使用 kebab-case。
+
+## eslint
+
+@vue/cli@3.0.5
+
+```js
+// package.json
+"rules": {
+  "prettier/prettier": [
+    "error",
+    {
+      "tabWidth": 2,
+      "semi": false, // 行尾不需要分号
+      "singleQuote": true, // 使用单引号
+      "trailingComma": "es5", // 行尾需要逗号
+      "htmlWhitespaceSensitivity": "ignore"
+    }
+  ]
+},
+```

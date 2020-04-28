@@ -140,3 +140,29 @@ end
 #### 重启访达
 
 killall Finder 
+
+### 常用命令
+
+#### 配置命令行文件路径
+
+```
+nano .zshrc
+
+// https://git.grml.org/?p=grml-etc-core.git;a=blob_plain;f=etc/zsh/zshrc;hb=HEAD
+copy内容至 .zshrc中
+
+// 其他环境变量的配置
+nano .zshrc.pre
+```
+1. bash_profile和.zshrc都在用户目录下(~)
+2. .bash_profile需要使用source执行下，方可生效(可能需要手动创建.bash_profile)
+3. .zshrc修改环境变量，保存修改重启终端即可（需要安装oh-my-zsh自动创建.zshrc，直接手动创建.zshrc没有用）
+
+```
+$ sudo scutil --set ComputerName qinchao@macbook
+$ sudo scutil --set HostName newHostName
+
+// 查看
+$ scutil --get ComputerName
+$ scutil --get HostName
+```

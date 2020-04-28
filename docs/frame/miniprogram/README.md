@@ -206,6 +206,17 @@ onLoad (option) {
 
 [触发方式和生命周期对应关系](https://developers.weixin.qq.com/ebook?action=get_post_info&docid=0004eec99acc808b00861a5bd5280a)
 
+#### 页面生命周期和组件生命周期执行顺序：
+
+```js
+created
+attached
+onLoad
+onShow
+ready
+onReady
+```
+
 ### npm
 
 使用方式：

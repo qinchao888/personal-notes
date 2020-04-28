@@ -5,6 +5,149 @@ sidebarDepth: 2
 ---
 <a class="fb_t" href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">推荐学习地址</a><OutboundLink/>
 
+## 常用命令
+
+```
+pwd //查看当前目录
+
+ls -ah //查看当前目录下的文件，包含.git文件
+
+git init // 初始化一个空的git仓库
+
+git status //查看当前哪些文件被修改
+
+git diff //即查看difference，可以查看哪些内容被修改
+
+git log //查看提交的历史记录
+
+git log --pretty=oneline //每条历史只显示一行，反馈结果包含commit id（版本号）
+该版本号用一串16进制数表示，目的是为了解决多人开发造成版本号冲突。
+
+git diff HEAD -- 文件名 //查看某个版本下某个文件修改的情况
+
+git diff HEAD^ -- 文件名
+//查看上个版本修改的内容
+
+git diff 版本号 -- 文件名 //根据版本号查看修改内容
+
+git checkout -- 文件名 //丢弃工作区的修改
+
+git checkout . // 撤销工作区所有的修改
+
+git rebase //把本地未push的分叉提交历史整理成直线
+
+git add -f dist //强制提交被.gitignore忽略的文件
+
+git branch -m dev develop //分支改名
+
+cat README.md //查看文件内容
+
+rm -rf .git //删除本地仓库
+
+git push origin master -f //远程推送失败(强制推送)
+
+git remote add origin git地址 //远程连接
+
+git clone git地址 //克隆项目
+
+git checkout 分支名 //切换分支
+
+git branch 分支名 //创建新分支（必须置于commit之后）
+
+git branch -d dev //删除本地分支
+
+git push origin -d dev //删除远程分支
+
+git config user.name //查看用户名
+
+git config user.email //查看邮箱
+
+git rm 文件名 // 删除文件
+
+git add 文件夹名称 // 上传文件夹
+
+git rm 文件夹名称 -r // 删除文件夹
+```
+
+```
+# 新建一个目录并初始化一个git仓库
+git init project
+
+----
+
+# 查看git的配置
+git config --list
+
+credential.helper=osxkeychain
+user.name=qinchao888
+user.email=2164109314@qq.com
+core.editor=code --wait
+
+----
+
+# 编辑项目所属的配置文件
+git config -e --local
+
+# 查看项目所属的配置文件
+git config --local -l
+
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+
+----
+
+# 编辑全局的git文件
+git config -e --global
+
+# 查看全局的git文件
+git config --global -l
+
+[user]
+	name = qinchao888
+	email = 2164109314@qq.com
+[core]
+	editor = code --wait
+
+----
+
+# 优先级
+git config > git config --global > git config --system
+
+----
+
+# 配置 vscode 为 git 的默认编辑器
+git config --global core.editor "code --wait"
+
+warning: core.editor has multiple values
+error: cannot overwrite multiple values with a single value
+       Use a regexp, --add or --replace-all to change core.editor.
+
+# 报错：可能存在多值冲突，使用 --replace-all
+git config --global --replace-all core.editor "code --wait"
+
+----
+# 帮助
+
+# 可用命令
+git help
+
+# 所有可用命令
+git help -a 
+
+# 指定的命令
+git help add
+git help commit
+git help init
+
+----
+
+```
+
 ## 基本操作
 
 ### 撤销master分支上的提交
@@ -422,69 +565,7 @@ git remote -v //查看连接的远程仓库
 git push gitlab master
 git push github master
 ```
-## 常用命令
 
-```
-pwd //查看当前目录
-
-ls -ah //查看当前目录下的文件，包含.git文件
-
-git init // 初始化一个空的git仓库
-
-git status //查看当前哪些文件被修改
-
-git diff //即查看difference，可以查看哪些内容被修改
-
-git log //查看提交的历史记录
-
-git log --pretty=oneline //每条历史只显示一行，反馈结果包含commit id（版本号）
-该版本号用一串16进制数表示，目的是为了解决多人开发造成版本号冲突。
-
-git diff HEAD -- 文件名 //查看某个版本下某个文件修改的情况
-
-git diff HEAD^ -- 文件名
-//查看上个版本修改的内容
-
-git diff 版本号 -- 文件名 //根据版本号查看修改内容
-
-git checkout -- 文件名 //丢弃工作区的修改
-
-git checkout . // 撤销工作区所有的修改
-
-git rebase //把本地未push的分叉提交历史整理成直线
-
-git add -f dist //强制提交被.gitignore忽略的文件
-
-git branch -m dev develop //分支改名
-
-cat README.md //查看文件内容
-
-rm -rf .git //删除本地仓库
-
-git push origin master -f //远程推送失败(强制推送)
-
-git remote add origin git地址 //远程连接
-
-git clone git地址 //克隆项目
-
-git checkout 分支名 //切换分支
-
-git branch 分支名 //创建新分支（必须置于commit之后）
-
-git branch -d dev //删除本地分支
-
-git push origin -d dev //删除远程分支
-
-git config user.name //查看用户名
-
-git config user.email //查看邮箱
-
-git rm 文件名 // 删除文件
-
-git add 文件夹名称 // 上传文件夹
-
-git rm 文件夹名称 -r // 删除文件夹
-```
 ## 其它
 
 ### 命令区别
