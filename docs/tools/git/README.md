@@ -3,7 +3,9 @@ title: Git
 lang: zh-CN
 sidebarDepth: 2
 ---
-<a class="fb_t" href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">推荐学习地址</a><OutboundLink/>
+<a class="fb_t" href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">推荐学习地址1</a><OutboundLink/>
+
+<a class="fb_t" href="https://segmentfault.com/a/1190000022491558">推荐学习地址2</a><OutboundLink/>
 
 ## 常用命令
 
@@ -13,6 +15,9 @@ pwd //查看当前目录
 ls -ah //查看当前目录下的文件，包含.git文件
 
 git init // 初始化一个空的git仓库
+
+# 新建一个目录并初始化一个git仓库
+git init project
 
 git status //查看当前哪些文件被修改
 
@@ -69,10 +74,9 @@ git add 文件夹名称 // 上传文件夹
 git rm 文件夹名称 -r // 删除文件夹
 ```
 
-```
-# 新建一个目录并初始化一个git仓库
-git init project
+### git config
 
+```
 ----
 
 # 查看git的配置
@@ -131,8 +135,24 @@ error: cannot overwrite multiple values with a single value
 git config --global --replace-all core.editor "code --wait"
 
 ----
-# 帮助
+```
 
+### git show
+
+```
+# 查看某次提交的元数据和内容变化
+git show [commit]
+
+# 查看某次提交变更的文件
+git show --name-only [commit]
+
+# 查看某次提交时指定的文件中的所有内容
+git show [commit]:[filename]
+```
+
+### git help
+
+```
 # 可用命令
 git help
 
@@ -143,9 +163,72 @@ git help -a
 git help add
 git help commit
 git help init
+```
 
-----
+### git log
 
+```
+# 查看当前分支最近的几次提交
+git reflog
+
+# 查看所有提交
+git log
+
+# 查看某几条提交信息
+git log -n 10
+
+# 查看仅合并提交的信息
+git log --merges
+
+# 查看每次详细修改内容的diff
+git log -p <file>
+
+# 查看最近两次详细修改内容的diff
+git log -p -2
+
+# 查看提交统计信息
+git log --stat
+
+# 查看当前修改的详细信息
+git diff --stat
+```
+
+### git mv
+
+```
+# 重命名
+git mv test.js test2.js
+
+# 移动
+git mv test.js ./new/path/test.js
+```
+
+### git tag
+
+```
+# 查看所有tag
+git tag
+
+# 新建一个tag在当前commit
+git tag [tag]
+
+# 新建一个tag在指定commit
+git tag [tag] [commit]
+
+# 删除本地tag 
+git tag -d [tag]
+
+# 查看tag信息
+git show [tag]
+
+# 删除远程tag
+git push origin :refs/tags/[tag]
+
+# 提交指定tag到远程
+git push origin [tag]
+
+# 提交所有tag到远程
+git push origin --tags
 ```
 
 ## 基本操作

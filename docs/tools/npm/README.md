@@ -53,6 +53,48 @@ npm v 模块名
 ```
 通过网址访问：https://registry.npmjs.org/模块名
 
+### npm nvm nrm
+
+1. npm：包管理器
+2. nvm：Nodejs 版本管理器
+3. nrm：npm的镜像源管理工具
+
+```js
+npm install nrm -g
+nrm ls
+
+* npm -------- https://registry.npmjs.org/
+  yarn ------- https://registry.yarnpkg.com/
+  cnpm ------- http://r.cnpmjs.org/
+  taobao ----- https://registry.npm.taobao.org/
+  nj --------- https://registry.nodejitsu.com/
+  npmMirror -- https://skimdb.npmjs.com/registry/
+  edunpm ----- http://registry.enpmjs.org/
+
+nrm use taobao # 使用淘宝
+```
+
+### npx
+
+[参考](http://www.ruanyifeng.com/blog/2019/02/npx.html)
+
+1. 调用项目内部安装的模块 ,无需指定 scripts 或 使用 node-modules/.bin/文件名 调用
+2. 可以避免全局安装模块
+3. 指定某个版本的 Node 运行脚本
+4. 执行 GitHub 源码
+
+```js
+// npx 将create-react-app下载到一个临时目录，使用以后再删除。所以，以后再次执行上面的命令，会重新下载create-react-app
+npx create-react-app my-react-app
+
+npx node@0.12.8 -v  
+v0.12.8
+
+npx https://gist.github.com/zkat/4bc19503fe9e9309e2bfaa2c58074d32
+
+npx github:piuccio/cowsay hello
+```
+
 ### npm 安装模块版本
 
 1. ~ ：匹配最近的小版本依赖包，比如~1.2.3会匹配所有1.2.x版本，但是不包括1.3.0。
@@ -122,3 +164,56 @@ package-lock.json里是会保存项目所有的依赖(包括依赖的依赖)的�
 ### iconv-lite
 
 使用指定的charset对内容进行编码和解码。
+
+### xlsx
+
+用于解析xlxs文件中的内容
+
+npm install xlsx --save
+
+```html
+<input ref="file" class="file" @change="fileChange" type="file"/>
+```
+```js
+function fileChange (e) {
+  const file = this.$refs.file.files[0]
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const data = e.currentTarget.result;
+    const wb = XLSX.read(data, {type: 'binary'})
+    const result = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' })
+    this.emailData = result
+    console.log('result', result)
+    this.$refs.file.value = null
+  }
+  reader.readAsBinaryString(file)
+},
+```
+
+### vue-quill-editor
+
+vue版本的富文本编辑器
+
+```html
+<quill-editor v-model="emailContent" :options="editorOptions" style="height: 300px"></quill-editor>
+```
+```js
+data () {
+  return: {
+    editorOptions: {
+      placeholder: '请输入邮件内容！'
+    },
+  }
+}
+```
+```less
+/* 全局设置 (APP.vue)
+** 解决空格显示问题
+*/
+.ql-container {
+  white-space: pre-wrap !important;
+  .ql-editor {
+    white-space: normal !important;
+  }
+}
+```

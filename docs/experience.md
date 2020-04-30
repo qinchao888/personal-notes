@@ -571,3 +571,34 @@ document.addEventListener('click', function(){
   video.play();
 }, false);
 ```
+
+### input type="file" 上传相同的文件不会触发change事件
+
+原因：input 会存储触发change事件的值，第二次上传时会判断两个是否相等，相等则不触发change事件。
+
+解决办法：上传后清空input的value值即可。
+
+```js
+// <input ref="file" class="file" @change="fileChange" type="file"/>
+
+function fileChange () {
+  const file = this.$refs.file.files[0]
+  ...
+  this.$refs.file.value = null
+}
+```
+
+### 微信二次分享异常
+
+表现：从别人分享的页面再次进入后分享给别人，此时分享的页面异常。
+
+原因：微信分享后的页面会携带参数，导致签名获取异常，分享失效。
+
+解决办法：使用重定向
+
+```js
+/* 此写法使用与本身不携带参数的页面 */
+if (window.location.search.length > 0) {
+  window.location.replace('/')
+}
+```

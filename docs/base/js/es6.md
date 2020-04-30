@@ -333,6 +333,33 @@ vue项目中是的。
 
 [参考](zhihu.com/question/266129549)
 
+## import
+
+```html
+<!-- html 文件中使用 import -->
+
+<!-- 方式一： 使用 type="module" -->
+<script type="module">
+import { data } from './data.js'
+console.log('data', data) // {text: "this is data"}
+</script>
+
+<!-- 方式二： 使用import函数 (这是一个处于第三阶段的提案) -->
+<script>
+(async function () {
+  const { data } = await import('./data.js')
+  console.log('data', data) // {text: "this is data"}
+})()
+</script>
+```
+
+### import require 和 import()
+
+1. import 是编译时加载，require 是运行时加载。
+2. import 时ES6的语法，require 是 commonJS的语法，import 可以转化成 require。
+3. import 可以导出模块的所有内容或部分内容，而 require 只能导出整个模块对象，不能导出模块的部分内容。
+4. import 函数可以动态加载，返回一个promise对象，是异步操作。
+
 ## Symbol
 
 ::: tip tips
