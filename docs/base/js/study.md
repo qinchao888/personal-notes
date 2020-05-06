@@ -120,3 +120,26 @@ GetBase: 返回 reference 的 base value。
 GetValue: 返回对象属性真正的值（不再是一个 Reference）。
 
 IsPropertyReference: 如果 base value 是一个对象，就返回true。
+
+## 数组
+
+### 密集数组与稀疏数组
+
+稀疏数组再执行 forEach， map， filter等方式时会被跳过
+
+```js
+new Array(3) // [empty × 3]（稀疏数组）
+
+var arr = []
+arr[2] = 1 // [empty × 2, 1]（稀疏数组）
+0 in arr // false
+2 in arr // true
+
+Array.apply(null, Array(3)) // [undefined, undefined, undefined]（密集数组）
+
+var arr = new Array(3)
+arr.map(value => console.log(value)) // 
+
+var arr = Array.apply(null, Array(3))
+arr.map(value => console.log(value)) // undefined undefined undefined
+```

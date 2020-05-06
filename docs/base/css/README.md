@@ -344,7 +344,9 @@ background:linear-gradient(
 
 ## css选择器
 
-### nth-of-type
+### first-of-type
+
+p:first-of-type：表示 p 元素所在的父元素下的第一个为 p 元素的子元素。
 
 ```html
 <style type="text/css">
@@ -380,7 +382,7 @@ div .h2~.h2 {
   color: skyblue;
 }
 ```
-### ~ 选择器
+### element1~element2
 
 例： a~b 表明选择a元素之后的每个b元素,其中a元素和b元素为兄弟元素。
 
@@ -426,6 +428,11 @@ li:first-child:nth-last-child(3) + li {}
 li:first-child:nth-last-child(3) ~ li {}
 ```
 
+### :root 和 html 元素的区别
+
+1. :root 指文档的根元素，对于 html 文档来说，:root 就是 html 元素
+2. 优先级不同：:root > html
+
 ### :not 
 
 :not伪类不像其它伪类，它不会增加选择器的优先级。
@@ -442,6 +449,194 @@ h1:not(#b) { // 1 + 100
 <h1 class="a" id="a">这是一个标题</h1> <!-- red -->
 
 ```
+
+### 属性选择器
+
+~= *= |= ^= $=
+
+1. ~=：匹配属性值中按空格分隔的词
+2. *=：属性值中包含该词（包含 ~= 的功能)
+3. |=：匹配该值或该值后有 - 的词
+4. ^=：匹配以该值开头的属性值
+5. $=：匹配以该值结尾的属性值
+
+```html
+<!-- [attribute~=value] -->
+<style>
+p[class~="t1"] {
+  color: red;
+}
+p[class~="t"] {
+  color: silver;
+}
+</style>
+<p class="t1 t2">11</p> <!-- red -->
+<p class="t3">11</p> <!-- red -->
+
+<!-- [attribute*=value] -->
+<style>
+p[class*="t"] {
+  color: silver;
+}
+</style>
+<p class="t1 t2">11</p> <!-- silver -->
+<p class="t3">11</p> <!-- silver -->
+
+<!-- [attribute|=value] -->
+<style>
+p {
+  color: red;
+}
+p[class|="t"] {
+  color: silver;
+}
+</style>
+<p class="t1 t2">11</p> <!-- red -->
+<p class="t">11</p> <!-- silver -->
+<p class="t-11">11</p> <!-- silver -->
+<p class="t2">11</p> <!-- red -->
+
+<!-- [attribute^=value] -->
+<style>
+p {
+  color: red;
+}
+p[class^="t"] {
+  color: silver;
+}
+</style>
+<p class="t1">11</p> <!-- silver -->
+<p class="1t">11</p> <!-- red -->
+
+<!-- [attribute$=value] -->
+<style>
+p {
+  color: red;
+}
+p[class$="t"] {
+  color: silver;
+}
+</style>
+<p class="t1">11</p> <!-- red -->
+<p class="1t">11</p> <!-- silver -->
+```
+
+### :focus
+
+获得焦点的元素：input textarea 和 select
+
+### :first-child :last-child
+
+p:first-child：表示 p 元素所在的父元素下的第一个子元素并且该元素为 p 元素（如果第一个子元素不为 p 元素则设置无效）。
+
+### :nth-child(n) :nth-last-child(n)
+
+p:nth-child(2)：选择 p 元素所在的父元素下的第二个子元素并且该元素为 p 元素
+
+### :only-child
+
+p:only-child：表示 p 元素所在的父元素下有且仅有一个元素，并且该元素为 p 元素
+
+### :first-of-type :last-of-type
+
+p:first-of-type：选择 p 元素所在的父元素下的第一个为 p 元素的子元素
+
+### :nth-of-type(n) :nth-last-of-type(n)
+
+p:nth-of-type(2)：选择 p 元素所在的父元素下的第二个为 p 元素的子元素
+
+### :only-of-type
+
+p:only-of-type：表示 p 元素所在的父元素下有且仅有一个元素，并且该元素为 p 元素
+
+### :first-letter
+
+p:first-letter：表示选择每个 p 元素的第一个字母
+
+### :first-line
+
+p:first-line：表示选择每一个 p 元素的第一行内容
+
+### :empty
+
+p:empty：选择没有任何子集的p元素（包括文本节点，即为一个空的p标签）
+
+### :target
+
+用于锚点跳转，选择当前活动的元素
+
+```html
+<style>
+p[id*="pos"]:target {
+  background: skyblue;
+}
+</style>
+
+<a href="#pos1">跳转到pos1</a>
+<p id="pos1">this is pos1</p> <!-- 点击后变更背景色 -->
+<a href="#pos2">跳转到pos2</a>
+<p id="pos2">this is pos2</p> <!-- 点击后变更背景色 -->
+```
+
+### ::selection
+
+作用于被选中的文本
+
+### :in-range :out-of-range
+
+:in-range：匹配值在指定区间之内的 input 元素
+
+:out-of-range：匹配值在指定区间之外的 input 元素
+
+配合 input 元素的 min 属性和 max 属性使用
+
+```html
+<style>
+input {
+  border: none;
+  outline: none;
+  margin: 0;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 10px;
+  font-size: 30px;
+}
+input:in-range {
+  background: seagreen;
+}
+input:out-of-range {
+  background: skyblue;
+}
+input:in-range + label::after{
+  content: 'in range';
+}
+input:out-of-range + label::after{
+  content: 'out of range'
+}
+</style>
+<div class="wrap">
+  <input id="number" type="number" value="6" min="5" max="10"/>
+  <label for="number"></label>
+</div>
+```
+
+### :read-write :read-only
+
+:read-write：用于匹配可读及可写的元素（没有设置 readonly属性的元素。在大多浏览器中, :read-write 选择器只使用于设置了input 和 textarea 元素）
+
+:read-only：用于匹配设置 "readonly"（只读） 属性的元素
+
+### :optional
+
+没有设置 "required" 属性的元素。只适用于表单元素: input, select 和 textarea。
+
+### :valid :invalid
+
+:valid：匹配输入值为合法的元素
+
+:invalid：匹配输入值为非法的元素
+
+如：校验email 字段，input 元素中的 min 和 max 属性中输入的值是否合法等。
 
 ## 使用 css 管理事件
 
