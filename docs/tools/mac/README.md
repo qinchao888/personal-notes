@@ -166,3 +166,17 @@ $ sudo scutil --set HostName newHostName
 $ scutil --get ComputerName
 $ scutil --get HostName
 ```
+
+## mac
+
+```js
+查看文件启动路径:  which nginx
+// /usr/local/bin/nginx
+
+```
+
+## vscode
+
+## nginx
+
+## redis

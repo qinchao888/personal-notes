@@ -423,3 +423,459 @@ Symbol.keyFor(s1) // 'foo'
 let s2 = Symbol('foo');
 Symbol.keyFor(s2) // undefined
 ```
+
+## Set
+
+### 特点
+
+1. 类似于数组
+2. 成员唯一，值不重复
+3. 参数为具有 iterable 接口的数据（数组，字符串等）
+4. 内部值通过类似于 === 判断值是否相等，但在 Set 中 NaN 等于自身，即 NaN 值在 Set 中只能添加一次。
+5. Set 结构中键名和键值是同一个值。
+
+```js
+const set = new Set(['a', 'b', 'c']) // Set(3) {'a', 'b', 'c'}
+
+/* 等价于 */
+
+const set = new Set()
+set.add('a')
+set.add('b')
+set.add('c')
+
+/* 等价于 */
+
+const set = new Set('abc')
+```
+### 属性和方法
+
+1. size
+2. add(value)
+3. delete(value)
+4. has(value)
+5. clear()
+
+遍历方法：
+
+1. keys()
+2. values() （等同于keys()）
+3. entries()
+4. forEach()
+
+```js
+const set = new Set().add({})
+let obj1 = null, obj2 = null
+for (let item of set.keys()) {
+  obj1 = item
+}
+for (let item of set.values()) {
+  obj2 = item
+}
+obj1 === obj2 // true
+
+var set = new Set().add('a').add('b') 
+set.keys() // SetIterator {"a", "b"}
+set.values() // SetIterator {"a", "b"}
+set.entries() // SetIterator {"a" => "a", "b" => "b"}
+```
+
+#### Set 结构的实例默认可遍历，它的默认遍历器生成函数就是它的values方法
+
+```js
+const set = new Set().add({})
+for (let item of set) {
+  console.log(item) // {}
+}
+Set.prototype[Symbol.iterator] === Set.prototype.values // true
+Set.prototype[Symbol.iterator] === Set.prototype.keys // true
+```
+
+#### 将 Set 结构转化成数组
+
+```js
+// 方式一
+[...new Set()] // []
+
+// 方式二
+Array.from(new Set()
+```
+
+#### 改变 Set 结构中的数据
+
+```js
+let set = new Set().add(1).add(2) // Set(2) {1, 2}
+
+// 方式一
+set = new Set([...set].map(val => val * 2)) // Set(2) {2, 4}
+
+// 方式二
+set = new Set(Array.from(set, val => val * 2)) // Set(2) {2, 4}
+```
+
+### 应用
+
+```js
+// 数组去重
+const arr = [1, 2, 3, 1]
+[...new Set(arr)] // [1, 2, 3]
+
+// 字符串去重
+[...new Set('aabbcc')].join('') // abc
+```
+
+## WeakSet
+
+### 特点
+
+1. 只能存储对象
+2. WeakSet 中的对象都是弱引用，垃圾回收机制不考虑 WeakSet 对该对象的引用，只要这些对象在外部消失，它在 WeakSet 里面的引用就会自动消失。
+3. WeakSet 是不可遍历的，原因：内部的成员数量因垃圾回收机制的运行可能会发生变化。
+4. 参数是具有 Iterable 接口的对象，并且该对象内部的成员也是对象。
+
+### 方法
+
+1. add(value)
+2. delete(value)
+3. has(value)
+
+### 应用
+
+储存 DOM 节点，而不用担心这些节点从文档移除时，会引发内存泄漏。
+
+## Map
+
+### 特点
+
+1. 类似于对象，是键值对的集合，键可以为各种类型的值。
+2. 参数为具有 Iterator 接口、且每个成员都是一个双元素的数组的数据结构。（单元素数组，值为undefined）
+
+```js
+// 双元素数组
+const map = new Map([
+  ['name', 'test'],
+  ['age', 20]
+])
+map // Map(2) {"name" => "test", "age" => 20}
+map.get('name') // test
+map.get('age') // 20
+
+// 单元素数组
+const map = new Map([
+  ['name'],
+  ['age']
+])
+map // Map(2) {"name" => undefined, "age" => undefined}
+map.get('name') // undefined
+map.get('age') // undefined
+```
+
+### 属性和方法
+
+1. size
+2. set(key, value)
+3. get(key)
+4. has(key)
+5. delete(key)
+6. clear()
+
+遍历方法：
+
+1. keys()
+2. values()
+3. entries()
+4. forEach()
+
+```js
+var map = new Map().set('a', 1).set('b', 2)
+map.keys() // MapIterator {"a", "b"}
+map.values() // MapIterator {1, 2}
+map.entries() // MapIterator {"a" => 1, "b" => 2}
+```
+
+#### Map 结构的默认遍历器接口是entries方法
+
+```js
+const map = new Map().set('a', 1)
+for (let [key, value] of map) {
+  console.log(key, value); // a 1
+}
+
+Map.prototype[Symbol.iterator] === Map.prototype.entries // true
+```
+
+## WeakMap
+
+### 特点
+
+1. 只接受对象作为键名（null除外)
+2. WeakMap的键名所指向的对象，不计入垃圾回收机制（一旦不再需要，WeakMap 里面的键名对象和所对应的键值对会自动消失，不用手动删除引用）
+
+### 方法
+
+1. get(key)
+2. set(key, value)
+3. has(key)
+4. delete(key)
+
+## Number
+
+### isNaN Number.isNaN isFinite Number.isFinite
+
+区别：isNaN 和 isFinite：如果参数为非数值会通过 Number() 先转化成数值类型，而 Number.isNaN 对于非数值一律返回 false，Number.isFinite 对于非 NaN 一律返回false
+
+```js
+-1 / 0 // -Infinity
+-0 / 1 // -0
+0 / 0 // NaN
+false / 0 // NaN
+true / 0 // Infinity
+-true / 0 // -Infinity
+
+isFinite() // false
+isFinite('10') // true
+
+Number.isFinite() // false
+Number.isFinite('10') // false
+
+isNaN() // true
+isNaN(NaN) // true
+isNaN('NaN') // true
+isNaN(undefined) // true
+isNaN(null) // false
+isNaN(false / 0) // true
+isNaN(true / 0) // false
+
+Number.isNaN() // false
+Number.isNaN(NaN) // true
+Number.isNaN('NaN') // false
+Number.isNaN(undefined) // false
+Number.isNaN(null) // false
+Number.isNaN(false / 0) // true
+Number.isNaN(true / 0) // false
+
+// 包含空格的字符串被转换成0
+isNaN('\t\r\n') // false
+isNaN(' ') // false
+Number('\t\r\n') // 0
+Number(' ') // 0
+```
+
+#### \r \n
+
+1. windows系统：\r\n
+2. unix系统：\n
+3. mac系统：\r
+
+Unix/Mac 系统下的文件在 Windows 里打开的话，所有文字会变成一行；而 Windows 里的文件在 Unix/Linux 下打开的话，在每行的结尾会多车一个 ^M 字符。
+
+1. Dos 和 windows 采用 "回车+换行"，即 "CR + LF" 表示下一行
+2. UNIX/Linux 采用 "换行符"，即 "LF" 表示下一行，即 "\n"
+3. 苹果机（MAC OS系统）则采用 "回车符"，即 "CR" 表示下一行，即 "\r"
+
+注：Mac OS 9 以及之前的系统的换行符是 CR，从 Mac OS X （后来改名为“OS X”）开始的换行符是 LF即‘\n'，和Unix/Linux统一了。
+
+```js
+// 换行符的替换
+str.repalce(/\r\n|\r|\n/g, '<br>') // 前端显示
+
+// 注意一下两者的区别：
+'12\r\n34\n56\r78'.replace(/\r\n|\r|\n/g, '<br>') // "12<br>34<br>56<br>78"
+'12\r\n34\n56\r78'.replace(/\r|\n|\r\n/g, '<br>') // "12<br><br>34<br>56<br>78"
+```
+
+### 判断一个值是否为 NaN
+
+```js
+// 方式一
+Number.isNaN(value)
+
+// 方式二
+value !== value
+```
+
+```js
+// window.isNaN 实现方式类似于：
+var isNaN = function (value) {
+  var val = Number(value)
+  return val !== val
+}
+```
+
+### Number.MAX_SAFE_INTEGER Number.MIN_SAFE_INTEGER Number.MAX_VALUE Number.MIN_VALUE
+
+1. Number.MAX_SAFE_INTEGER：在 JavaScript 中最大的安全整数（maxinum safe integer)（2^53 - 1）。
+2. Number.MIN_SAFE_INTEGER：在 JavaScript 中最小的安全的integer型数字 (-(2^53 - 1)).
+3. Number.MAX_VALUE 属性表示在 JavaScript 里所能表示的最大数值，大于 Number.MAX_VALUE 的值代表 "Infinity"
+4. Number.MIN_VALUE 是 JavaScript 里最接近 0 的正值，而不是最小的负值。小于 MIN_VALUE 的值将会转换为 0。
+5. 值在 Number.MIN_SAFE_INTEGER 和 Number.MAX_SAFE_INTEGER 之间能够准确区分两个不相同的值。
+
+```js
+Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2 // true
+Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 3 // false
+```
+
+### Number.NEGATIVE_INFINITY Number.POSITIVE_INFINITY 
+
+```js
+Number.POSITIVE_INFINITY === Infinity
+Number.NEGATIVE_INFINITY === -Infinity
+
+0 * Number.POSITIVE_INFINITY // NaN
+0 * Number.NEGATIVE_INFINITY // NaN
+Number.NEGATIVE_INFINITY *  Number.NEGATIVE_INFINITY // Infinity
+Number.NEGATIVE_INFINITY * Number.POSITIVE_INFINITY // Infinity
+Number.POSITIVE_INFINITY * Number.POSITIVE_INFINITY // Infinity
+Number.POSITIVE_INFINITY / Number.POSITIVE_INFINITY // NaN
+1000 / Number.POSITIVE_INFINITY // 0
+1000 / Number.NEGATIVE_INFINITY // -0
+```
+
+## Proxy
+
+作用：对对象进行拦截，当访问或设置对象属性时可以对其进行过滤和改写。
+
+var proxy = new Proxy(target, handler);
+
+target：拦截的目标对象（必填）
+
+handler：对象，定制拦截行为（必填）
+
+### proxy作为原型
+
+```js
+new Proxy() // Uncaught TypeError: Cannot create proxy with a non-object as target or handler
+new Proxy({}) // Uncaught TypeError: Cannot create proxy with a non-object as target or handler
+```
+
+```js
+var proxy = new Proxy({}, {
+  get: function (target, propKey, receiver) { // receiver为进行读(get)操作的那个对象
+    return 20
+  }
+})
+var obj = Object.create(proxy) // Proxy实例作为原型对象
+obj.name = 30
+console.log(obj.value) // 20
+console.log(obj.name) // 30
+console.log(obj.__proto__) // 20
+console.log(obj.__proto__.name) // undefined
+console.log(obj === proxy) // false
+Object.getPrototypeOf(obj) === proxy // true
+proxy.__proto__ // 20（原因：__proto__被当成属性会被拦截）
+// 拦截操作定义在原型上，因此直接读取obj继承的属性时，拦截会失效
+```
+
+### receiver死循环
+
+```js
+var proxy = new Proxy({}, {
+  get: function (target, propKey, receiver) {
+    console.log(receiver) // 此处console.log会导致死循环
+    return 10
+  }
+})
+var obj = Object.create(proxy)
+obj.value
+/** 原因
+ * console.log(receiver) 时在浏览器中会默认调用Symbol(Symbol.toStringTag)，但是receiver对象上不存在这个
+ * 属性，因此回去原型链上找，即target，又会再次调用console.log(receiver)因此会导致死循环
+ */
+
+// node中
+var obj = {
+  [util.inspect.custom] () {
+    return 'hello'
+  }
+}
+obj // hello
+
+// chrome中
+var obj = {
+  get [Symbol.toStringTag] () {
+    return 'hello'
+  }
+}
+obj.toString() // "[object hello]"
+
+//
+let count = 2
+let tar = {}
+
+var proxy = new Proxy(tar, {
+  get: function (target, propKey, receiver) {
+    if (count >= 0) {
+      count--;
+      console.log(tar === target)
+      console.log(propKey);
+      console.log(receiver)
+    }
+    return 10
+  }
+})
+var obj = Object.create(proxy)
+obj.value
+/**
+ * true
+ * value
+ * {}
+ * true
+ * Symbol(Symbol.toStringTag)
+ * {}
+ * true
+ * Symbol(Symbol.toStringTag)
+ * {}
+ * 10
+*/
+
+```
+
+### 实际应用
+
+1. 数据验证（使用proxy控制对象值得类型或大小的设置）
+2. 防止内部属性被外部读写（_开头的属性）
+
+```js
+// age只允许设置为数值类型且小于100
+var proxy = new Proxy({}, {
+  set: function (target, propKey, value) {
+    if (propKey === 'age') {
+      if (typeof value !== 'number') {
+        throw new TypeError('age must be integer')
+      }
+      if (value > 100) {
+        throw new RangeError('age must less than 100')
+      }
+    }
+    target[propKey] = value
+  }
+})
+proxy.name = 'test'
+proxy.age = '100' // Uncaught TypeError: age must be integer
+proxy.age = 101 // Uncaught RangeError: age must less than 100
+```
+
+```js
+// _的属性禁止读写
+var proxy = new Proxy({}, {
+  get: function (target, propKey) {
+    valid(propKey, 'get')
+    return target[propKey]
+  },
+  set: function (target, propKey, value) {
+    valid(propKey, 'set')
+    target[propKey] = value
+  }
+})
+function valid (key, action) {
+  if (key[0] === '_') {
+    if (action === 'get') {
+      throw new Error('no access to get private attribute')
+    } else {
+      throw new Error('no access to set private attribute')
+    }
+  }
+}
+proxy._name // Uncaught Error: no access to get private attribute
+proxy._name = 'a' // Uncaught Error: no access to set private attribute
+```

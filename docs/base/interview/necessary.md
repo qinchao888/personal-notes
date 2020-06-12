@@ -631,7 +631,31 @@ obj instanceof Promise // true
 Object.prototype.toString.call(obj) // [object Promise]
 
 // 方式三
-obj && (typeof obj === 'object' || typeof obj === function) && typeof obj.then
+!!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function'
+// 如果一个对象有一个then方法，那么应该把它当作一个Promise
+```
+
+### 如何区分类数组和数组
+
+```js
+var lis = document.getElementsByTagName('li')
+var arr = []
+
+// 方式一
+lis instanceof Array //false
+arr instanceof Array // true
+
+// 方式二
+lis.constructor // ƒ HTMLCollection() { [native code] }
+arr.constructor // ƒ Array() { [native code] }
+
+// 方式三
+Array.isArray(lis) // false
+Array.isArray(arr) // true
+
+// 方式四
+Object.prototype.toString.call(lis) // '[object HTMLCollection]'
+Object.prototype.toString.call(arr  // '[object Array]'
 ```
 
 ### Object.getOwnPropertyNames()、Object.keys()和for...in...的区别

@@ -217,3 +217,15 @@ data () {
   }
 }
 ```
+
+### opener
+
+启动浏览器
+
+```js
+// node中配置自动启动浏览器
+app.listen(8888, () => {
+  console.log(`Service is started: url:http://localhost:8888`)
+  opener(`http://localhost:8888`)
+})
+```

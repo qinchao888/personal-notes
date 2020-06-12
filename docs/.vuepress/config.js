@@ -56,6 +56,9 @@ module.exports = {
         text: '其它',
         items: [
           { text: '配置', link: '/other/setting/' },
+          { text: '阅读', link: '/other/read/' },
+          { text: '安全', link: '/other/safety/' },
+          { text: '学习', link: '/other/study/' },
           { text: '博客', link: 'https://blog.csdn.net/greybearchao' },
         ]
       },
@@ -165,6 +168,18 @@ module.exports = {
       ],
       '/other/setting/': [
         ['', 'hosts']
+      ],
+      '/other/read/': [
+        ['', '图解HTTP'],
+      ],
+      '/other/safety/': [
+        ['', '安全'],
+      ],
+      '/other/study/': [
+        ['', '总结'],
+        ['html', 'html'],
+        ['css', 'css'],
+        ['js', 'js']
       ],
       '/': [
         ['', '前端笔记'],

@@ -42,3 +42,63 @@ p {
   color: red;
 }
 ```
+
+### currentColor
+
+currentColor代表了当前元素被应用上的color颜色值。 使用它可以将当前这个颜色值应用到其他属性上，或者嵌套元素的其他属性上。
+
+```html
+<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_969627_jl2dmljvfbn.css"/>
+<style>
+a {
+  text-decoration: none;
+}
+a:link {
+  color: salmon;
+}
+a:visited { /* currentColor 与 visited 不匹配的 */
+  color: salmon;
+}
+a:hover {
+  color: pink;
+}
+a:active {
+  color: seagreen;
+}
+.qc-panda {
+  font-size: 60px;
+  vertical-align: middle;
+  color: currentColor;
+}
+</style>
+<div class="text">
+  <a href="#"><i class="iconfont qc-panda"></i>返回</a>
+</div>
+```
+
+### 禁用鼠标
+
+```html
+<!-- 禁用点击事件 -->
+<style>
+.btn {
+  background: skyblue;
+  width: 100px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  color: #fff;
+  pointer-events: none;
+  user-select: none;
+  opacity: .6;
+}
+</style>
+<div class="text">
+  <div class="btn" onclick="handleClick()">点击</div>
+</div>
+<script>
+function handleClick () {
+  console.log('click')
+}
+</script>
+```

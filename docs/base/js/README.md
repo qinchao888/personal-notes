@@ -269,6 +269,23 @@ arr.forEach((item, index) => {
 })
 ```
 
+### 统计数组中某个字符出现的次数
+
+```js
+function count (arr, value) {
+  arr.reduce((total, val) => val === value ? total + 1: total, 0)
+}
+```
+
+### 统计数组中所有字符出现的次数
+
+```js
+function count(arr) {
+  return arr.reduce((total, val) => (total[val] !== undefined ? total[val] += 1 : total[val] = 1) && total, {})
+}
+console.log(count(['a', 'b', 'c', 'a', 'd', 'c', 'c'])); // {a: 2, b: 1, c: 3, d: 1}
+```
+
 ## 常见方法
 
 ### sort

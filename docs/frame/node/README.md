@@ -366,3 +366,60 @@ const iconv = require('iconv-lite')
 const buffer = fs.readFileSync('./static/test.csv')
 const data = iconv.decode(Buffer.from(buffer), 'gbk')
 ```
+
+### cross-env
+
+package.json文件中配置 NODE_ENV=development 不兼容windows，因此需要使用 cross-env
+
+```json
+"scripts": {
+  "start": "cross-env NODE_ENV=development webpack --progress --config webpack.config.js && cross-env NODE_ENV=development nodemon app.js"
+}
+```
+
+NODE_ENV=development 是用来设置指定文件下的环境。使用 process.env.NODE_ENV 获取设置的环境。
+
+```json
+// windows下设置
+"scripts": {
+  "start": "set NODE_ENV=development && webpack --progress --config webpack.config.js"
+}
+```
+
+#### npm scripts 中的 && 和 &
+
+[参考](http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html)
+
+&&：继发执行（即只有前一个任务成功，才执行下一个任务）
+
+&：并行执行（即同时的平行执行
+
+#### npm scripts 原理
+
+1. 每当执行npm run，就会自动新建一个 Shell。在这个 Shell 里面执行指定的脚本命令。
+2. npm run新建的这个 Shell，会将当前目录的node_modules/.bin子目录加入PATH变量，执行结束后，再将PATH变量恢复原样。
+3. "test": "mocha test" 相当于 "test": "./node_modules/.bin/mocha test"
+
+#### npm scripts 钩子
+
+npm 脚本有pre和post两个钩子。
+
+例：start 钩子有 prestart 和 poststart
+
+```json
+"scripts": {
+  "prestart": "echo before start",
+  "start": "echo start",
+  "poststart": "echo end"
+}
+```
+当执行 npm start 时会执行： npm run prestart -> npm run start -> npm run poststart。
+
+```json
+"scripts": {
+  "prestart": "echo before start",
+  "start": "nodemon app.js",
+  "poststart": "echo end"
+}
+```
+注：此处使用了nodemon，当执行 npm start 时会执行：npm run prestart -> npm run start，不会执行 npm run poststart，当终止程序时才会再去执行 npm run poststart。

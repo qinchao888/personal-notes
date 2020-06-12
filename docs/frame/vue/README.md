@@ -147,6 +147,21 @@ new Vue({
 首先找当前文件夹下的node_modules，然后在其中如果找到某个模块，则读取其 package.json 文件，找到 入口模块 main 字段，执行相应的 js 程序，如果当前目录没有找到 node_modules 文件夹，则继续往上一层寻找，直至找到当前项目路径的根目录，如果还没找到，就报错（提示找不到）。
 
 全局安装的模块在项目中是无法引入的，因为其路径不一致，无法找到。而全局安装的模块一般用于命令行操作，因为在进行全局安装时 npm 已经把可执行的文件路径配置到了系统的环境变量。所以在命令行的任何地方都可以使用。
+
+ (20) 自定义组件上设置class后会作用在组件的根元素上，并且和根元素上设置的class合并，无论是否设置scoped。
+
+ ```js
+ ...
+ <child class="a b"></child>
+ ...
+
+ // 子元素
+ ...
+ <div class="b c">this is child</div>
+
+ // result
+ <div class="a b b c">this is child</div>
+ ```
 :::
 
 ### 创建根实例
@@ -437,3 +452,25 @@ new Vue({
   mixins: [mixin]
 })
 ```
+
+### 修饰符
+
+#### .passive
+
+[参考](https://www.cnblogs.com/ziyunfei/p/5545439.html)
+
+移动端一般会监听touchstart行为来阻止页面滚动的默认行为，因此需要在监听器中设置 event.preventDefault()，而浏览器不知道你有没有设置这个，因此只有等到监听器中的代码执行完成再决定页面是否滚动。会导致滚动不流畅。
+
+```js
+document.addEventListener('wheel', function (e) {
+  // e.preventDefault()
+}, {
+  passive: true // 不再等待监听器执行完再去执行默认行为
+})
+
+// vue用法：<div v-on:scroll.passive="onScroll">...</div>
+```
+
+::: danger 注意
+不要把 .passive 和 .prevent 一起使用，因为 .prevent 将会被忽略，同时浏览器可能会向你展示一个警告
+:::

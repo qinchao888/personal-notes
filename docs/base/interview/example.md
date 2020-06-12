@@ -821,3 +821,42 @@ function findChild (list) { // 方法二
 console.log(JSON.stringify(findChild(list), null, ' '))
 ```
 
+### LRU (least recently use最近最少使用)
+
+1. 获取数据 get(key) - 如果密钥 ( key ) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1 。
+写入数据 put(key, value) - 如果密钥不存在，则写入数据。当缓存容量达到上限时，它应该在写入新数据之前删除最久未使用的数据，从而为新数据留出空间。
+2. O(1) 时间复杂度。
+
+```js
+const cache = new LRU( 2 /* 缓存容量 */ );
+cache.put(1, 1);
+cache.put(2, 2);
+cache.get(1);       // 返回  1
+cache.put(3, 3);    // 该操作会使得密钥 2 作废
+cache.get(2);       // 返回 -1 (未找到)
+cache.put(4, 4);    // 该操作会使得密钥 1 作废
+cache.get(1);       // 返回 -1 (未找到)
+cache.get(3);       // 返回  3
+cache.get(4);       // 返回  4
+```
+```js
+function LRU (size) {
+  this.size = size
+  this.cache = new Map()
+}
+LRU.prototype = {
+  get (key) {
+    const value = this.cache.get(key)
+    if (!value) return -1
+    this.cache.delete(key)
+    this.cache.set(key, value)
+    return value
+  },
+  put (key, value) {
+    if (this.cache.size >= this.size) {
+      this.cache.delete(this.cache.keys().next().value)
+    }
+    this.cache.set(key, value)
+  }
+}
+```

@@ -602,3 +602,31 @@ if (window.location.search.length > 0) {
   window.location.replace('/')
 }
 ```
+
+### 关闭iOS键盘首字母自动大写
+
+```html
+<input type="text" autocapitalize="off" />
+```
+
+### 关闭iOS输入自动修正
+
+```html
+<input type="text" autocorrect="off" />
+```
+
+### 关闭input的拼写检查
+
+行为：输入字母或数字时底部会出现红色的下划线。
+
+```html
+<input type="text" spellcheck="false" />
+```
+
+### 禁止复制图片
+
+```css
+img {
+  pointer-events: none;
+}
+```
