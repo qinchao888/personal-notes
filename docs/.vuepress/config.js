@@ -171,6 +171,10 @@ module.exports = {
       ],
       '/other/read/': [
         ['', '图解HTTP'],
+        ['howcomputerrun', '计算机是如何跑起来的'],
+        ['howprocedurerun', '程序是怎样运行的'],
+        ['html5andcss3', 'HTML5和CSS3实战'],
+        ['term', '术语'],
       ],
       '/other/safety/': [
         ['', '安全'],

@@ -172,7 +172,8 @@ $ scutil --get HostName
 ```js
 查看文件启动路径:  which nginx
 // /usr/local/bin/nginx
-
+查看路由过程: traceroute www.baidu.com （windows: tracert www.baidu.com）
+查看主机名: hostname
 ```
 
 ## vscode
