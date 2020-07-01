@@ -352,6 +352,19 @@ z-index:0的元素层叠水平相同，遵循后来居上的原则，即后面�
 
 transition：名称 过渡时间 速度曲线 延迟
 
+transition-timing-function: linear|ease|ease-in|ease-out|ease-in-out|cubic-bezier(n,n,n,n);
+
+1. linear：匀速
+2. ease：慢->快->慢(默认值)
+3. ease-in：慢速开始
+4. ease-out：慢速结束
+5. ease-in-out：慢速开始和结束
+6. cubic-bezier：自定义的三次贝塞尔曲线
+
+### text-shadow 的属性值
+
+text-shadow：水平阴影位置 垂直阴影位置 模糊距离 阴影颜色
+
 ### box-shadow 的属性值
 
 box-shadow：水平阴影 垂直阴影 模糊距离 阴影尺寸 颜色 内侧阴影还是外侧阴影（inset，默认outset）
@@ -360,6 +373,97 @@ box-shadow：水平阴影 垂直阴影 模糊距离 阴影尺寸 颜色 内侧�
 2. 垂直阴影：正负值，正值y轴下方向扩展。
 3. 模糊距离：正值，值越大越模糊，为 0 时没有模糊效果。
 4. 阴影尺寸：正负值，正值阴影扩大，负值阴影缩小。
+
+### 浏览器前缀
+
+1. opera: o
+2. ie: ms
+3. firefox: moz
+4. chrome: webkit
+
+```css
+/* 如： */
+-o-transition: all 1s ease 0s; 
+-ms-transition: all 1s ease 0s;
+-moz-transition: all 1s ease 0s; 
+-webkit-transition: all 1s ease 0s; 
+transition: all 1s ease 0s;
+```
+
+### 给指定的元素添加样式
+
+```html
+<div>
+  <p>11111</p>
+  <p>11111</p>
+  <p>11111</p>
+  <p>11111</p>
+  <p>11111</p>
+  <p>11111</p>
+  <p>11111</p>
+</div>
+```
+
+获取第一个 p 元素后所有的 p 元素：
+
+```css
+/* 方式一：*/
+p:nth-child(n+2) {
+  color: skyblue;
+}
+
+/* 方式二：*/
+p:nth-child(1)~p{
+  color: skyblue;
+}
+
+/* 方式三：*/
+p:not(:first-child) {
+  color: skyblue;
+}
+```
+
+### rgba设置透明度和opacity设置透明度的区别
+
+使用opacity设置透明度会对整个元素产生影响，元素的内容也会被影响。而使用 rgba 或 hsl(色相，饱和度，亮度)则不会。
+
+### 设置多背景图片
+
+```css
+body {
+  margin: 0;
+  padding: 0;
+  height: 1000px;
+  background: url('http://attach.bbs.miui.com/forum/201402/08/155224u9j9i73m33q70x9b.jpg') no-repeat,
+  url('http://f.zhulong.com/v1/tfs/T1P9WTBmJT1RCvBVdK.jpg') left bottom no-repeat;
+  background-size: 100% 500px, 100% 500px; 
+}
+
+/* 等价于 */
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 1000px;
+  background: url('http://attach.bbs.miui.com/forum/201402/08/155224u9j9i73m33q70x9b.jpg') no-repeat,
+  url('http://f.zhulong.com/v1/tfs/T1P9WTBmJT1RCvBVdK.jpg') 0 500px no-repeat;
+  background-size: 100% 500px, 100% 500px; 
+}
+
+/* 等价于 */
+body {
+  margin: 0;
+  padding: 0;
+  height: 1000px;
+  background: url('http://attach.bbs.miui.com/forum/201402/08/155224u9j9i73m33q70x9b.jpg') 0 0/100% 500px no-repeat, /* 0 0 对应 background-position, 100% 500px 对应 background-size */
+  url('http://f.zhulong.com/v1/tfs/T1P9WTBmJT1RCvBVdK.jpg') 0 500px/100% 500px no-repeat;
+}
+```
+
+注意：
+
+1. 一定要设置 no-repeat，否则第二张图片无法显示。
+2. 如果不指定图片的位置，则所有的图片是叠加在一起的，并且显示的那个图片就是设置的第一张图片。
 
 ## JS
 

@@ -14,9 +14,9 @@ npm list -g --depth 0 // 查看当前所有s已全局安装的模块
 
 npm i // npm install
 
-npm i -s // npm install --save（安装到dependencies中）
+npm i -S // npm install --save（安装到dependencies中）
 
-npm i -d // npm install --save-dev（安装到devDependencies中s）
+npm i -D // npm install --save-dev（安装到devDependencies中）
 
 npm view less versions // 查看所有的less版本
 
@@ -32,6 +32,29 @@ npm install 模块名@3.1 --save-dev // 安装指定版本的模块
 
 ```
 
+```
+// 例：
+// 安装
+cnpm install express -S // 必须使用大写的S，否则无效，即不会写入到的devDependencies也不会写入到dependencies中
+
+cnpm install express -D // 必须使用大写的D，如果写成 cnpm install express -d 等价于 cnpm install express
+
+// 卸载
+cnpm uninstall express -S // 卸载时使用对应的 -S 或 -D
+
+// 卸载异常
+npm WARN checkPermissions Missing write access ...
+
+原因（非权限问题）：
+1. 未使用对应的 -S 和 -D
+安装使用了cnpm install express -S 卸载使用 cnpm uninstall express -D 则会报错，
+此时卸载可以使用 cnpm uninstall express 或 cnpm uninstall express -S，
+当出现一次卸载异常时将无法再次卸载成功，解决办法：重新安装该模块，再卸载。
+2. 存在多次安装同一个模块
+如：cnpm install express -S
+cnpm install express -D
+此时的express模块是无法被卸载的
+```
 <p class="fg_t">npm install</p>
 
 安装模块时会先去检测本地的 node_modules 中是否存在该模块，如果已存在不再安装。
