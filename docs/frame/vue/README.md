@@ -474,3 +474,32 @@ document.addEventListener('wheel', function (e) {
 ::: danger 注意
 不要把 .passive 和 .prevent 一起使用，因为 .prevent 将会被忽略，同时浏览器可能会向你展示一个警告
 :::
+
+### ref
+
+绑定同一个值的ref的使用。
+
+1. 设置相同值的 ref，后一个值会覆盖前一个。获取时获取的是最后一个设置的ref。
+2. 使用 v-for 设置相同值的 ref，会以数组的形式存在。
+
+```html
+<!-- 第一种 -->
+<div>
+  <div ref="a">111</div>
+  <div ref="a">222</div>
+</div>
+...
+
+this.$refs // {a: div}
+this.$refs.a.innerHTML // 222
+
+<!-- 第二种 -->
+<div>
+  <div v-for="item in 2" :key="item" ref="a">{{item}}</div>
+</div>
+...
+
+this.$refs // {a: Array(2)}
+this.$refs.a[0].innerHTML // 1
+this.$refs.a[1].innerHTML // 2
+``

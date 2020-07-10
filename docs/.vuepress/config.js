@@ -130,7 +130,8 @@ module.exports = {
       '/frame/vue/': [
         ['', '基础总结'],
         ['senior', '高级用法'],
-        ['code-rule', '编码规范']
+        ['code-rule', '编码规范'],
+        ['application', '开发技巧']
       ],
       '/frame/vue-router/': [
         ['', '基础总结'],

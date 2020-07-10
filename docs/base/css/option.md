@@ -102,3 +102,24 @@ function handleClick () {
 }
 </script>
 ```
+
+### visibility
+
+1. 当父元素设置 visibility: hidden，子元素设置 visibility: visible，此时父元素不显示，但是子元素可以显示。
+2. 当父元素设置 opacity: 0， 子元素设置 opacity: 1，此时父元素和子元素均不显示。
+3. 当父元素设置 display: none，子元素设置 display: block，此时父元素和子元素均不显示。
+
+```html
+<style>
+.parent {
+  visibility: hidden;
+}
+.child {
+  visibility: visible;
+}
+</style>
+<div class="parent">
+  我是父元素
+  <div class="child">我是子元素</div>
+</div>
+```

@@ -879,3 +879,64 @@ function valid (key, action) {
 proxy._name // Uncaught Error: no access to get private attribute
 proxy._name = 'a' // Uncaught Error: no access to set private attribute
 ```
+
+## Class
+
+Class 中的静态方法(static)可以被子类继承，子类可以通过 super 或 父类Class名称 调用父类的静态方法。
+
+```js
+class Foo {
+  static classMethod() {
+    return 'hello';
+  }
+}
+class Bar extends Foo {
+  static classMethod() {
+    return super.classMethod() + ', too'; /* 或使用Foo.classMethod() */
+  }
+}
+Bar.classMethod() // "hello, too"
+```
+
+### super
+
+1. 在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
+2. 当super是指向父类的原型对象时，只有定义在原型上的属性和方法才能使用super访问，实例上的属性和方法是无法使用super访问的。
+3. ES6 规定，在子类普通方法中通过super调用父类的方法时，方法内部的this指向当前的子类实例。
+4. 在子类的静态方法中通过super调用父类的方法时，方法内部的this指向当前的子类，而不是子类的实例。
+
+### es5 继承和 es6 继承的区别
+
+es5：
+
+原型链继承：主要是通过子构造函数的原型指向父构造函数的实例。
+
+```js
+function Parent() {}
+function Child() {}
+Child.prototype = new Parent()
+```
+
+es6：
+
+```js
+class Parent {}
+class Child extends Parent {
+	constructor() {
+		super()
+	}
+}
+Child.__proto__ === Parent // true
+Child.prototype.__proto__ === Parent.prototype // true
+```
+
+```js
+B.__proto__ = A // B 继承 A的静态属性和方法
+B.prototype.__proto__ = A.prototype // B 的实例继承 A 的实例
+```
+
+```js
+class A {}
+A.__proto__ === Function.prototype // true
+A.prototype.__proto__ === Object.prototype // true
+```

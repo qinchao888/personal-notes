@@ -959,3 +959,62 @@ new Vue({
 </script>
 </html>
 ```
+
+## 字体图标
+
+位图：jpg、png、gif
+
+矢量图：svg
+
+### 使用 font + html 实现字体图标
+
+优点：轻量性、灵活性、兼容性好。是目前广泛使用的技术。
+
+缺点：大多数字体图标只能被渲染为单色。
+
+[图标网站](https://icomoon.io/app/#/select)
+
+项目引入方式：引入 fonts 文件夹和 style.css 文件。
+
+```html
+<!--icomoon-->
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!-- 使用方式-->
+<span class="icon-">&#xe911;</span>
+<span class="icon-">&#xe905;</span>
+```
+
+### 使用 font + css 实现字体图标
+
+```html
+<span class="icon-pacman"></span>
+<span class="icon-folder-plus"></span>
+<span class="icon-folder-download"></span>
+```
+
+### 阿里矢量图标库引入彩色图标
+
+```html
+<link rel="stylesheet" type="text/css" href="css/ali-fonts/iconfont.css"/>
+<script src="css/ali-fonts/iconfont.js"></script>
+<style>
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+</style>
+
+<!--引入彩色图标-->
+<svg class="icon" aria-hidden="true">
+  <use xlink:href="#icon-building-type-170000-18"></use>
+</svg>
+```
+
+注：
+
+1. 彩色图标设置颜色是无效的，但可以通过设置 font-size 改变图标的大小。
+2. 彩色图标也可以通过设置 width 和 height 改变图标的大小，但是对单色图标的设置无效(非svg的引入方式)。
+

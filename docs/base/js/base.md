@@ -423,6 +423,107 @@ methods: {
   }
 }
 ```
+
+### Date
+
+当月第一天：new Date(year, date - 1, 1)
+
+当月最后一天：new Date(year, date, 0)
+
+### Array.prototype
+
+鲜为人知的事实：Array.prototype 本身也是一个 Array。
+
+```js
+Array.isArray(Array.prototype) // true
+Object.prototype.toString.call(Array.prototype) // '[object Array]'
+
+var arr = []
+arr[0] = 1
+arr['a'] = 2
+arr // [1, a: 2]
+arr[0] // 1
+arr[1] // undefined
+arr.a // 2
+```
+
+### new.target
+
+可以用于判断一个函数是否由 new 调用。当使用 new 调用时指向调用的构造函数，当使用普通函数调用时，返回 undefined。
+
+```js
+function A () {
+  console.log(new.target.name)
+}
+new A() // A
+
+function B () {
+  console.log(new.target.name)
+  console.log(this.constructor.name)
+}
+new B() // B B
+```
+
+### 形参和实参个数统计
+
+arguments.length: 统计实参的个数，即实际传递几个参数，arguments 的 length 就为几。
+
+fn.length: 统计形参的个数，但是只包括第一个具有默认值之前的参数个数。
+
+```js
+function a () {
+  console.log(arguments.length)
+}
+a() // 0
+a(1) // 1
+a(1, 2) // 2
+
+function b () {}
+b.length // 0
+
+function b (a, b) {}
+b.length // 2
+
+function b (a, b, c = 1) {}
+b.length // 2
+
+function b (a, b = 1, c) {}
+b.length // 1
+```
+
+### window.location
+
+[参考](https://segmentfault.com/a/1190000023020230)
+
+唯一不能设置的属性是window.location.origin，此属性是只读的。
+
+#### window.location.host 和 window.location.hostname 的区别
+
+window.location.host 包括端口名，window.location.hostname 不包括端口名。
+
+```js
+// url : http://test.test.com:8080/a
+
+window.location.host // "test.test.com"
+window.location.hostname // "test.test.com:8080"
+```
+
+#### window.location.toString()
+
+window.location.toString() 返回 window.location.href 的只读版本。
+
+```js
+window.location.toString() === window.location.href // true
+```
+
+#### window.location.assign()
+
+效果等价于 window.location.href
+
+```js
+window.location.assign('https://www.baidu.com')
+```
+
 ## 位运算符的应用
 
 ### 按位或(|)

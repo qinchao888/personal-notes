@@ -49,6 +49,8 @@ X5内核是腾讯基于优秀开源Webkit深度优化的浏览器渲染引擎，
 2. cookie存储的数据量要比sessionStorage和localStorage存储的数据量要少。cookie存储的数据不能超过4kb，而sessionStorage和localStorage存储的数据量可以达到5M或更大。
 3. sessionStorage在用户关闭浏览器时，存储的数据消失。localStorage是持久存储，除非用户主动删除本地的数据。cookie在过期时间之前数据都是有效的。
 
+注：不同的浏览器，cookies 和 localStorage 不共享。
+
 ### DOM对象和BOM对象
 
 BOM对象的顶级对象是window对象，DOM对象的顶级对象是document对象，document对象是window对象的一个属性。
@@ -464,6 +466,14 @@ body {
 
 1. 一定要设置 no-repeat，否则第二张图片无法显示。
 2. 如果不指定图片的位置，则所有的图片是叠加在一起的，并且显示的那个图片就是设置的第一张图片。
+
+### CSS 使用雪碧图(sprite)的优缺点
+
+sprite：将多个小图片制作成一张大图片使用。
+
+优点：减少 http 请求次数，使页面加载速度更快，提高了网页的性能。
+
+缺点：需要通过 background-position 截取所需的图片，需要精确的定位图片的位置。后期如果要添加新的图片会比较麻烦，需要重新制作新的雪碧图。较难维护。
 
 ## JS
 

@@ -121,6 +121,8 @@ end
 | CTRL+W | 删除光标前一个单词（根据空格识别单词分隔） |
 | CTRL+Y | 粘贴之前（CTRL+U/K/W）删除的内容 |
 | CTRL+C | 中断操作 |
+| pbcopy < a.txt | 复制文件内容 |
+| pbpaste > b.txt | 粘贴文件内容 |
 
 ### 文件
 
