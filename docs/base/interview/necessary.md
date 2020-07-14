@@ -1,5 +1,5 @@
 ---
-title: 面试必备
+title: 必备知识
 lang: zh-CN
 sidebarDepth: 2
 ---
@@ -108,6 +108,13 @@ change：输入框内容改变并且鼠标失焦时触发。（比较失焦后�
 4. 发起HTTP请求
 5. 接受响应结果
 6. 浏览器解析html，进行布局和渲染。
+
+### keydown、keypress、keyup的区别
+
+1. 触发顺序：keydown -> keypress -> keyup。
+2. keydown 按下任意键触发，按住不放会重复触发此事件。
+3. keypress 按下字符键触发，按住不放会重复触发此事件。
+4. keyup 释放字符键触发。
 
 ## Css
 

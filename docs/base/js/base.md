@@ -524,6 +524,29 @@ window.location.toString() === window.location.href // true
 window.location.assign('https://www.baidu.com')
 ```
 
+### getBoundingClientRect()
+
+返回元素的大小及其相对于视口的位置。
+
+```js
+var box = document.getElementById('box')
+var res = box.getBoundingClientRect()
+// DOMRect {x: 720, y: 102, width: 100, height: 100, top: 84, left: 720, right: 820, bottom: 202}
+```
+
+1. 其中 x 和 left 的值一致，y 和 top 的值一致。在 ie 中不支持 x 和 y 值，因此在使用时尽量避免使用 x 和 y。
+2. 返回的该对象的值可以被手动修改，但修改后的结果并不会影响到原元素所在的位置，重新获取该元素位置时，其值并未发生变化。
+3. 返回的该对象无法使用 Object.assign 和 rest 语法拷贝。但可以被 for in 遍历。
+
+```js
+// 拷贝
+var obj = {}
+for (var key in res) {
+  obj[key] = res[key]
+}
+obj // 拷贝成功
+```
+
 ## 位运算符的应用
 
 ### 按位或(|)

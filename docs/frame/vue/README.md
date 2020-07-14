@@ -333,7 +333,9 @@ export default {
 
 #### watch: 两个参数 
 
- newVal：新值 | oldVal：旧值
+newVal：新值 | oldVal：旧值
+
+只有当 watch 的属性的属性值发生变化时才会触发，如果值相同则不会触发 watch。
 
 #### computed: 一个参数(为当前的this)
 
@@ -502,4 +504,122 @@ this.$refs.a.innerHTML // 222
 this.$refs // {a: Array(2)}
 this.$refs.a[0].innerHTML // 1
 this.$refs.a[1].innerHTML // 2
-``
+```
+
+### delete
+
+作用：删除对象的属性或数组的某个值，并触发视图更新。
+
+1. Vue.delete()
+2. this.$delete()
+
+```js
+...
+data () {
+  return {
+    obj: {
+      a: 1,
+      b: 2
+    },
+    arr: [1, 2]
+  }
+}
+
+// 操作对象
+Vue.delete(this.obj, 'a')
+// 或
+this.$delete(this.obj, 'a')
+
+// 直接使用 delete 删除对象将不会触发视图更新
+delete this.obj.a
+
+// 操作数组
+Vue.delete(this.arr, 0)
+this.$delete(this.arr, 0)
+this.arr.shift()
+```
+
+### directive
+
+1. 全局指令：Vue.directive()
+2. 局部指令：directives: { ... }
+
+```js
+directives: {
+  setcolor: {
+    bind (el, binding, vnode) {
+      console.log('binding', binding)
+      console.log('vnode', vnode)
+      el.innerHTML = '111'
+      el.style.color = binding.value
+    },
+    unbind () { // 触发时机：如页面跳转则会触发，使用 keep-alive 缓存的页面不会触发。
+      console.log('trigger unbind')
+    }
+  }
+}
+```
+
+### observable
+
+Vue.observable(object)：使一个对象可响应。
+
+```js
+// 实际应用：实现状态管理
+
+// store.js
+import Vue from 'vue'
+export const store = Vue.observable({ 
+  count: 1,
+  name: 'a'
+})
+export const mutations = {
+  setCount (count) {
+    store.count = count
+  },
+  setName (name) {
+    store.name = name
+  }
+}
+
+// Home.vue
+import { store, mutations } from './store.js'
+...
+computed: {
+  count () {
+    return store.count
+  },
+  name () {
+    return store.name
+  }
+},
+methods: {
+  setCount: mutations.setCount,
+  setName: mutations.setName
+}
+/** 当count和name发生变化时，Home.vue中的count和name也会相应的发生变化，
+ * 如果使用一个非响应式对象，则Home.vue中的数据无法实现更新。*/ 
+```
+
+### $data
+
+以 _ 或 $ 开头的 property 不会被 Vue 实例代理，因为它们可能和 Vue 内置的 property、API 方法冲突。
+
+访问这些属性使用 vm.$data.property。
+
+```js
+data () {
+  return {
+    $obj: {
+      a: 'a'
+    }
+  }
+}
+
+// 访问
+this.$obj.a // error
+this.$data.$obj.a // a
+
+// 设置
+this.$data.$obj.a = 'b' 
+```

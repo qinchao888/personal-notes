@@ -180,6 +180,14 @@ $ scutil --get HostName
 
 ## vscode
 
+命令行配置 git commit 跳转至 vscode。
+
+```
+git config --global core.editor "code --wait"
+
+执行 git commit 即可跳转至 vscode 中输入 commit 的信息
+```
+
 ## nginx
 
 ## redis

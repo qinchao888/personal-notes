@@ -940,3 +940,68 @@ class A {}
 A.__proto__ === Function.prototype // true
 A.prototype.__proto__ === Object.prototype // true
 ```
+
+## Reflect
+
+直接使用 Reflect.defineProperty 定义的属性是不可枚举的，即 enumerable: false。使用 JSON.stringify 时不会输出不可枚举的属性。
+
+```js
+var obj = {a: 1, b: 2}
+Reflect.defineProperty(obj, 'c', {
+  value: 3,
+});
+console.log(obj); // 此时不可枚举的属性颜色显示为淡色
+console.log(JSON.stringify(obj)); // {"a":1,"b":2}
+```
+<img src="../../images/js/reflect1.png" width="300"/>
+
+
+```js
+// 设置 enumerable
+Reflect.defineProperty(obj, 'c', {
+  value: 3,
+  enumerable: true
+});
+```
+
+## 模块
+
+使用 export 导出内容时，必须要提供对外的接口，并且与模块内部的变量建立一一对应的关系。
+
+```js
+// 1.
+export 1 // error
+
+// 2.
+var a = 1
+export a // error
+
+// 3.
+var a = 1
+export { a } // right(提供了对外的接口a)
+
+// 4.
+var a = 1
+export {
+  a as b // right
+}
+
+// 5.
+var a = 1
+export {
+  a: a // error
+}
+
+// export 后的 {} 不是一个对象，把它当成一个导出列表
+```
+
+导入全部的用法
+
+```js
+// data.js
+export const name = 'a'
+export default 11
+
+import * as obj from 'data.js' // 导入全部数据时必须使用 as，否则数据无法被接收
+console.log(obj) // {name: a, default: 11}
+```

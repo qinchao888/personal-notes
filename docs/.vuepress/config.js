@@ -105,7 +105,7 @@ module.exports = {
       ],
       '/base/interview/': [
         ['', '汇总'],
-        ['necessary', '面试'],
+        ['necessary', '总结'],
         ['example', '算法'],
         ['company', '公司面试题'],
         ['other', '其他']
