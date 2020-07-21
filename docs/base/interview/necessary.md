@@ -982,6 +982,26 @@ fn();
 ```
 当对象，无法从根对象沿着引用遍历到，即不可达（unreachable），进行清除。对于上面的例子，fn() 里面的 a 和 b 在函数执行完毕后，就不能通过外面的上下文进行访问了，所以就可以清除了。
 
+### 数组去重
+
+```js
+var arr = [1, 2, 3, 4, 1, 2]
+
+// 方式一
+[...new Set(arr)]
+
+// 方式二
+Array.from(new Set(arr))
+
+// 方式三
+var res = []
+arr.forEach(item => res.indexOf(item) === -1 ? res.push(item) : null)
+
+// 方式四
+var res = []
+arr.forEach((item, index) => arr.indexOf(item) === index ? res.push(item) : null)
+```
+
 ## vue
 
 ### MVVM的理解

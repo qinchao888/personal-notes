@@ -240,8 +240,9 @@ function HexToRGB (hex) {
 ### for 循环和 forEach中删除元素
 
 1. for循环可以使用break跳出循环，但forEach不能。
-2. for循环可以控制循环起点（i初始化的数字决定循环的起点），forEach只能默认从索引0开始。
-3. for循环过程中支持修改索引（修改 i），但forEach做不到（底层控制index自增，我们无法左右它）。
+2. for循环可以在函数中使用return退出循环，而forEach则不能。
+3. for循环可以控制循环起点（i初始化的数字决定循环的起点），forEach只能默认从索引0开始。
+4. for循环过程中支持修改索引（修改 i），但forEach做不到（底层控制index自增，我们无法左右它）。
 
 ```js
 var arr = [{a:1}, {a:2}, {a:3}, {a:4}]

@@ -416,3 +416,22 @@ location ~* ^.+\.(gif|jpg|png|swf|flv|rar|zip)$ {
   }
 }
 ```
+
+### 日志
+
+日志文件所在路径：/usr/local/var/log/nginx
+
+日志文件：access.log 和 error.log
+
+```
+// 过滤nginx日志
+cat access.log | grep '17/Jul/2020' // 2020/7/17这天的日志记录
+
+cat error.log | grep '2020/07/17' // 2020/7/17这天的日志记录
+
+cat error.log | grep "$(date +"%Y/%m/%d")"  // 查看当天的日志
+
+// access.log 和 error.log 中日期的格式不同，因此过滤的方式也不同
+
+cat error.log | grep '2020/07/1[0-9]'  // 查询 2020-07-10 ~ 2020-07-19 时间段内的日志
+```

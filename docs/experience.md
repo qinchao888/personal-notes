@@ -6,6 +6,21 @@ sidebarDepth: 2
 
 ## h5
 
+### 调试工具
+
+1. vconsole
+2. eruda
+
+```html
+<!-- 引入vconsole -->
+<script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.3.4/vconsole.min.js"></script>
+<script>new VConsole()</script>
+
+<!-- 引入eruda -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
+```
+
 ### reset.css
 
 ```css
@@ -629,4 +644,170 @@ if (window.location.search.length > 0) {
 img {
   pointer-events: none;
 }
+```
+
+### 设置文字在指定的空间中两端对齐
+
+```css
+label {
+  text-align-last: justify;
+  width: 200px;
+}
+```
+
+### input和label设置宽度溢出
+
+```css
+/* 样式重置 */
+input {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+}
+.form-wrap {
+  width: 200px;
+  font-size: 0; /* 解决空格 */
+  margin: 0 auto;
+}
+label {
+  display: inline-block;
+  width: 60px;
+  font-size: 16px;
+}
+input {
+  padding: 0 6px;
+  height: 24px;
+  width: 140px;
+  background-color: silver;
+  box-sizing: border-box;
+}
+```
+```html
+<div class="form-wrap">
+  <div class="form-item">
+    <label>名称：</label>
+    <input type="text"/>
+  </div>
+</div>
+```
+
+###  post请求数据量过大错误
+
+1. node 中的 body-parser 允许传输的数据量默认为100kb。
+2. nginx 中默认限制文件上传的大小为 1M。
+
+```js
+app.use(bodyParser.json({
+  limit : '100000kb'
+}))
+```
+
+```
+// 路径： /usr/local/etc/nginx/nginx.conf
+
+#user  nobody;
+user root admin;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    #access_log  logs/access.log  main;
+    client_max_body_size 35m; <- 设置此配置即可
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+```
+
+### 使用 new Buffer() 报错
+
+原因：由于安全性和可用性问题，不建议使用Buffer()和new Buffer()构造函数，请改用new Buffer.alloc()、Buffer.allocUnsafe()或Buffer.from()构造方法。
+
+```js
+Buffer.from(base64Data, 'base64')
+```
+
+### 文件转成base64数据至 oss 存储后文件损坏
+
+原因：base64数据需要手动剔除头部。
+
+```js
+var base64Data = base64.replace(/^data:image\/\w+;base64,/, '')
+```
+
+### input="file"传输的file对象转化成base64
+
+```js
+function upload (e) {
+  var img = e.target.files[0]
+  if(img){
+    var reader = new FileReader();
+    reader.onload = function (evt) {
+      var base64 = evt.target.result
+      var base64Data = base64.replace(/^data:image\/\w+;base64,/, '')
+      console.log('base64Data', base64Data)
+    };
+    reader.readAsDataURL(img); // 将 Blob 或 File 对象转成base64
+  }
+}
+```
+
+### ios 下的 select option 中的第一个选项无法选中
+
+```html
+<select v-model="optionValue">
+  <option value="1">选项一</option>
+  <option value="2">选项二</option>
+</select>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    optionValue: ''
+  }
+})
+</script>
+```
+
+需要手动滑一下第一个选项才能选中。在选中 option 时必须要等选择的动画结束才能选中。
+
+#### 解决方案：
+
+1. 添加一个 “请选择“ 选项，设置为 disabled，display: none。
+2. 添加一个”空“选项，设置 disabled，display: none。
+
+```html
+<select v-model="optionValue">
+  <option style="display:none;" disabled>请选择</option>
+  <option value="1">选项一</option>
+  <option value="2">选项二</option>
+</select>
+
+<!-- 或 -->
+<select v-model="optionValue">
+  <option style="display:none;" disabled></option>
+  <option value="1">选项一</option>
+  <option value="2">选项二</option>
+</select>
 ```

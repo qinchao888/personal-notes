@@ -5,7 +5,11 @@ sidebarDepth: 2
 ---
 ## 总结
 
-vue-devtools在控制台不显示，解决办法：先关闭控制台， 刷新页面后再打开控制台即可。
+vue-devtools在控制台不显示，解决办法：
+
+1. 先关闭控制台， 刷新页面后再打开控制台即可。
+2. 设置 vue-devtools 扩展程序“允许访问文件地址“。
+3. 注意引入的是 vue.js 而不是 vue.min.js.
 
 ::: tip
 （1）vue的{{}}中支持单个表达式，但不支持语句。
@@ -352,6 +356,24 @@ computed: {
 }
 ```
 
+### v-text 和插值的区别
+
+1. 使用插值，在数据没有渲染之前会显示 &#123;&#123;&#125;&#125;，需要配合 v-cloak 使用。
+2. 使用 v-text 则不会出现上述问题。
+3. v-text中的内容会直接替换掉结点中的内容，而插值则可以配合用户自定义的数据一起使用。
+
+```js
+<p v-text="msg1">我是被覆盖的内容</p>
+<p>我是自定义内容{{msg2}}</p>
+
+data () {
+  return {
+    msg1: 'this is v-text content',
+    msg2: 'this is 插值的内容'
+  }
+}
+```
+
 ### v-if 和 v-show 指令
 
 1. 带有 v-show 的元素始终会被渲染并保留在 DOM 中。v-show 只是简单地切换元素的 CSS 属性 display。
@@ -422,6 +444,28 @@ data () {
 console.log(this.list === this.$data.list) // true
 console.log(this.$root.obj === this.$root.$data.obj) // true
 ```
+
+以 _ 或 $ 开头的 property 不会被 Vue 实例代理，因为它们可能和 Vue 内置的 property、API 方法冲突。
+
+访问这些属性使用 vm.$data.property。
+
+```js
+data () {
+  return {
+    $obj: {
+      a: 'a'
+    }
+  }
+}
+
+// 访问
+this.$obj.a // error
+this.$data.$obj.a // a
+
+// 设置
+this.$data.$obj.a = 'b' 
+```
+
 ### mixin
 
 #### 全局混入
@@ -601,25 +645,106 @@ methods: {
  * 如果使用一个非响应式对象，则Home.vue中的数据无法实现更新。*/ 
 ```
 
-### $data
+### watch
 
-以 _ 或 $ 开头的 property 不会被 Vue 实例代理，因为它们可能和 Vue 内置的 property、API 方法冲突。
+监听对象内部的值可以使用 deep: true，而监听数组内部的值则不需要使用。
 
-访问这些属性使用 vm.$data.property。
+#### 监听对象
 
 ```js
 data () {
   return {
-    $obj: {
-      a: 'a'
+    obj: {
+      a: {
+        b: 1
+      }
     }
+  }
+},
+watch: {
+  obj () {
+    console.log('obj change') // 不触发
+  }
+},
+methods: {
+  changeObj () {
+    this.obj.a.b = 2 // 视图更新
   }
 }
 
-// 访问
-this.$obj.a // error
-this.$data.$obj.a // a
+// 监听对象中b的变化
+// 方式一
+watch: {
+  'obj.a.b': function () {
+    console.log('obj change') // 触发
+  }
+}
+// 方式二
+watch: {
+  obj: {
+    deep: true,
+    handler: function () {
+      console.log('obj change') // 触发
+    }
+  }
+}
+// 上述两种方式重复调用changeObj不会多次调用watch
+```
 
-// 设置
-this.$data.$obj.a = 'b' 
+#### 监听数组
+
+```js
+data () {
+  return {
+    arr: [1, 2, [3, 4]]
+  }
+},
+watch: {
+  arr () {
+    console.log('arr change')
+  }
+},
+methods: {
+  changeArr () {
+    this.arr[2][0] = 1 // 视图不更新，watch触发
+    // this.$set(this.arr[2], 0, 1) // 视图更新，watch触发，多次调用，watch会触发多次
+  }
+}
+
+// 使用 $watch 监听数组的变化
+mounted () {
+  this.$watch(function () {
+    return this.arr
+  }, function (newVal, oldVal) {
+    console.log('arr change', JSON.stringify(newVal), JSON.stringify(oldVal))
+    // arr change [1,2,[1,4]] [1,2,[1,4]]
+  })
+},
+methods: {
+  changeArr () {
+    this.$set(this.arr[2], 0, 1) // 使用数组变异方法无法获取到之前的oldVal，多次调用 $watch 会多次触发
+    // this.arr = [1] //可以获取到 newVal 和 oldVal
+  }
+}
+
+// 处理 $watch 多次触发
+mounted () {
+  var unwatch = this.$watch(function () {
+    return this.arr
+  }, function (newVal, oldVal) {
+    console.log('arr change')
+    unwatch() // 取消侦听
+  })
+}
+// 注：在使用 immediate: true 中取消侦听应写成
+var unwatch = vm.$watch(
+  'value',
+  function () {
+    doSomething()
+    if (unwatch) {
+      unwatch()
+    }
+  },
+  { immediate: true }
+)
 ```

@@ -101,7 +101,8 @@ module.exports = {
         ['reg', '正则'],
         ['es6', 'ES6'],
         ['websocket', 'websocket'],
-        ['practise', '练习']
+        ['practise', '练习'],
+        ['leetcode', '算法']
       ],
       '/base/interview/': [
         ['', '汇总'],

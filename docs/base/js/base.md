@@ -291,6 +291,96 @@ function mouseup() {
   console.log('mouse up')
 }
 ```
+
+### 前端解析后端传输的图片binary数据并显示图片
+
+```js
+// 第一种情况
+// app.js(node)，图片数据以 buffer 传输
+app.get('/source', async (req, res) => {
+  const result = fs.readFileSync('./images/1.jpg') 
+  // 如果指定了 encoding 选项，则此函数返回字符串。 否则，返回 buffer
+  res.send(result)
+})
+```
+
+```js
+// 第二种情况
+// app.js(node)，图片数据以 binary 传输
+app.get('/source', async (req, res) => {
+  const result = await new Promise((resolve, reject) => {
+    fs.readFile('./images/1.jpg', 'binary', function(err, file) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(file)
+      }
+    })
+  })
+  /**
+   * 或使用 fs.readFileSync 同步读取
+   * const result = fs.readFileSync('./images/1.jpg', 'binary')
+  */
+  res.write(result, 'binary')
+  res.end()
+  // 注：此处不能使用 res.send，原因：res.send 无法设置 charset，其默认的charset为 'utf-8'
+})
+
+// 前端
+function createImg (url) {
+  var img = document.createElement('img')
+  img.src = url
+  document.body.appendChild(img)
+}
+
+// 解析方式一：使用 arraybuffer
+axios.get('http://localhost:8888/source', {
+  responseType: 'arraybuffer'
+}).then(res => {
+  var url = window.URL.createObjectURL(new Blob([res.data])) // arraybuffer
+  createImg(url)
+})
+
+// 解析方式二：使用 blob
+axios.get('http://localhost:8888/source', {
+  responseType: 'blob'
+}).then(res => {
+  var url =  window.URL.createObjectURL(res.data) // blob
+  createImg(url)
+})
+```
+
+```js
+// 第三种情况
+// app.js(node)，图片数据以 base64 传输
+app.get('/source', async (req, res) => {
+  const result = await new Promise((resolve, reject) => {
+    fs.readFile('./images/1.jpg', 'base64', function(err, file) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(file)
+      }
+    })
+  })
+  res.send(result)
+})
+
+// 前端解析 base64 数据
+axios.get('http://localhost/source').then(res => {
+  var url = 'data:image/jpg;base64,' + res.data // base64方式，需要手动拼接头部或者由后端拼好直接显示
+  createImg(url)
+})
+
+// 后端拼接 base64 头部示例
+app.get('/source', async (req, res) => {
+  const path = './images/1.jpg'
+  const result = fs.readFileSync(path, 'base64')
+  const reg = /^[^]+\.([^\.]+)$/
+  res.send(`data:image/${path.match(reg)[1]};base64,${result}`)
+})
+```
+
 ### js 获取本机 ip 地址
 
 原理：发送一个 http 请求，由后端将 ip 地址返回。
@@ -302,6 +392,100 @@ function mouseup() {
 <script>
 console.log('returnCity', returnCity)
 </script>
+```
+
+### js 实现图片加载完成再加载 dom
+
+```js
+// 第一种：处理所有图片，包括 background 和 img 引入的图片
+function loadAllImg (imgUrlList, box) { // 加载函数（核心代码）
+  var lenth = imgUrlList.length
+  var count = 0
+  imgUrlList.forEach(function (url) {
+    var image = new Image()
+    image.src = url
+    image.onload = function () {
+      count++
+      if (count === lenth) {
+        box.style.display = 'block'
+      }
+    }
+  })
+}
+
+// 第二种：只处理 img 引入的图片
+/**
+ * querySelectorAll 返回的是一个 NodeList 对象，自带 forEach，因此可以直接遍历
+ * getElementsByTagName 返回的是一个 HTMLCollection 对象，不能使用 forEach，需要使用
+ * Array.from 转成数组后才能使用 forEach。
+*/
+function loadAllImg (box) {
+  var imgUrlList = document.querySelectorAll('img')
+  var lenth = imgUrlList.length
+  var count = 0
+  imgUrlList.forEach(function (image) {
+    image.onload = function () {
+      count++
+      if (count === lenth) {
+        box.style.display = 'block'
+      }
+    }
+  })
+}
+```
+```html
+<!-- 例 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  .container {
+    display: none;
+  }
+  img {
+    width: 200px;
+    height: 200px;
+  }
+</style>
+<body>
+  <div class="container" id="container">
+    <img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1370867500,3998288814&fm=26&gp=0.jpg"/>
+    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595329878511&di=b4774e656c65edcb3b1924f51a37489d&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201312%2F03%2F165620x7cknad7vruvec1z.jpg"/>
+    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595329878509&di=65fc8cc5959644e794a94e4d67f5df46&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201204%2F17%2F214513vw9rzxo9hxsszy9s.jpg"/>
+    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595329878508&di=ab36747f1a6dfebb915308d81246f7e5&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201408%2F07%2F214722z7679t6i71p4lp7j.jpg"/>
+    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595329878508&di=9803229afc8a0f5d6f79ba5a6e1fc64d&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201103%2F13%2F1246421us5o5nzszl9ls2n.jpg"/>
+  </div>
+</body>
+<script>
+var imgUrlList = [
+  'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1370867500,3998288814&fm=26&gp=0.jpg',
+  'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595329878511&di=b4774e656c65edcb3b1924f51a37489d&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201312%2F03%2F165620x7cknad7vruvec1z.jpg',
+  'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595329878509&di=65fc8cc5959644e794a94e4d67f5df46&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201204%2F17%2F214513vw9rzxo9hxsszy9s.jpg',
+  'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595329878508&di=ab36747f1a6dfebb915308d81246f7e5&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201408%2F07%2F214722z7679t6i71p4lp7j.jpg',
+  'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595329878508&di=9803229afc8a0f5d6f79ba5a6e1fc64d&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201103%2F13%2F1246421us5o5nzszl9ls2n.jpg'
+]
+var container = document.getElementById('container')
+function loadAllImg (imgUrlList, box) {
+  var lenth = imgUrlList.length
+  var count = 0
+  imgUrlList.forEach(function (url) {
+    var image = new Image()
+    image.src = url
+    image.onload = function () {
+      count++
+      if (count === lenth) {
+        box.style.display = 'block'
+      }
+    }
+  })
+}
+loadAllImg(imgUrlList, container)
+</script>
+</html>
 ```
 
 ### 练习
@@ -545,6 +729,51 @@ for (var key in res) {
   obj[key] = res[key]
 }
 obj // 拷贝成功
+```
+
+### 具名函数和匿名函数
+
+```js
+// 例一
+var i = 0
+var config = {
+  test: function () {
+    console.log(i)
+    if (i < 3) {
+      i += 1
+      test() // ReferenceError: test is not defined
+    }
+  }
+}
+config.test()
+
+// 例二
+var i = 0
+var config = {
+  test: function test () { // 具名函数可以在函数内部进行递归调用
+    console.log(i)
+    if (i < 3) {
+      i += 1
+      test() // 0 1 2 3
+    }
+  }
+}
+config.test()
+
+// 例三
+var i = 0
+var config = {
+  test: function () {
+    console.log(i)
+    if (i < 3) {
+      i += 1
+      arguments.callee() // 0 1 2 3
+      // this.test()
+      // config.test()
+    }
+  }
+}
+config.test()
 ```
 
 ## 位运算符的应用
