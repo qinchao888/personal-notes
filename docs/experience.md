@@ -48,8 +48,10 @@ input, textarea {
   outline: none;
   resize: none;
   -webkit-appearance: none; /* 清除移动端输入框特有样式 */
+  -webkit-tap-highlight-color: transparent;
 }
 ```
+
 ### h5初始字体设置
 
 ```css
@@ -81,6 +83,15 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 ```
+
+### textarea 不显示右下角的角标
+
+```css
+textarea {
+  resize: none;
+}
+```
+
 ### 移动端获取图片自适应高度
 
 使用 rem 布局，图片宽高比假设为 2 : 1，则图片的自适应高度为 375 / 37.5 * 0.5 = 5rem
@@ -810,4 +821,117 @@ new Vue({
   <option value="1">选项一</option>
   <option value="2">选项二</option>
 </select>
+```
+
+### node 连接 mysql 八小时自动断开
+
+mysql中设置8小时内未访问则会自动断开链接
+
+```sql
+show global variables like '%timeout%';
+-- 其中 wait_timeout 和 interactive_timeout 为28800，即8小时
+```
+
+```js
+// 解决办法
+
+// 方式一：使用监听
+const mysql = require('mysql');
+let connection;
+function connect () {
+  connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'qinchao'
+  });
+  connection.on('error', function (err) {
+    console.log('err', err)
+    console.log('errCode', err.code)
+    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+      connect()
+    }
+  })
+  connection.connect(function(){
+    console.log('数据库连接成功！')
+  });
+}
+connect()
+
+// 调用
+app.post('/test', (req, res) => {
+  console.log('req', req.body)
+  const name = req.body.name
+  const sql = 'insert into test values(?, ?, ?, ?)'
+  const time = new Date()
+  const values = [null, name, time, time]
+  console.log('values', values)
+  connection.query(sql, values, function (err, result) {
+    if (err) {
+      console.log('err', err)
+      return
+    }
+    res.send({
+      result
+    })
+  })
+})
+
+// 方式二：使用连接池
+const mysql = require('mysql')
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'qinchao'
+})
+const query = function(sql, callback) { // 查询操作  
+  pool.getConnection(function(err, connection) {  
+    connection.query(sql, function(err, result) {  
+      callback(err, result) // 结果回调
+        connection.release()
+      }
+    );
+  })
+}
+const insert = function(sql, values, callback) { // 插入操作  
+  pool.getConnection(function(err, connection) {  
+    connection.query(sql, values, function(err, result) {  
+      callback(err, result) // 结果回调
+        connection.release() // 释放连接资源 | 跟 connection.destroy() 不同，它是销毁
+      }
+    );
+  })
+}
+
+// 调用
+app.get('/test', (req, res) => {
+  query('select * from test', function (err, result) {
+    if (err) {
+      console.log('err', err)
+      return
+    }
+    res.send({
+      result: JSON.parse(JSON.stringify(result))
+    })
+  })
+})
+
+app.post('/test', (req, res) => {
+  console.log('req', req.body)
+  const name = req.body.name
+  const sql = 'insert into test values(?, ?, ?, ?)'
+  const time = new Date()
+  const values = [null, name, time, time]
+  console.log('values', values)
+  insert('insert into test values(?, ?, ?, ?)', values, function (err, result) {
+    if (err) {
+      console.log('err', err)
+      return
+    }
+    res.send({
+      result
+    })
+  })
+})
 ```
