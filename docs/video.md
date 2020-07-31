@@ -11,7 +11,8 @@ sidebarDepth: 2
 
 1. viewport 是移动端用来承载页面的虚拟容器，大部分设备的默认宽度为980px，可以设置尺寸，可以缩放。
 2. 网页是显示在 viewport 上，然后 viewport 再显示在浏览器上。
-3. 如果使用 375 * 667 的设备，viewport 会被缩放显示在该设备上，但是此缩放并不改变 viewport 的原始尺寸980px。
+3. 如果使用 375 * 667 的设备，viewport 会被缩放显示在该设备上，但是此缩放并不改变 viewport 的原始尺寸980px。因此在该种情况下，页面的字体会变小。（将980px的viewport显示在375px的设备上，如果存在元素的宽度 >980px，此时在水平方向上则会出现滚动条。如果小于980px则会出现空白部分）
+4. iphon4默认的viewport 980px，其对应的initial-scale的默认值即为：320 / 980 = 0.333333。
 
 属性：
 
@@ -43,6 +44,8 @@ sidebarDepth: 2
 <!--layout viewport 宽度为187px，文字放大-->
 <meta name="viewport" content="initial-scale=2.0">
 ```
+1. initial-scale>1，字体变大，viewport变小。
+2. initial-scale<1，字体变小，viewport变大。
 
 ### 逻辑像素和物理像素
 

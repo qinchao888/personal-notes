@@ -177,3 +177,28 @@ double balance[10]
 2. 内存使用方面：由于快数组内存是连续的，可能需要开辟一大块供其使用，其中还可能有很多空洞，是比较费内存的。慢数组不会有空洞的情况，且都是零散的内存，比较节省内存空间。
 3. 遍历效率方面：快数组由于是空间连续的，遍历速度很快，而慢数组每次都要寻找 key 的位置，遍历效率会差一些。
 
+## switch
+
+### switch 中不使用 break
+
+当不使用break时，匹配到对应的case值后，其后所有的代码都会执行，而不是只执行对应的case中的代码。
+
+```js
+function test (num) {
+  switch (num) {
+    case 0:
+      console.log(0)
+    case 1:
+      console.log(1)
+    case 2:
+      console.log(2)
+    default:
+      console.log(3)
+  }
+}
+test(0) // 0 1 2 3
+test(1) // 1 2 3
+test(2) // 2 3
+test(3) // 3
+```
+

@@ -53,7 +53,6 @@ export default {
 ### 子目录一
 ###### this is html2
 
-<<< @\docs\base\html\iscroll\scroll.html
 
 <span v-for="i in 3">{{ i }} </span>
 

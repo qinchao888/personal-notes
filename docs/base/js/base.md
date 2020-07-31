@@ -87,6 +87,7 @@ function handleInput () {
 }
 ```
 封装后的节流和防抖动函数
+
 ```js
 // 节流
 function throttle (fn, delay) {
@@ -486,6 +487,163 @@ function loadAllImg (imgUrlList, box) {
 loadAllImg(imgUrlList, container)
 </script>
 </html>
+```
+
+### js 实现图片渐进式加载
+
+#### 第一种：微信浏览器会出现过渡白屏
+
+```html
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+}
+img {
+  width: 100%;
+  opacity: 0;
+  filter: blur(5px);
+  /* this is needed so Safari keeps sharp edges */
+  /* transform: scale(1); */
+  transition: all 1s linear;
+}
+.img-small {
+  opacity: 1;
+}
+.img-large {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1306px;
+}
+.img-large-show {
+  filter: none;
+  opacity: 1;
+  background: transparent;
+}
+</style>
+<body>
+  <div id="app" class="box">
+    <img data-src="./images/test.png" src="./images/test.jpg"/>
+    <img class="img-large" src="./images/test.png"/>
+  </div>
+</body>
+<script>
+var imgEl = document.querySelector('img')
+var imgLarge = document.querySelector('.img-large')
+var imgSmall = new Image()
+imgSmall.src = imgEl.src
+imgSmall.onload = function () {
+  imgEl.classList.add('img-small')
+}
+imgLarge.onload = function () {
+  imgLarge.classList.add('img-large-show')
+}
+</script>
+```
+
+#### 第二种：微信浏览器一定几率会出现过渡白屏，使用blob方式加载
+
+```html
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+}
+img {
+  width: 100%;
+  opacity: 0;
+  filter: blur(5px);
+  /* this is needed so Safari keeps sharp edges */
+  /* transform: scale(1); */
+  transition: all 1s linear;
+}
+.img-small {
+  opacity: 1;
+}
+.img-large {
+  filter: none;
+}
+</style>
+<body>
+  <div id="app" class="box">
+    <img data-src="./images/test.png" src="./images/test.jpg"/>
+  </div>
+</body>
+<script>
+var imgEl = document.querySelector('img')
+var imgLarge = document.querySelector('.img-large')
+var imgSmall = new Image()
+imgSmall.src = imgEl.src
+imgSmall.onload = function () {
+  imgEl.classList.add('img-small')
+}
+let xhr = new XMLHttpRequest();
+xhr.open("get", "http://192.168.11.135:8088/images/test.png", true);
+xhr.responseType = "blob";
+xhr.onload = function (res) {
+  if (this.status == 200) {
+    var blob = this.response;
+    imgEl.src = window.URL.createObjectURL(blob);
+    imgEl.classList.add('img-large')
+  }
+}
+xhr.send();
+</script>
+```
+
+#### 第三种：perfect，使用canvas绘制图片
+
+```html
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+}
+.img {
+  opacity: 0;
+  filter: blur(5px);
+  /* this is needed so Safari keeps sharp edges */
+  transform: scale(1);
+  transition: all 1s linear;
+}
+.img-small {
+  opacity: 1;
+}
+.img-large {
+  filter: none;
+}
+</style>
+<body>
+  <div id="app" class="box">
+    <canvas id="canvas" class="img"></canvas>
+  </div>
+</body>
+<script>
+var width = window.innerWidth
+var height = 1306
+var canvas = document.getElementById('canvas')
+canvas.width = width * 2 // 放大两倍
+canvas.height = height * 2 // 放大两倍
+canvas.style.width = width + 'px'
+canvas.style.height = height + 'px'
+ctx = canvas.getContext('2d');
+ctx.scale(2, 2)
+
+var imgSmall = new Image()
+imgSmall.src = './images/test.jpg'
+imgSmall.onload = function () {
+  canvas.classList.add('img-small')
+  ctx.drawImage(imgSmall, 0, 0, width, height);
+}
+var imgLarge = new Image()
+imgLarge.src = './images/test.png'
+imgLarge.onload = function () {
+  canvas.classList.add('img-large')
+  ctx.drawImage(imgLarge, 0, 0, width, height);  
+}
+</script>
 ```
 
 ### 练习

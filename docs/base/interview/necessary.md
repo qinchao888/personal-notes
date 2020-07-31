@@ -20,6 +20,8 @@ sidebarDepth: 2
 
 （4）inline-block元素：img input
 
+附：display: table 和 display: table-cell 均为块级元素。
+
 ### 常见的浏览器内核有哪些？
 
 1. Trident内核：IE,MaxThon,TT,The World,360,搜狗浏览器等。[又称MSHTML]
@@ -173,6 +175,10 @@ BFC决定一个元素的定位以及与其它元素之间的关系。
 
 #### BFC布局规则：
 
+[参考1](https://blog.csdn.net/sinat_36422236/article/details/88763187)
+
+[参考2](https://segmentfault.com/a/1190000009545742)
+
 1. 内部的盒子会在垂直方向上一个个地放置。
 2. 盒子垂直方向的距离由margin决定，属于同一个BFC的两个相邻Box的上下margin会发生重叠。
 3. 每个元素的左边，与包含的盒子的左边相接触，即使存在浮动也是如此。
@@ -180,7 +186,11 @@ BFC决定一个元素的定位以及与其它元素之间的关系。
 5. BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素，反之也如此。
 6. 计算BFC的高度时，浮动元素也参与计算。
 
-BFC的应用：清除浮动，防止margin重叠。
+BFC的应用：
+
+1. 防止margin重叠（规则5）
+2. 两栏自适应布局（规则4）
+3. 清除浮动（规则6）
 
 #### IFC布局规则：
 
@@ -481,6 +491,104 @@ sprite：将多个小图片制作成一张大图片使用。
 优点：减少 http 请求次数，使页面加载速度更快，提高了网页的性能。
 
 缺点：需要通过 background-position 截取所需的图片，需要精确的定位图片的位置。后期如果要添加新的图片会比较麻烦，需要重新制作新的雪碧图。较难维护。
+
+### canvas 绘图模糊的解决办法
+
+```js
+var width = window.innerWidth
+var height = window.innerHeight
+var ctx = null
+var canvas = document.getElementById('canvas')
+canvas.width = width * 2
+canvas.height = height * 2
+canvas.style.width = width + 'px'
+canvas.style.height = height + 'px'
+ctx = canvas.getContext('2d');
+ctx.scale(2, 2)
+```
+
+### css 使用float实现双飞翼布局
+
+```html
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>css</title>
+	</head>
+	 <style type="text/css">
+	 	*{
+	 		margin:0;
+	 		padding: 0;
+	 	}
+	 	.main>div {
+	 	 float: left;
+	 	}
+	 	.left {
+	 		width: 200px;
+	 		background: red;
+	 		margin-left: -100%; /* 使其回到上一行行首 */
+	 	}
+	 	.right{
+	 		width: 200px;
+	 		background: blue;
+	 		margin-left: -200px; /* 使其回到上一行 */
+	 	}
+	 	.middle{
+	 		width: 100%;
+	 		background: yellow;
+	 	
+	 	}
+	 	.content{
+	 		margin-left: 200px;
+	 		margin-right: 200px;
+	 	}
+	 </style>
+	<body>
+	<div class="main">
+		<div class="middle">
+	 		<div class="content">
+	 		中间
+		 	</div>
+		 </div>
+		<div class="left">
+			左边
+		</div>
+		<div class="right">
+			右边
+		</div>
+	</div>
+	</body>
+</html>
+```
+
+### @supports的用法
+
+用来检测浏览器是否支持CSS的某个属性。
+
+```css
+@supports (display: flex) { /* 支持 display:flex */
+  div {
+    background: red;
+  }
+}
+@supports not (display: flex) { /* 不支持 display:flex */
+  div {
+    background: silver;
+  }
+}
+```
+
+### 实现一个正三角形
+
+```css
+.triangle {
+  width: 0;
+  height: 0;
+  border: 10px solid;
+  border-color: transparent transparent red transparent;
+}
+```
 
 ## JS
 
@@ -1002,6 +1110,110 @@ var res = []
 arr.forEach((item, index) => arr.indexOf(item) === index ? res.push(item) : null)
 ```
 
+### 节流和防抖
+
+```js
+function debounce (fn, delay) {
+  let timer = null
+  return (...args) => {
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(() => {
+      fn.apply(null, args)
+      timer = null
+    }, delay)
+  }
+}
+function throttle (fn, delay) {
+  let timer = null
+  return (...args) => {
+    if (timer) return
+    timer = setTimeout(() => {
+      fn.apply(null, args)
+      timer = null
+    }, delay)
+  }
+}
+
+// 调用防抖函数
+const fn = debounce(function (a, b) {
+  console.log('a', a, 'b', b)
+}, 1000)
+function input () {
+  fn(1, 2)
+}
+
+// 调用节流函数
+const fn = throttle(function (a, b) {
+  console.log('a', a, 'b', b)
+}, 1000)
+function input () {
+  fn(1, 2)
+}
+```
+
+### 将给定的JSON对象下载成json文件
+
+```js
+function download () {
+  var a = document.createElement('a')
+  // 解决安全问题（兼容性问题），防止a链接中使用target="_blank"时跳转后的页面可以通过window.opener操作前一个页面
+  a.rel = 'noopener norefferrer' 
+  a.download = 'demo.json'
+
+  // 方式一
+  a.href = `data:,${JSON.stringify(json, null, ' ')}`
+
+  // 方式二
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(json, null, ' ')]))
+
+  a.click()
+}
+```
+
+### js中常见的Error有哪些
+
+1. SyntaxError：语法错误。
+2. ReferenceError：引用错误。
+3. TypeError：变量或参数不属于有效类型。
+4. RangeError：数值变量或参数超出其有效范围。
+
+```js
+a // Uncaught ReferenceError: c is not defined
+
+var a = 1
+a.b.c // Uncaught TypeError: Cannot read property 'c' of undefined
+
+function a () {
+  a()
+}
+a() // 递归调用
+// Uncaught RangeError: Maximum call stack size exceeded
+```
+
+### 监听图片加载异常提供默认图片，如何防止因默认图片也无法加载导致异常函数的循环调用
+
+```html
+<img src="..." onerror="noFind();" />
+<script>
+function noFind(event){
+  var img = event.target;
+  img.src = '...'  // 默认图片地址
+  img.onerror = null;  // 控制不要循环展示错误
+}
+</script>
+```
+
+### target 和 currentTarget 的区别
+
+target: 触发事件的元素
+
+currentTarget: 绑定事件的元素
+
+### event.target 和 event.srcElement 的区别
+
+1. 都是指向触发事件的元素
+2. IE老版本支持 event.srcElement而FireFox老版本支持 event.target
+
 ## vue
 
 ### MVVM的理解
@@ -1267,3 +1479,35 @@ wx.setStorageSync() 和 wx.setStorage()
 7. 应用层 
 
 [参考](https://www.cnblogs.com/carlos-mm/p/6297197.html)
+
+#### restful 规范
+
+1. 使用 https 协议保证安全。
+2. 可以将api版本号放在url中，如：https://api.example.com/v1/。
+3. 每个网址代表一个资源，网址中使用名词，不要使用动词，并且名词一般使用复数（代表记录的集合）。
+4. url中使用连字符（ - ）来提高URI的可读性，不得在URI中使用下划线（_）。
+5. URI路径中全都使用小写字母。
+6. 指定一些参数去过滤数据，如pageNum，pageSize，排序order，sort_by等。
+
+#### http状态码
+
+1xx: 信息
+
+2xx: 成功
+
+3xx: 重定向
+
+4xx: 客户端错误
+
+5xx: 服务端错误
+
+```
+200: 成功
+301: 永久重定向（新网址完全继承旧网址，旧网址的排名等完全清零）
+302: 临时重定向（对旧网址没有影响，但新网址不会有排名）
+403: 禁止访问
+404: not found
+500: 服务器错误
+502: bad gateway，网关错误
+503: service unavailable
+```

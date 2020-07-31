@@ -5,17 +5,315 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Git | 前端知识总结</title>
     <meta name="description" content="我的个人网站">
+    <meta name="generator" content="VuePress 1.4.0">
     <link rel="icon" href="/logo.jpg">
     
-    <link rel="preload" href="/assets/css/0.styles.6211d1cb.css" as="style"><link rel="preload" href="/assets/js/app.1133204c.js" as="script"><link rel="preload" href="/assets/js/2.13d2b29b.js" as="script"><link rel="preload" href="/assets/js/8.49464530.js" as="script"><link rel="prefetch" href="/assets/js/10.bcc27e89.js"><link rel="prefetch" href="/assets/js/11.1be181ba.js"><link rel="prefetch" href="/assets/js/12.1b43e140.js"><link rel="prefetch" href="/assets/js/13.c7fa3e69.js"><link rel="prefetch" href="/assets/js/14.6917256e.js"><link rel="prefetch" href="/assets/js/15.ff6bd572.js"><link rel="prefetch" href="/assets/js/16.a3aff470.js"><link rel="prefetch" href="/assets/js/17.174ca6e6.js"><link rel="prefetch" href="/assets/js/18.dfd95ff6.js"><link rel="prefetch" href="/assets/js/19.e445889b.js"><link rel="prefetch" href="/assets/js/20.998867d8.js"><link rel="prefetch" href="/assets/js/21.607d4de2.js"><link rel="prefetch" href="/assets/js/22.d43ac9dd.js"><link rel="prefetch" href="/assets/js/23.02540105.js"><link rel="prefetch" href="/assets/js/24.71b86e3f.js"><link rel="prefetch" href="/assets/js/25.11312555.js"><link rel="prefetch" href="/assets/js/26.5e926369.js"><link rel="prefetch" href="/assets/js/27.1118baca.js"><link rel="prefetch" href="/assets/js/28.3f10cb8c.js"><link rel="prefetch" href="/assets/js/29.44f67500.js"><link rel="prefetch" href="/assets/js/3.db27a041.js"><link rel="prefetch" href="/assets/js/30.44fe3cb4.js"><link rel="prefetch" href="/assets/js/31.91768b12.js"><link rel="prefetch" href="/assets/js/32.31c57b21.js"><link rel="prefetch" href="/assets/js/33.acbbb269.js"><link rel="prefetch" href="/assets/js/34.0ac641b3.js"><link rel="prefetch" href="/assets/js/35.6c8b17ea.js"><link rel="prefetch" href="/assets/js/36.9b7b068c.js"><link rel="prefetch" href="/assets/js/37.dee4b090.js"><link rel="prefetch" href="/assets/js/38.0e2bdd5d.js"><link rel="prefetch" href="/assets/js/39.b1e7f0b0.js"><link rel="prefetch" href="/assets/js/4.30c4a4e3.js"><link rel="prefetch" href="/assets/js/40.95055104.js"><link rel="prefetch" href="/assets/js/41.3841b5ff.js"><link rel="prefetch" href="/assets/js/42.758819cd.js"><link rel="prefetch" href="/assets/js/43.599ce5f4.js"><link rel="prefetch" href="/assets/js/44.0912f6d3.js"><link rel="prefetch" href="/assets/js/45.9515dc30.js"><link rel="prefetch" href="/assets/js/46.f2e4b360.js"><link rel="prefetch" href="/assets/js/47.af3a5ef4.js"><link rel="prefetch" href="/assets/js/48.a59301f5.js"><link rel="prefetch" href="/assets/js/49.d3640d53.js"><link rel="prefetch" href="/assets/js/5.261c279d.js"><link rel="prefetch" href="/assets/js/50.3cf880f4.js"><link rel="prefetch" href="/assets/js/51.b085194a.js"><link rel="prefetch" href="/assets/js/52.db3fa364.js"><link rel="prefetch" href="/assets/js/53.ad3a9856.js"><link rel="prefetch" href="/assets/js/54.1db9b98b.js"><link rel="prefetch" href="/assets/js/55.4d65f7d9.js"><link rel="prefetch" href="/assets/js/56.6e3a28e6.js"><link rel="prefetch" href="/assets/js/57.32484d65.js"><link rel="prefetch" href="/assets/js/58.909bba51.js"><link rel="prefetch" href="/assets/js/6.6d50d38f.js"><link rel="prefetch" href="/assets/js/7.a2ba1025.js"><link rel="prefetch" href="/assets/js/9.bf01f6e1.js">
-    <link rel="stylesheet" href="/assets/css/0.styles.6211d1cb.css">
+    <link rel="preload" href="/assets/css/0.styles.fe72a0c7.css" as="style"><link rel="preload" href="/assets/js/app.4058b836.js" as="script"><link rel="preload" href="/assets/js/2.8484adb1.js" as="script"><link rel="preload" href="/assets/js/11.0e25ea3e.js" as="script"><link rel="prefetch" href="/assets/js/10.e450f61f.js"><link rel="prefetch" href="/assets/js/12.58c3aef5.js"><link rel="prefetch" href="/assets/js/13.daf912e8.js"><link rel="prefetch" href="/assets/js/14.f6d4f222.js"><link rel="prefetch" href="/assets/js/15.0dc7cf05.js"><link rel="prefetch" href="/assets/js/16.72553b4b.js"><link rel="prefetch" href="/assets/js/17.657b10d7.js"><link rel="prefetch" href="/assets/js/18.cdb50b41.js"><link rel="prefetch" href="/assets/js/19.c4da0f60.js"><link rel="prefetch" href="/assets/js/20.c095c2e6.js"><link rel="prefetch" href="/assets/js/21.899c209f.js"><link rel="prefetch" href="/assets/js/22.eb200ceb.js"><link rel="prefetch" href="/assets/js/23.ec3b061e.js"><link rel="prefetch" href="/assets/js/24.7c358ed9.js"><link rel="prefetch" href="/assets/js/25.0fd3c9ff.js"><link rel="prefetch" href="/assets/js/26.9464a41c.js"><link rel="prefetch" href="/assets/js/27.11a08390.js"><link rel="prefetch" href="/assets/js/28.d44dd978.js"><link rel="prefetch" href="/assets/js/29.3b05d3fb.js"><link rel="prefetch" href="/assets/js/3.3f2dcaa5.js"><link rel="prefetch" href="/assets/js/30.373c60ba.js"><link rel="prefetch" href="/assets/js/31.6eca8bb6.js"><link rel="prefetch" href="/assets/js/32.03ebf16a.js"><link rel="prefetch" href="/assets/js/33.51c9411b.js"><link rel="prefetch" href="/assets/js/34.8f2a4c60.js"><link rel="prefetch" href="/assets/js/35.77b24e4b.js"><link rel="prefetch" href="/assets/js/36.60dfd35f.js"><link rel="prefetch" href="/assets/js/37.7fa01666.js"><link rel="prefetch" href="/assets/js/38.aae425b5.js"><link rel="prefetch" href="/assets/js/39.3a2d9ac7.js"><link rel="prefetch" href="/assets/js/4.ae9d3c81.js"><link rel="prefetch" href="/assets/js/40.8ee5d8df.js"><link rel="prefetch" href="/assets/js/41.d88349f8.js"><link rel="prefetch" href="/assets/js/42.8e71cd59.js"><link rel="prefetch" href="/assets/js/43.890a7d39.js"><link rel="prefetch" href="/assets/js/44.52f21915.js"><link rel="prefetch" href="/assets/js/45.bf4f2dc9.js"><link rel="prefetch" href="/assets/js/46.ce1762ad.js"><link rel="prefetch" href="/assets/js/47.5408d3fc.js"><link rel="prefetch" href="/assets/js/48.e0b3c9fb.js"><link rel="prefetch" href="/assets/js/49.f53eed8f.js"><link rel="prefetch" href="/assets/js/5.50152bbc.js"><link rel="prefetch" href="/assets/js/50.9bfb8dcf.js"><link rel="prefetch" href="/assets/js/51.294bf295.js"><link rel="prefetch" href="/assets/js/52.811aa49f.js"><link rel="prefetch" href="/assets/js/53.f84a416d.js"><link rel="prefetch" href="/assets/js/54.856903f5.js"><link rel="prefetch" href="/assets/js/55.2808d8c1.js"><link rel="prefetch" href="/assets/js/56.6f8a4299.js"><link rel="prefetch" href="/assets/js/57.09a2008b.js"><link rel="prefetch" href="/assets/js/58.62b89700.js"><link rel="prefetch" href="/assets/js/59.d223500a.js"><link rel="prefetch" href="/assets/js/6.a568db92.js"><link rel="prefetch" href="/assets/js/60.6b875ace.js"><link rel="prefetch" href="/assets/js/61.39600b94.js"><link rel="prefetch" href="/assets/js/62.03140d1a.js"><link rel="prefetch" href="/assets/js/63.4d750b97.js"><link rel="prefetch" href="/assets/js/64.83e21012.js"><link rel="prefetch" href="/assets/js/65.c8f92f88.js"><link rel="prefetch" href="/assets/js/66.d0acd5d0.js"><link rel="prefetch" href="/assets/js/67.24f8ecd7.js"><link rel="prefetch" href="/assets/js/68.176cf631.js"><link rel="prefetch" href="/assets/js/69.db62e387.js"><link rel="prefetch" href="/assets/js/7.7fd231da.js"><link rel="prefetch" href="/assets/js/70.d821547a.js"><link rel="prefetch" href="/assets/js/71.ddbd43d9.js"><link rel="prefetch" href="/assets/js/72.4f54b0ed.js"><link rel="prefetch" href="/assets/js/73.aa13ce19.js"><link rel="prefetch" href="/assets/js/74.c4aeec04.js"><link rel="prefetch" href="/assets/js/75.6824bbdf.js"><link rel="prefetch" href="/assets/js/76.bc595243.js"><link rel="prefetch" href="/assets/js/77.a0f38073.js"><link rel="prefetch" href="/assets/js/78.2599e666.js"><link rel="prefetch" href="/assets/js/79.f2b1de05.js"><link rel="prefetch" href="/assets/js/8.becd0e5d.js"><link rel="prefetch" href="/assets/js/9.fb202495.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.fe72a0c7.css">
   </head>
   <body>
-    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">前端知识总结</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="基础" class="dropdown-title"><span class="title">基础</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/base/html/" class="nav-link">HTML</a></li><li class="dropdown-item"><!----> <a href="/base/css/" class="nav-link">Css</a></li><li class="dropdown-item"><!----> <a href="/base/js/" class="nav-link">JS</a></li><li class="dropdown-item"><!----> <a href="/base/interview/" class="nav-link">汇总</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="框架" class="dropdown-title"><span class="title">框架</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/frame/vue/" class="nav-link">Vue</a></li><li class="dropdown-item"><!----> <a href="/frame/vue-router/" class="nav-link">Vue Router</a></li><li class="dropdown-item"><!----> <a href="/frame/vuex/" class="nav-link">VueX</a></li><li class="dropdown-item"><!----> <a href="/frame/element/" class="nav-link">Element</a></li><li class="dropdown-item"><!----> <a href="/frame/node/" class="nav-link">Node</a></li><li class="dropdown-item"><!----> <a href="/frame/miniprogram/" class="nav-link">小程序</a></li><li class="dropdown-item"><!----> <a href="/frame/angular/" class="nav-link">Angular1.6</a></li><li class="dropdown-item"><!----> <a href="/frame/mysql/" class="nav-link">mysql</a></li><li class="dropdown-item"><!----> <a href="/frame/typescript/" class="nav-link">typescript</a></li><li class="dropdown-item"><!----> <a href="/frame/axios/" class="nav-link">axios</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="工具" class="dropdown-title"><span class="title">工具</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/tools/chrome/" class="nav-link">Chrome</a></li><li class="dropdown-item"><!----> <a href="/tools/npm/" class="nav-link">NPM</a></li><li class="dropdown-item"><!----> <a href="/tools/git/" class="nav-link router-link-exact-active router-link-active">Git</a></li><li class="dropdown-item"><!----> <a href="/tools/webpack/" class="nav-link">Webpack</a></li><li class="dropdown-item"><!----> <a href="/tools/mac/" class="nav-link">Mac</a></li><li class="dropdown-item"><!----> <a href="/tools/nginx/" class="nav-link">nginx</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="其它" class="dropdown-title"><span class="title">其它</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/other/setting/" class="nav-link">配置</a></li><li class="dropdown-item"><!----> <a href="https://blog.csdn.net/greybearchao" target="_blank" rel="noopener noreferrer" class="nav-link external">
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">前端知识总结</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="基础" class="dropdown-title"><span class="title">基础</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/base/html/" class="nav-link">
+  HTML
+</a></li><li class="dropdown-item"><!----> <a href="/base/css/" class="nav-link">
+  Css
+</a></li><li class="dropdown-item"><!----> <a href="/base/js/" class="nav-link">
+  JS
+</a></li><li class="dropdown-item"><!----> <a href="/base/interview/" class="nav-link">
+  汇总
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="框架" class="dropdown-title"><span class="title">框架</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/frame/vue/" class="nav-link">
+  Vue
+</a></li><li class="dropdown-item"><!----> <a href="/frame/vue-router/" class="nav-link">
+  Vue Router
+</a></li><li class="dropdown-item"><!----> <a href="/frame/vuex/" class="nav-link">
+  VueX
+</a></li><li class="dropdown-item"><!----> <a href="/frame/element/" class="nav-link">
+  Element
+</a></li><li class="dropdown-item"><!----> <a href="/frame/node/" class="nav-link">
+  Node
+</a></li><li class="dropdown-item"><!----> <a href="/frame/miniprogram/" class="nav-link">
+  小程序
+</a></li><li class="dropdown-item"><!----> <a href="/frame/angular/" class="nav-link">
+  Angular1.6
+</a></li><li class="dropdown-item"><!----> <a href="/frame/mysql/" class="nav-link">
+  mysql
+</a></li><li class="dropdown-item"><!----> <a href="/frame/typescript/" class="nav-link">
+  typescript
+</a></li><li class="dropdown-item"><!----> <a href="/frame/axios/" class="nav-link">
+  axios
+</a></li><li class="dropdown-item"><!----> <a href="/frame/redis/" class="nav-link">
+  redis
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="工具" class="dropdown-title"><span class="title">工具</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/tools/chrome/" class="nav-link">
+  Chrome
+</a></li><li class="dropdown-item"><!----> <a href="/tools/npm/" class="nav-link">
+  NPM
+</a></li><li class="dropdown-item"><!----> <a href="/tools/git/" class="nav-link router-link-exact-active router-link-active">
+  Git
+</a></li><li class="dropdown-item"><!----> <a href="/tools/webpack/" class="nav-link">
+  Webpack
+</a></li><li class="dropdown-item"><!----> <a href="/tools/mac/" class="nav-link">
+  Mac
+</a></li><li class="dropdown-item"><!----> <a href="/tools/nginx/" class="nav-link">
+  nginx
+</a></li><li class="dropdown-item"><!----> <a href="/tools/js-sdk/" class="nav-link">
+  js-sdk
+</a></li><li class="dropdown-item"><!----> <a href="/tools/vscode/" class="nav-link">
+  vscode
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="其它" class="dropdown-title"><span class="title">其它</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/other/setting/" class="nav-link">
+  配置
+</a></li><li class="dropdown-item"><!----> <a href="/other/read/" class="nav-link">
+  阅读
+</a></li><li class="dropdown-item"><!----> <a href="/other/safety/" class="nav-link">
+  安全
+</a></li><li class="dropdown-item"><!----> <a href="/other/study/" class="nav-link">
+  学习
+</a></li><li class="dropdown-item"><!----> <a href="https://blog.csdn.net/greybearchao" target="_blank" rel="noopener noreferrer" class="nav-link external">
   博客
-  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="基础" class="dropdown-title"><span class="title">基础</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/base/html/" class="nav-link">HTML</a></li><li class="dropdown-item"><!----> <a href="/base/css/" class="nav-link">Css</a></li><li class="dropdown-item"><!----> <a href="/base/js/" class="nav-link">JS</a></li><li class="dropdown-item"><!----> <a href="/base/interview/" class="nav-link">汇总</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="框架" class="dropdown-title"><span class="title">框架</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/frame/vue/" class="nav-link">Vue</a></li><li class="dropdown-item"><!----> <a href="/frame/vue-router/" class="nav-link">Vue Router</a></li><li class="dropdown-item"><!----> <a href="/frame/vuex/" class="nav-link">VueX</a></li><li class="dropdown-item"><!----> <a href="/frame/element/" class="nav-link">Element</a></li><li class="dropdown-item"><!----> <a href="/frame/node/" class="nav-link">Node</a></li><li class="dropdown-item"><!----> <a href="/frame/miniprogram/" class="nav-link">小程序</a></li><li class="dropdown-item"><!----> <a href="/frame/angular/" class="nav-link">Angular1.6</a></li><li class="dropdown-item"><!----> <a href="/frame/mysql/" class="nav-link">mysql</a></li><li class="dropdown-item"><!----> <a href="/frame/typescript/" class="nav-link">typescript</a></li><li class="dropdown-item"><!----> <a href="/frame/axios/" class="nav-link">axios</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="工具" class="dropdown-title"><span class="title">工具</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/tools/chrome/" class="nav-link">Chrome</a></li><li class="dropdown-item"><!----> <a href="/tools/npm/" class="nav-link">NPM</a></li><li class="dropdown-item"><!----> <a href="/tools/git/" class="nav-link router-link-exact-active router-link-active">Git</a></li><li class="dropdown-item"><!----> <a href="/tools/webpack/" class="nav-link">Webpack</a></li><li class="dropdown-item"><!----> <a href="/tools/mac/" class="nav-link">Mac</a></li><li class="dropdown-item"><!----> <a href="/tools/nginx/" class="nav-link">nginx</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="其它" class="dropdown-title"><span class="title">其它</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/other/setting/" class="nav-link">配置</a></li><li class="dropdown-item"><!----> <a href="https://blog.csdn.net/greybearchao" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="基础" class="dropdown-title"><span class="title">基础</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/base/html/" class="nav-link">
+  HTML
+</a></li><li class="dropdown-item"><!----> <a href="/base/css/" class="nav-link">
+  Css
+</a></li><li class="dropdown-item"><!----> <a href="/base/js/" class="nav-link">
+  JS
+</a></li><li class="dropdown-item"><!----> <a href="/base/interview/" class="nav-link">
+  汇总
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="框架" class="dropdown-title"><span class="title">框架</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/frame/vue/" class="nav-link">
+  Vue
+</a></li><li class="dropdown-item"><!----> <a href="/frame/vue-router/" class="nav-link">
+  Vue Router
+</a></li><li class="dropdown-item"><!----> <a href="/frame/vuex/" class="nav-link">
+  VueX
+</a></li><li class="dropdown-item"><!----> <a href="/frame/element/" class="nav-link">
+  Element
+</a></li><li class="dropdown-item"><!----> <a href="/frame/node/" class="nav-link">
+  Node
+</a></li><li class="dropdown-item"><!----> <a href="/frame/miniprogram/" class="nav-link">
+  小程序
+</a></li><li class="dropdown-item"><!----> <a href="/frame/angular/" class="nav-link">
+  Angular1.6
+</a></li><li class="dropdown-item"><!----> <a href="/frame/mysql/" class="nav-link">
+  mysql
+</a></li><li class="dropdown-item"><!----> <a href="/frame/typescript/" class="nav-link">
+  typescript
+</a></li><li class="dropdown-item"><!----> <a href="/frame/axios/" class="nav-link">
+  axios
+</a></li><li class="dropdown-item"><!----> <a href="/frame/redis/" class="nav-link">
+  redis
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="工具" class="dropdown-title"><span class="title">工具</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/tools/chrome/" class="nav-link">
+  Chrome
+</a></li><li class="dropdown-item"><!----> <a href="/tools/npm/" class="nav-link">
+  NPM
+</a></li><li class="dropdown-item"><!----> <a href="/tools/git/" class="nav-link router-link-exact-active router-link-active">
+  Git
+</a></li><li class="dropdown-item"><!----> <a href="/tools/webpack/" class="nav-link">
+  Webpack
+</a></li><li class="dropdown-item"><!----> <a href="/tools/mac/" class="nav-link">
+  Mac
+</a></li><li class="dropdown-item"><!----> <a href="/tools/nginx/" class="nav-link">
+  nginx
+</a></li><li class="dropdown-item"><!----> <a href="/tools/js-sdk/" class="nav-link">
+  js-sdk
+</a></li><li class="dropdown-item"><!----> <a href="/tools/vscode/" class="nav-link">
+  vscode
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="其它" class="dropdown-title"><span class="title">其它</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/other/setting/" class="nav-link">
+  配置
+</a></li><li class="dropdown-item"><!----> <a href="/other/read/" class="nav-link">
+  阅读
+</a></li><li class="dropdown-item"><!----> <a href="/other/safety/" class="nav-link">
+  安全
+</a></li><li class="dropdown-item"><!----> <a href="/other/study/" class="nav-link">
+  学习
+</a></li><li class="dropdown-item"><!----> <a href="https://blog.csdn.net/greybearchao" target="_blank" rel="noopener noreferrer" class="nav-link external">
   博客
-  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/tools/git/" class="active sidebar-link">Git</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tools/git/#基本操作" class="sidebar-link">基本操作</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tools/git/#撤销master分支上的提交" class="sidebar-link">撤销master分支上的提交</a></li><li class="sidebar-sub-header"><a href="/tools/git/#merge远程分支" class="sidebar-link">merge远程分支</a></li><li class="sidebar-sub-header"><a href="/tools/git/#使用远程release分支的代码覆盖本地devp分支的代码" class="sidebar-link">使用远程release分支的代码覆盖本地devp分支的代码</a></li><li class="sidebar-sub-header"><a href="/tools/git/#首次提交" class="sidebar-link">首次提交</a></li><li class="sidebar-sub-header"><a href="/tools/git/#代码合并" class="sidebar-link">代码合并</a></li><li class="sidebar-sub-header"><a href="/tools/git/#切换至master分支报错" class="sidebar-link">切换至master分支报错</a></li><li class="sidebar-sub-header"><a href="/tools/git/#git-bash-界面无法操作" class="sidebar-link">git bash 界面无法操作</a></li><li class="sidebar-sub-header"><a href="/tools/git/#代码恢复" class="sidebar-link">代码恢复</a></li><li class="sidebar-sub-header"><a href="/tools/git/#git-stash-的应用" class="sidebar-link">git stash 的应用</a></li><li class="sidebar-sub-header"><a href="/tools/git/#报错信息" class="sidebar-link">报错信息</a></li><li class="sidebar-sub-header"><a href="/tools/git/#版本回退-不区分大小写" class="sidebar-link">版本回退(不区分大小写)</a></li><li class="sidebar-sub-header"><a href="/tools/git/#版本恢复" class="sidebar-link">版本恢复</a></li><li class="sidebar-sub-header"><a href="/tools/git/#撤消工作区修改" class="sidebar-link">撤消工作区修改</a></li><li class="sidebar-sub-header"><a href="/tools/git/#撤销暂存区修改" class="sidebar-link">撤销暂存区修改</a></li><li class="sidebar-sub-header"><a href="/tools/git/#删除版本库中的文件" class="sidebar-link">删除版本库中的文件</a></li><li class="sidebar-sub-header"><a href="/tools/git/#连接远程" class="sidebar-link">连接远程</a></li><li class="sidebar-sub-header"><a href="/tools/git/#解决冲突" class="sidebar-link">解决冲突</a></li><li class="sidebar-sub-header"><a href="/tools/git/#fast-forward模式" class="sidebar-link">Fast forward模式</a></li><li class="sidebar-sub-header"><a href="/tools/git/#修复bug分支" class="sidebar-link">修复Bug分支</a></li><li class="sidebar-sub-header"><a href="/tools/git/#删除feature分支" class="sidebar-link">删除feature分支</a></li><li class="sidebar-sub-header"><a href="/tools/git/#多人协作" class="sidebar-link">多人协作</a></li><li class="sidebar-sub-header"><a href="/tools/git/#创建标签" class="sidebar-link">创建标签</a></li><li class="sidebar-sub-header"><a href="/tools/git/#删除远程文件" class="sidebar-link">删除远程文件</a></li><li class="sidebar-sub-header"><a href="/tools/git/#项目开发流程" class="sidebar-link">项目开发流程</a></li><li class="sidebar-sub-header"><a href="/tools/git/#本地创建-sshkey" class="sidebar-link">本地创建 sshkey</a></li><li class="sidebar-sub-header"><a href="/tools/git/#本地仓库与远程的gitlab和github连接" class="sidebar-link">本地仓库与远程的gitLab和gitHub连接</a></li></ul></li><li class="sidebar-sub-header"><a href="/tools/git/#常用命令" class="sidebar-link">常用命令</a></li><li class="sidebar-sub-header"><a href="/tools/git/#其它" class="sidebar-link">其它</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tools/git/#命令区别" class="sidebar-link">命令区别</a></li><li class="sidebar-sub-header"><a href="/tools/git/#文件部署" class="sidebar-link">文件部署</a></li></ul></li></ul></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p><a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" class="fb_t">推荐学习地址</a><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></p> <h2 id="基本操作"><a href="#基本操作" class="header-anchor">#</a> 基本操作</h2> <h3 id="撤销master分支上的提交"><a href="#撤销master分支上的提交" class="header-anchor">#</a> 撤销master分支上的提交</h3> <p>（类似于版本回退）</p> <p>git revert 命令意思是撤销某次提交。它会产生一个新的提交，虽然代码回退了，但是版本依然是向前的。</p> <p>连续执行两次revert HEAD命令，等同于没执行。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>git revert HEAD    // 撤销最近一次提交
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/tools/git/" class="active sidebar-link">Git</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tools/git/#常用命令" class="sidebar-link">常用命令</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tools/git/#git-config" class="sidebar-link">git config</a></li><li class="sidebar-sub-header"><a href="/tools/git/#git-show" class="sidebar-link">git show</a></li><li class="sidebar-sub-header"><a href="/tools/git/#git-help" class="sidebar-link">git help</a></li><li class="sidebar-sub-header"><a href="/tools/git/#git-log" class="sidebar-link">git log</a></li><li class="sidebar-sub-header"><a href="/tools/git/#git-mv" class="sidebar-link">git mv</a></li><li class="sidebar-sub-header"><a href="/tools/git/#git-tag" class="sidebar-link">git tag</a></li></ul></li><li class="sidebar-sub-header"><a href="/tools/git/#基本操作" class="sidebar-link">基本操作</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tools/git/#撤销master分支上的提交" class="sidebar-link">撤销master分支上的提交</a></li><li class="sidebar-sub-header"><a href="/tools/git/#merge远程分支" class="sidebar-link">merge远程分支</a></li><li class="sidebar-sub-header"><a href="/tools/git/#使用远程release分支的代码覆盖本地devp分支的代码" class="sidebar-link">使用远程release分支的代码覆盖本地devp分支的代码</a></li><li class="sidebar-sub-header"><a href="/tools/git/#首次提交" class="sidebar-link">首次提交</a></li><li class="sidebar-sub-header"><a href="/tools/git/#代码合并" class="sidebar-link">代码合并</a></li><li class="sidebar-sub-header"><a href="/tools/git/#切换至master分支报错" class="sidebar-link">切换至master分支报错</a></li><li class="sidebar-sub-header"><a href="/tools/git/#git-bash-界面无法操作" class="sidebar-link">git bash 界面无法操作</a></li><li class="sidebar-sub-header"><a href="/tools/git/#代码恢复" class="sidebar-link">代码恢复</a></li><li class="sidebar-sub-header"><a href="/tools/git/#git-stash-的应用" class="sidebar-link">git stash 的应用</a></li><li class="sidebar-sub-header"><a href="/tools/git/#报错信息" class="sidebar-link">报错信息</a></li><li class="sidebar-sub-header"><a href="/tools/git/#版本回退-不区分大小写" class="sidebar-link">版本回退(不区分大小写)</a></li><li class="sidebar-sub-header"><a href="/tools/git/#版本恢复" class="sidebar-link">版本恢复</a></li><li class="sidebar-sub-header"><a href="/tools/git/#撤消工作区修改" class="sidebar-link">撤消工作区修改</a></li><li class="sidebar-sub-header"><a href="/tools/git/#撤销暂存区修改" class="sidebar-link">撤销暂存区修改</a></li><li class="sidebar-sub-header"><a href="/tools/git/#删除版本库中的文件" class="sidebar-link">删除版本库中的文件</a></li><li class="sidebar-sub-header"><a href="/tools/git/#连接远程" class="sidebar-link">连接远程</a></li><li class="sidebar-sub-header"><a href="/tools/git/#解决冲突" class="sidebar-link">解决冲突</a></li><li class="sidebar-sub-header"><a href="/tools/git/#fast-forward模式" class="sidebar-link">Fast forward模式</a></li><li class="sidebar-sub-header"><a href="/tools/git/#修复bug分支" class="sidebar-link">修复Bug分支</a></li><li class="sidebar-sub-header"><a href="/tools/git/#删除feature分支" class="sidebar-link">删除feature分支</a></li><li class="sidebar-sub-header"><a href="/tools/git/#多人协作" class="sidebar-link">多人协作</a></li><li class="sidebar-sub-header"><a href="/tools/git/#创建标签" class="sidebar-link">创建标签</a></li><li class="sidebar-sub-header"><a href="/tools/git/#删除远程文件" class="sidebar-link">删除远程文件</a></li><li class="sidebar-sub-header"><a href="/tools/git/#项目开发流程" class="sidebar-link">项目开发流程</a></li><li class="sidebar-sub-header"><a href="/tools/git/#本地创建-sshkey" class="sidebar-link">本地创建 sshkey</a></li><li class="sidebar-sub-header"><a href="/tools/git/#本地仓库与远程的gitlab和github连接" class="sidebar-link">本地仓库与远程的gitLab和gitHub连接</a></li></ul></li><li class="sidebar-sub-header"><a href="/tools/git/#其它" class="sidebar-link">其它</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tools/git/#命令区别" class="sidebar-link">命令区别</a></li><li class="sidebar-sub-header"><a href="/tools/git/#文件部署" class="sidebar-link">文件部署</a></li></ul></li></ul></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p><a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" class="fb_t">推荐学习地址1</a><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></p> <p><a href="https://segmentfault.com/a/1190000022491558" class="fb_t">推荐学习地址2</a><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></p> <h2 id="常用命令"><a href="#常用命令" class="header-anchor">#</a> 常用命令</h2> <div class="language- line-numbers-mode"><pre class="language-text"><code>pwd //查看当前目录
+
+ls -ah //查看当前目录下的文件，包含.git文件
+
+git init // 初始化一个空的git仓库
+
+# 新建一个目录并初始化一个git仓库
+git init project
+
+git status //查看当前哪些文件被修改
+
+git diff //即查看difference，可以查看哪些内容被修改
+
+git log //查看提交的历史记录
+
+git log --pretty=oneline //每条历史只显示一行，反馈结果包含commit id（版本号）
+该版本号用一串16进制数表示，目的是为了解决多人开发造成版本号冲突。
+
+git diff HEAD -- 文件名 //查看某个版本下某个文件修改的情况
+
+git diff HEAD^ -- 文件名
+//查看上个版本修改的内容
+
+git diff 版本号 -- 文件名 //根据版本号查看修改内容
+
+git checkout -- 文件名 //丢弃工作区的修改
+
+git checkout . // 撤销工作区所有的修改
+
+git rebase //把本地未push的分叉提交历史整理成直线
+
+git add -f dist //强制提交被.gitignore忽略的文件
+
+git branch -m dev develop //分支改名
+
+cat README.md //查看文件内容
+
+rm -rf .git //删除本地仓库
+
+git push origin master -f //远程推送失败(强制推送)
+
+git remote add origin git地址 //远程连接
+
+git clone git地址 //克隆项目
+
+git checkout 分支名 //切换分支
+
+git branch 分支名 //创建新分支（必须置于commit之后）
+
+git branch -d dev //删除本地分支
+
+git push origin -d dev //删除远程分支
+
+git config user.name //查看用户名
+
+git config user.email //查看邮箱
+
+git rm 文件名 // 删除文件
+
+git add 文件夹名称 // 上传文件夹
+
+git rm 文件夹名称 -r // 删除文件夹
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br></div></div><h3 id="git-config"><a href="#git-config" class="header-anchor">#</a> git config</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code>----
+
+# 查看git的配置
+git config --list
+
+credential.helper=osxkeychain
+user.name=qinchao888
+user.email=2164109314@qq.com
+core.editor=code --wait
+
+----
+
+# 编辑项目所属的配置文件
+git config -e --local
+
+# 查看项目所属的配置文件
+git config --local -l
+
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+
+----
+
+# 编辑全局的git文件
+git config -e --global
+
+# 查看全局的git文件
+git config --global -l
+
+[user]
+	name = qinchao888
+	email = 2164109314@qq.com
+[core]
+	editor = code --wait
+
+----
+
+# 优先级
+git config &gt; git config --global &gt; git config --system
+
+----
+
+# 配置 vscode 为 git 的默认编辑器
+git config --global core.editor &quot;code --wait&quot;
+
+warning: core.editor has multiple values
+error: cannot overwrite multiple values with a single value
+       Use a regexp, --add or --replace-all to change core.editor.
+
+# 报错：可能存在多值冲突，使用 --replace-all
+git config --global --replace-all core.editor &quot;code --wait&quot;
+
+----
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br></div></div><h3 id="git-show"><a href="#git-show" class="header-anchor">#</a> git show</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code># 查看某次提交的元数据和内容变化
+git show [commit]
+
+# 查看某次提交变更的文件
+git show --name-only [commit]
+
+# 查看某次提交时指定的文件中的所有内容
+git show [commit]:[filename]
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h3 id="git-help"><a href="#git-help" class="header-anchor">#</a> git help</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code># 可用命令
+git help
+
+# 所有可用命令
+git help -a 
+
+# 指定的命令
+git help add
+git help commit
+git help init
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h3 id="git-log"><a href="#git-log" class="header-anchor">#</a> git log</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code># 查看当前分支最近的几次提交
+git reflog
+
+# 查看所有提交
+git log
+
+# 查看某几条提交信息
+git log -n 10
+
+# 查看仅合并提交的信息
+git log --merges
+
+# 查看每次详细修改内容的diff
+git log -p &lt;file&gt;
+
+# 查看最近两次详细修改内容的diff
+git log -p -2
+
+# 查看提交统计信息
+git log --stat
+
+# 查看当前修改的详细信息
+git diff --stat
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><h3 id="git-mv"><a href="#git-mv" class="header-anchor">#</a> git mv</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code># 重命名
+git mv test.js test2.js
+
+# 移动
+git mv test.js ./new/path/test.js
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h3 id="git-tag"><a href="#git-tag" class="header-anchor">#</a> git tag</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code># 查看所有tag
+git tag
+
+# 新建一个tag在当前commit
+git tag [tag]
+
+# 新建一个tag在指定commit
+git tag [tag] [commit]
+
+# 删除本地tag 
+git tag -d [tag]
+
+# 查看tag信息
+git show [tag]
+
+# 删除远程tag
+git push origin :refs/tags/[tag]
+
+# 提交指定tag到远程
+git push origin [tag]
+
+# 提交所有tag到远程
+git push origin --tags
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><h2 id="基本操作"><a href="#基本操作" class="header-anchor">#</a> 基本操作</h2> <h3 id="撤销master分支上的提交"><a href="#撤销master分支上的提交" class="header-anchor">#</a> 撤销master分支上的提交</h3> <p>（类似于版本回退）</p> <p>git revert 命令意思是撤销某次提交。它会产生一个新的提交，虽然代码回退了，但是版本依然是向前的。</p> <p>连续执行两次revert HEAD命令，等同于没执行。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>git revert HEAD    // 撤销最近一次提交
 git revert HEAD~1  // 撤销上上次的提交，注意：数字从0开始
 git revert 0ffaacc // 撤销指定的commit_id
 </code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="merge远程分支"><a href="#merge远程分支" class="header-anchor">#</a> merge远程分支</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code>git merge远程分支 git merge origin/feature/qinchao/v1
@@ -42,13 +340,13 @@ git push -f // 强推
 // 若有冲突，git status查看发生冲突的文件，手动解决冲突。
 
 6. git push
-</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><h3 id="切换至master分支报错"><a href="#切换至master分支报错" class="header-anchor">#</a> 切换至master分支报错</h3> <div class="danger custom-block"><p class="custom-block-title">错误信息</p> <p>error: pathspec 'master' did not match any file(s) known to git</p></div> <p>原因: 本地不存在 master 分支。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>// 解决办法
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><h3 id="切换至master分支报错"><a href="#切换至master分支报错" class="header-anchor">#</a> 切换至master分支报错</h3> <div class="custom-block danger"><p class="custom-block-title">错误信息</p> <p>error: pathspec 'master' did not match any file(s) known to git</p></div> <p>原因: 本地不存在 master 分支。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>// 解决办法
 git branch -a // 查看分支
 
 git fetch // 抓取远程分支至本地
 
 git checkout master
-</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h3 id="git-bash-界面无法操作"><a href="#git-bash-界面无法操作" class="header-anchor">#</a> git bash 界面无法操作</h3> <p class="fg_t">例1：merge时报错?</p> <div class="danger custom-block"><p class="custom-block-title">错误信息</p> <p>Please enter a commit message to explain why this merge is necessary.</p></div> <p>此时界面无法操作，输入:wq 即可。</p> <p><a href="https://www.cnblogs.com/wei325/p/5278922.html" target="_blank" rel="noopener noreferrer">详见<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <p class="fg_t">例2：如何退出git log 或 git show?</p> <p>按下英文状态的 &quot;q&quot; 键即可。</p> <p class="fg_t">例3: git bash无法输入内容。</p> <p>此时终端实际上是可以输入内容的，只是看不到，解决办法：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>//输入
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h3 id="git-bash-界面无法操作"><a href="#git-bash-界面无法操作" class="header-anchor">#</a> git bash 界面无法操作</h3> <p class="fg_t">例1：merge时报错?</p> <div class="custom-block danger"><p class="custom-block-title">错误信息</p> <p>Please enter a commit message to explain why this merge is necessary.</p></div> <p>此时界面无法操作，输入:wq 即可。</p> <p><a href="https://www.cnblogs.com/wei325/p/5278922.html" target="_blank" rel="noopener noreferrer">详见<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <p class="fg_t">例2：如何退出git log 或 git show?</p> <p>按下英文状态的 &quot;q&quot; 键即可。</p> <p class="fg_t">例3: git bash无法输入内容。</p> <p>此时终端实际上是可以输入内容的，只是看不到，解决办法：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>//输入
 reset 回车 //具有清屏效果
 </code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="代码恢复"><a href="#代码恢复" class="header-anchor">#</a> 代码恢复</h3> <p class="fg_t">例：误删本地分支和远程分支导致代码丢失，如何恢复？</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>git reflog // 查看分支操作历史
 
@@ -67,7 +365,7 @@ git reset --soft [commit_id] // 回退到commit之前的那个版本并且保留
 git stash // 存储所有修改
 git checkout -b feature/new/v1
 git stash pop // 应用先前在master分支上的所有修改
-</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><h3 id="报错信息"><a href="#报错信息" class="header-anchor">#</a> 报错信息</h3> <p class="fg_t">例1：git pull 提示 no tracking information。</p> <p>原因：本地分支和远程分支的连接关系没有创建，执行命令：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>git branch --set-upstream-to dev origin/dev
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>git stash 只能暂存修改的文件，不能暂存新增的文件，如果需要暂存新增的文件，使用 git stash -a 即可。</p> <h3 id="报错信息"><a href="#报错信息" class="header-anchor">#</a> 报错信息</h3> <p class="fg_t">例1：git pull 提示 no tracking information。</p> <p>原因：本地分支和远程分支的连接关系没有创建，执行命令：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>git branch --set-upstream-to dev origin/dev
 
 //附：创建远程origin的dev分支到本地
 
@@ -245,70 +543,11 @@ git remote -v //查看连接的远程仓库
 //推送代码
 git push gitlab master
 git push github master
-</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h2 id="常用命令"><a href="#常用命令" class="header-anchor">#</a> 常用命令</h2> <div class="language- line-numbers-mode"><pre class="language-text"><code>pwd //查看当前目录
-
-ls -ah //查看当前目录下的文件，包含.git文件
-
-git init // 初始化一个空的git仓库
-
-git status //查看当前哪些文件被修改
-
-git diff //即查看difference，可以查看哪些内容被修改
-
-git log //查看提交的历史记录
-
-git log --pretty=oneline //每条历史只显示一行，反馈结果包含commit id（版本号）
-该版本号用一串16进制数表示，目的是为了解决多人开发造成版本号冲突。
-
-git diff HEAD -- 文件名 //查看某个版本下某个文件修改的情况
-
-git diff HEAD^ -- 文件名
-//查看上个版本修改的内容
-
-git diff 版本号 -- 文件名 //根据版本号查看修改内容
-
-git checkout -- 文件名 //丢弃工作区的修改
-
-git checkout . // 撤销工作区所有的修改
-
-git rebase //把本地未push的分叉提交历史整理成直线
-
-git add -f dist //强制提交被.gitignore忽略的文件
-
-git branch -m dev develop //分支改名
-
-cat README.md //查看文件内容
-
-rm -rf .git //删除本地仓库
-
-git push origin master -f //远程推送失败(强制推送)
-
-git remote add origin git地址 //远程连接
-
-git clone git地址 //克隆项目
-
-git checkout 分支名 //切换分支
-
-git branch 分支名 //创建新分支（必须置于commit之后）
-
-git branch -d dev //删除本地分支
-
-git push origin -d dev //删除远程分支
-
-git config user.name //查看用户名
-
-git config user.email //查看邮箱
-
-git rm 文件名 // 删除文件
-
-git add 文件夹名称 // 上传文件夹
-
-git rm 文件夹名称 -r // 删除文件夹
-</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br></div></div><h2 id="其它"><a href="#其它" class="header-anchor">#</a> 其它</h2> <h3 id="命令区别"><a href="#命令区别" class="header-anchor">#</a> 命令区别</h3> <div class="tip custom-block"><p class="custom-block-title">区别</p> <p class="fb_t">git commit -am 和 git commit -m：</p> <p>git commit -am 可以看成是 git add 和 git commit -m</p> <p class="fb_t">git fetch和 git pull：</p> <p>git pull 等同于 git fetch 和 git merge</p> <p class="fb_t">git checkout -b dev：</p>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h2 id="其它"><a href="#其它" class="header-anchor">#</a> 其它</h2> <h3 id="命令区别"><a href="#命令区别" class="header-anchor">#</a> 命令区别</h3> <div class="custom-block tip"><p class="custom-block-title">区别</p> <p class="fb_t">git commit -am 和 git commit -m：</p> <p>git commit -am 可以看成是 git add 和 git commit -m</p> <p class="fb_t">git fetch和 git pull：</p> <p>git pull 等同于 git fetch 和 git merge</p> <p class="fb_t">git checkout -b dev：</p>
 等价于 git branch dev 和 git checkout dev
 <p class="fb_t">git init</p>
 输出: Initialized empty Git repository in .../.git/
 <p>作用: 初始化一个空的 git 仓库。</p> <p>默认该 .git 目录是隐藏的，使用 <span class="fg_t">ls -ah</span> 查看。</p></div> <p>（1）git中默认分支为master,禁止删除，如果要删除的话需修改当前的默认分支。</p> <p>Settings-&gt;Branches-&gt;Default branch</p> <p>（2）.gitignore:版本管理时过滤一些文件</p> <h3 id="文件部署"><a href="#文件部署" class="header-anchor">#</a> 文件部署</h3> <p>将 js 文件部署到 github 上(直接部署在master分支上的js文件引入项目中是无效的)。</p> <p>步骤：</p> <p>(1) 创建 gh-pages 分支，上传 js 文件。</p> <p>(2) git 项目中 settings</p> <p><img src="/assets/img/git-file.e6f3e719.png" alt="image"></p> <p>js 文件地址：<span class="fg_th">https://qinchao888.github.io/git-test/文件名.js</span></p></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
-    <script src="/assets/js/app.1133204c.js" defer></script><script src="/assets/js/2.13d2b29b.js" defer></script><script src="/assets/js/8.49464530.js" defer></script>
+    <script src="/assets/js/app.4058b836.js" defer></script><script src="/assets/js/2.8484adb1.js" defer></script><script src="/assets/js/11.0e25ea3e.js" defer></script>
   </body>
 </html>
