@@ -423,3 +423,13 @@ npm 脚本有pre和post两个钩子。
 }
 ```
 注：此处使用了nodemon，当执行 npm start 时会执行：npm run prestart -> npm run start，不会执行 npm run poststart，当终止程序时才会再去执行 npm run poststart。
+
+## 开发技巧
+
+### 命令行清屏
+
+```js
+function clear () {
+  process.stdout.write(process.platform === 'win32' ? '\x1Bc' : '\x1B[2J\x1B[3J\x1B[H')
+}
+```

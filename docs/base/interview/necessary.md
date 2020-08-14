@@ -6,6 +6,7 @@ sidebarDepth: 2
 
 :::tip
 1. JavaScript中所有函数参数都是按值传递的。基本类型值，传递的是实际值，引用类型，传递的是引用地址值。
+2. JavaScript内部，所有数字都是以64位浮点数形式储存，即使整数也是如此。因此javascirpt中的数字在计算机内存储为8个Byte（1位用来表示符号位，11位用来表示指数，52位表示尾数）。
 :::
 
 ## HTML
@@ -819,13 +820,47 @@ a.b = b
 
 4. Object.prototype.toString.call(obj)
 
+5. arr.constructor === Array
+
 ```js
-var obj = []
-Array.isArray(obj) // true
-obj instanceof Array // true
-Array.prototype.isPrototypeOf(obj) // true
-Object.prototype.toString.call(obj) // [object Array]
+var arr = []
+Array.isArray(arr) // true
+arr instanceof Array // true
+Array.prototype.isPrototypeOf(arr) // true
+arrect.prototype.toString.call(arr) // [object Array]
+arr.constructor === Array // true
 ```
+
+### 使用 instanceof 或 constructor 判断一个对象是否是数组的缺点
+
+在只有一个全局作用域的环境下检测是没有问题的，但如果一个网页包含多个框架，那么就会存在多个不同的全局环境。不同环境的Array构造函数不同，所以要在两个框架下传递数组时就会出现问题，在某个框架里检测出来是数组但是在另一个框架里检测出来并不是数组。
+
+```html
+<!-- frame1.html -->
+<body>
+  this is a parent
+  <iframe name="frame2" src="frame2.html"></iframe>
+</body>
+<script>
+var arr = []
+window.onload = function () { // 必须在onload后才能获取到frame2中的全局变量
+  var childArr = window.frames.frame2.childArr
+  console.log('parent', childArr instanceof Array, childArr.constructor === Array) // parent false false
+}
+console.log('parent', arr instanceof Array, arr.constructor === Array) // parent true true
+</script>
+
+<!-- frame2.html -->
+<body>
+  this is child
+</body>
+<script>
+var arr = window.parent.arr
+var childArr = []
+console.log('child', arr instanceof Array, arr.constructor === Array) // child false false
+</script>
+```
+
 ### 判断一个对象为一个空对象
 
 1. 使用 JSON.stringify()
@@ -884,7 +919,7 @@ Array.isArray(arr) // true
 
 // 方式四
 Object.prototype.toString.call(lis) // '[object HTMLCollection]'
-Object.prototype.toString.call(arr  // '[object Array]'
+Object.prototype.toString.call(arr) // '[object Array]'
 ```
 
 ### Object.getOwnPropertyNames()、Object.keys()和for...in...的区别
@@ -1213,6 +1248,162 @@ currentTarget: 绑定事件的元素
 
 1. 都是指向触发事件的元素
 2. IE老版本支持 event.srcElement而FireFox老版本支持 event.target
+
+### eval 函数的使用
+
+1. 将传入的字符串当做JS代码执行。如果传入的不是字符串则原样返回。
+2. eval() 是一个危险的函数，可能会运行恶意代码。
+3. eval 返回最后一个表达式的值。
+4. 返回函数或对象时需要使用'(' 和 ')'。
+
+```js
+eval(new String('1 + 2')) // String {"1 + 2"}
+eval('alert(1)')
+
+var x = 5;
+var str = "if (x == 5) {console.log('z is 42'); z = 42; x = 420; } else z = 0;";
+console.log('x is ', eval(str)); // z is 42  x is 420
+
+var fctStr1 = 'function a() {}'
+var fctStr2 = '(function a() {})'
+var fct1 = eval(fctStr1)  // 返回undefined
+var fct2 = eval(fctStr2)  // 返回一个函数
+```
+
+###  caller 和 callee 的区别
+
+#### caller:
+
+1. 返回一个调用函数的引用。
+2. 语法：functionName.caller。
+3. 当函数是使用 window 调用时，返回 null。
+
+#### callee
+
+1. arguments 对象的一个属性，返回当前函数的引用。
+2. arguments.callee.length 返回形参的个数，可以通过和 argument.length 判断实参和形参的个数是否一致。
+3. 可以用于递归匿名函数。
+
+```js
+function a () {
+  console.log(a.caller)
+}
+function b () {
+  a()
+}
+b() // ƒ b () { a() }
+
+function c (p1, p2, p3) {
+  console.log(arguments.callee.length) // 3
+  console.log(arguments.callee)
+  /**
+  ƒ c (p1, p2, p3) {
+    console.log(arguments.callee.length)
+    console.log(arguments.callee)
+  }
+  */
+}
+```
+
+### 自定义实现 apply, call, bind 方法
+
+```js
+Function.prototype.call = function (context) {
+  var context = context ? Object(context) : window
+  context.fn = this
+  var res = context.fn(...[...arguments].slice(1))
+  delete context.fn
+  return res
+}
+
+Function.prototype.apply = function (context, args) {
+  var context = context ? Object(context) : window
+  context.fn = this
+  var res = args && args.length ? context.fn(...args) : context.fn()
+  /**
+  * 注意：此处的 ...args 不可用 '' + args 替代，原因：如果使用 '' + args 返回的将是一个字符串参数，
+  * 而不是一个参数列表。
+  * 如果写成 eval('context.fn(' + args + ')') 则可以。
+  */
+  delete context.fn
+  return res
+}
+
+Function.prototype.bind = function (context) {
+  var self = this
+  var args = []
+  for (var i = 1; i < arguments.length; i++) {
+    args.push(arguments[i])
+  }
+  return function () {
+    return self.apply(context, [...args, ...arguments])
+  }
+}
+```
+
+### 自定义实现 Object.create 
+
+```js
+if (typeof Object.create !== 'function') {
+  Object.create = function (proto) {
+    if (typeof proto !== 'object' && typeof proto !== 'function') {
+      throw new TypeError('Object prototype may only be an Object or null' + proto)
+    }
+    var F = function () {}
+    F.prototype = proto
+    return new F()
+  }
+}
+```
+
+### 自定义实现 new 方法
+
+```js
+function myNew () {
+  var Constructor = [].shift.call(arguments)
+  var obj = {}
+  obj.__proto__ = Constructor.prototype
+  Constructor.apply(obj, arguments)
+  return obj
+}
+
+// 或
+function myNew () {
+  var Constructor = [].shift.call(arguments)
+  var obj = Object.create(Constructor.prototype)
+  Constructor.apply(obj, arguments)
+  return obj
+}
+```
+
+### 自定义实现 instanceof 方法
+
+```js
+function myInstanceof(left, right) {
+  if(typeof left !== 'object') {
+    return false
+  }
+  var left = left.__proto__
+  while(left) {
+    if(left === right.prototype) {
+      return true
+    }
+    left = left.__proto__
+  }
+  return false;
+}
+```
+
+### 使用 delete 删除数组元素和使用 splice 删除的区别
+
+1. delete删除数组元素，原位置仍旧被保留。
+2. splice删除元素，原位置会被后继元素填充。
+
+### 将字符串中的0，1倒置
+
+```js
+'10001'.replace(/(0|1)/g, m => m ^ 1) // 01110
+```
 
 ## vue
 

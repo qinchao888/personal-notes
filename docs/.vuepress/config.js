@@ -37,7 +37,9 @@ module.exports = {
           {text: 'mysql', link: '/frame/mysql/'},
           {text: 'typescript', link: '/frame/typescript/'},
           {text: 'axios', link: '/frame/axios/'},
-          {text: 'redis', link: '/frame/redis/'}]
+          {text: 'redis', link: '/frame/redis/'},
+          {text: 'shell', link: '/frame/shell/'}
+        ]
       },
       {
         text: '工具',
@@ -59,6 +61,7 @@ module.exports = {
           { text: '阅读', link: '/other/read/' },
           { text: '安全', link: '/other/safety/' },
           { text: '学习', link: '/other/study/' },
+          { text: '计算机网络', link: '/other/internet/'},
           { text: '博客', link: 'https://blog.csdn.net/greybearchao' },
         ]
       },
@@ -162,6 +165,7 @@ module.exports = {
       '/frame/element/': [''],
       '/frame/axios/': [''],
       '/frame/redis/': [''],
+      '/frame/shell/': [''],
       '/base/css/': [
         ['', 'CSS基础'],
         ['summary', 'CSS开发技巧'],
@@ -177,10 +181,15 @@ module.exports = {
         ['howprocedurerun', '程序是怎样运行的'],
         ['html5andcss3', 'HTML5和CSS3实战'],
         ['webpack', '深入浅出webpack'],
+        ['jsup', '你不知道的JS上卷'],
+        ['js188', '编写高质量代码的188个建议'],
         ['term', '术语'],
       ],
       '/other/safety/': [
         ['', '安全'],
+      ],
+      '/other/internet/': [
+        ['', '计算机网络']
       ],
       '/other/study/': [
         ['', '总结'],
