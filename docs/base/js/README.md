@@ -287,6 +287,13 @@ function count(arr) {
 console.log(count(['a', 'b', 'c', 'a', 'd', 'c', 'c'])); // {a: 2, b: 1, c: 3, d: 1}
 ```
 
+### JS获取当天日期加一天的凌晨和晚23:59:59
+
+```js
+new Date(new Date(Date.now() + 24 * 3600 * 1000).setHours(0, 0, 0, 0))
+new Date(new Date(Date.now() + 24 * 3600 * 1000).setHours(23, 59, 59, 99))
+```
+
 ## 常见方法
 
 ### sort

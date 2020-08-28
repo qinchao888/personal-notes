@@ -424,7 +424,7 @@ npm 脚本有pre和post两个钩子。
 ```
 注：此处使用了nodemon，当执行 npm start 时会执行：npm run prestart -> npm run start，不会执行 npm run poststart，当终止程序时才会再去执行 npm run poststart。
 
-## 开发技巧
+## 开发总结
 
 ### 命令行清屏
 
@@ -432,4 +432,23 @@ npm 脚本有pre和post两个钩子。
 function clear () {
   process.stdout.write(process.platform === 'win32' ? '\x1Bc' : '\x1B[2J\x1B[3J\x1B[H')
 }
+```
+
+### http.createServer(app) 和 app的区别
+
+本质一样，无区别。
+
+```js
+const express = require('express')
+const app = express()
+app.listen(3000, function () {})
+
+/** express源码中listen方法调用的时候会调用http.createServer()
+app.listen = function () {
+  var server = http.createServer(this)
+  return server.listen.apply(server, arguments)
+}
+*/
+const http = require('http')
+http.createServer(app).listen(3000, function () {})
 ```

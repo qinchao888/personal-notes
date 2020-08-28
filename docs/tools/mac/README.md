@@ -191,3 +191,14 @@ git config --global core.editor "code --wait"
 ## nginx
 
 ## redis
+
+
+## shadowsocks
+
+```
+ss-server -p 1234 -k 1234 -m aes-256-gcm
+
+# 配置nginx 代理
+设置选项->hosts->配置 192.168.11.135 test.aa.com
+
+```

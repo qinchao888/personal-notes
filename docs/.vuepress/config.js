@@ -30,6 +30,7 @@ module.exports = {
           {text: 'Vue', link: '/frame/vue/'},
           {text: 'Vue Router', link: '/frame/vue-router/'},
           {text: 'VueX', link: '/frame/vuex/'},
+          {text: 'React', link: '/frame/react/'},
           {text: 'Element', link: '/frame/element/'},
           {text: 'Node', link: '/frame/node/'},
           {text: '小程序', link: '/frame/miniprogram/'},
@@ -139,6 +140,10 @@ module.exports = {
       ],
       '/frame/vue-router/': [
         ['', '基础总结'],
+      ],
+      '/frame/react/': [
+        ['', '基础'],
+        ['react', 'react']
       ],
       '/frame/node/': [
         ['', '服务构建'],

@@ -934,6 +934,16 @@ var config = {
 config.test()
 ```
 
+### crossorigin
+
+[参考](https://blog.csdn.net/qq_40028324/article/details/107076751)
+
+在未添加 crossorigin 属性的情况下，如果引入的脚本中报错，window.onerror 中捕获的错误将是 Script error，而无法捕获到具体的错误信息。如果使用了 crossorigin="anonymous"，相当于使用cors的方式加载资源，此时需要服务端设置跨域头，即设置：Access-Control-Allow-Origin: *，才能完成加载，否则会报跨域问题。
+
+Access-Control-Allow-Credentials: 表示是否允许发送Cookie。默认情况下，Cookie不包括在CORS请求之中。设为true，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。
+
+如果设置了 crossorigin="use-credentials"，表示会在跨域请求中带上cookie和其他的一些认证信息。服务端需要设置 Access-Control-Allow-Origin: * 和 Access-Control-Allow-Credentials: true。
+
 ## 位运算符的应用
 
 ### 按位或(|)
