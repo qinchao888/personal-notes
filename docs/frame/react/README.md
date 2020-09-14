@@ -18,6 +18,65 @@ sidebarDepth: 2
 2. 改变props的值。
 3. 使用forceUpdate()方法。
 
+### 条件渲染的方式
+
+1. 使用变量结合 if else。
+2. 使用 &&。
+3. 使用三目运算符。
+4. 使用 null 阻止组件渲染
+
+```js
+// 1
+render () {
+  let button =  null
+  if (this.state.val) {
+    button = <Test1/>
+  } else {
+    button = <Test2/>
+  }
+  return (
+    <div>
+      button
+    </div>
+  );
+}
+
+// 2
+render () {
+  return (
+    <div>
+      <h1>hello</h1>
+      {val > 0 && <h1>world</h1>}
+    </div>
+  )
+}
+
+// 3
+render () {
+  return (
+    <div>
+      <h1>hello</h1>
+      {val > 0 ? <h1>val</h1> : <h1>world</h1>}
+    </div>
+  )
+}
+
+// 4
+function Message (props) {
+	if (props.val === 1) {
+		return null
+	}
+	return <h1>success</h1>
+}
+
+ReactDOM.render(
+  <div>
+    <Message val={1} />
+  </div>,
+  document.getElementById('example')
+);
+```
+
 ## redux
 
 ### action

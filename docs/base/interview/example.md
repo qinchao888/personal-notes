@@ -418,17 +418,56 @@ console.log(getMax(str)) // "c"
 ### 数组排序
 
 ```js
-// 快速排序
 var arr = [10, 33, 44, 4, 12, 15, 0];
-function quickSort(arr) {
-  if (arr.length <= 1) {
-    return arr
+
+/** 冒泡排序（时间复杂度O(n²)）
+* 1. 第一层循环控制比较多少轮，第二层循环用于比较相邻的两个元素
+* 2. 每一轮比较使得大的元素在最后面。
+*/
+function bubble (arr) {
+  for (var i = 0; i < arr.length - 1; i++) {
+    for (var j = 0; j < arr.length - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        temp = arr[j]
+        arr[j] = arr[j + 1]
+        arr[j + 1] = temp
+      }
+    }
   }
-  var index = Math.floor((arr.length - 1) / 2)
-  var val = arr.splice(index,1) // 删除中间值
-  var left = []
-  var right = []
-  for (var i = 0; i <= arr.length - 1; i++) {
+  return arr
+}
+
+/** 选择排序（时间复杂度O(n²)）
+* 1. 将每一个元素和后面的所有元素比较，将当前元素和后面所有元素中的最小元素互换
+* 2. 每一轮比较能使得小的元素在最前面
+*/
+function selectSort (arr) {
+  var minIndex, temp
+  for (var i = 0; i < arr.length - 1; i++) {
+    minIndex = i
+    for (var j = i + 1; j < arr.length; j++) {
+      if (arr[minIndex] > arr[j]) {
+        minIndex = j
+      }
+    }
+    temp = arr[i]
+    arr[i] = arr[minIndex]
+    arr[minIndex] = temp
+  }
+  return arr
+}
+
+/** 快速排序（时间复杂度o(nlogn)）
+* 1. 取中间值，删除当前中间值元素，将比其小的置于left数组中，比其大的置于right数组中
+* 2. 再对left和right数组进行同样的操作，直至获取的left和right中的元素个数小于等于1
+* 3. 将所有的数组结果进行concat
+*/
+function quickSort (arr) {
+  if (arr.length <= 1) return arr
+  var mid = Math.floor((arr.length - 1) / 2)
+  var left = [], right = []
+  var val = arr.splice(mid, 1)
+  for (var i = 0; i < arr.length; i++) {
     if (arr[i] < val) {
       left.push(arr[i])
     } else {
@@ -437,39 +476,24 @@ function quickSort(arr) {
   }
   return quickSort(left).concat(val, quickSort(right))
 }
-console.log(quickSort(arr)) // [0, 4, 10, 12, 15, 33, 44]
-  
-// 冒泡排序
-var arr = [10, 33, 44, 4, 12, 15, 0];
-function sort(arr) { // 每相邻的两个元素比较，大的沉底
-  for (var i = 0; i < arr.length - 1; i++) { // 控制比较的次数
-    for (var j = 0; j < arr.length - 1 - i; j++) {
-      if (arr[j] > arr[j + 1]) {
-        var temp = arr[j]
-        arr[j] = arr[j + 1]
-        arr[j + 1] = temp
-      }
+
+/** 插入排序（时间复杂度o(n²)）
+ * 1. 原理：类似于打牌，将当前元素和前面的元素一个一个的相比，比其大的元素往后移动一位。
+ * 2. 直至 preIndex小于0 或没有比其大的元素为止。
+*/
+function insertSort (arr) {
+  var preIndex, current
+  for (var i = 1; i < arr.length; i++) {
+    preIndex = i - 1
+    current = arr[i]
+    while(preIndex >=0 && arr[preIndex] > current) {
+      arr[preIndex + 1] = arr[preIndex]
+      preIndex--
     }
+    arr[preIndex + 1] = current
   }
   return arr
 }
-console.log(sort(arr)) // [0, 4, 10, 12, 15, 33, 44]
-  
-// 选择排序
-var arr = [10, 33, 44, 4, 12, 15, 0];
-function sort(arr) { // 每一个元素和后面的所有元素比较，小的元素上浮
-  for (var i = 0; i < arr.length - 1; i++) {
-    for (var j =  i + 1; j < arr.length; j++) {
-      if (arr[i] > arr[j]) {
-        var temp = arr[j]
-        arr[j] = arr[i]
-        arr[i] = temp
-      }
-    }
-  }
-  return arr
-}
-console.log(sort(arr)) // [0, 4, 10, 12, 15, 33, 44]
 ```
 
 ### 判断一个字符串是否是回文字符串
@@ -687,6 +711,18 @@ function binary_search2(arr, low, high, key) {
 var arr = [1,2,3,4,5,6,7,8,9,10,11,23,44,86];
 var result2 = binary_search2(arr, 0, 13, 10);
 console.log(result2);   // 9
+```
+
+```
+因为二分查找每次排除掉一半的不适合值，所以对于n个元素的情况：
+一次二分剩下：n/2
+两次二分剩下：n/2/2 = n/4
+...
+m次二分剩下：n/(2^m)
+在最坏情况下是在排除到只剩下最后一个值之后得到结果，所以为
+n/(2^m)=1;
+2^m=n;
+所以时间复杂度为：log2(n)
 ```
 
 ### 自定义函数实现数组去重

@@ -97,11 +97,22 @@ nrm ls
 nrm use taobao # 使用淘宝
 ```
 
+### nvm 常用命令
+
+```
+nvm install v8.17.0 // 安装指定版本的node
+nvm list // nvm ls  查看安装的所有node版本
+nvm use v8.17.0 // 使用指定版本的node
+nvm alias default v8.17.0 // 设置默认的node版本
+nvm current // 查看当前使用的node版本
+nvm --version // 查看nvm版本
+```
+
 ### npx
 
 [参考](http://www.ruanyifeng.com/blog/2019/02/npx.html)
 
-1. 调用项目内部安装的模块 ,无需指定 scripts 或 使用 node-modules/.bin/文件名 调用
+1. 调用项目内部安装的模块, 无需指定 scripts 或 使用 node-modules/.bin/文件名 调用
 2. 可以避免全局安装模块
 3. 指定某个版本的 Node 运行脚本
 4. 执行 GitHub 源码

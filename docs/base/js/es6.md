@@ -1005,3 +1005,12 @@ export default 11
 import * as obj from 'data.js' // 导入全部数据时必须使用 as，否则数据无法被接收
 console.log(obj) // {name: a, default: 11}
 ```
+
+## babel
+
+```html
+<script src="browser.min.js" charset="utf-8"></script>
+<script type="text/babel">....</script>
+```
+
+引入browser.min.js的作用是使浏览器支持babel，可以使用ES2015+的语法，注意script的type类型是text/babel，标准的浏览器无法解析这种类型的脚本，但是引入browser.min.js转换js文件后，会根据该类型将script内容执行语法转换，从而兼容低版本浏览器。

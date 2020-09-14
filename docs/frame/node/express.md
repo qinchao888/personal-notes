@@ -32,7 +32,7 @@ post请求需要借助 body-parser 模块，对body进行解析。
 
 ```js
 ...
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser') // limit: '100kb'
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({extended:true})) // for parsing application/x-www-form-urlencoded
 ...
@@ -414,3 +414,30 @@ server.setTimeout(1000)
 // 或
 server.timeout = 1000
 ```
+
+### 总结
+
+#### express() 和 express.Router() 的区别
+
+```js
+const express = require('express')
+const app = express()
+const child = require('./child')
+
+app.use('/api', child)
+
+// child.js
+const router = express.Router()
+router.get('/test1', function (req, res) { // /api/test1
+  res.send('this is child1')
+})
+router.get('/test2', function (req, res) { // /api/test2
+  res.send('this is child2')
+})
+module.exports = router
+
+// 路由器层中间件的匹配必须要经过应用层中间件，即只写router.get('/test'..)是无效的，必须加上 app.user('/api', router)
+```
+
+1. express() 是应用层中间件，express.Router() 是路由器层中间件。
+2. 如果路由比较复杂使用 express.Router() 管理更加方便。

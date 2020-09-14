@@ -123,6 +123,7 @@ end
 | CTRL+C | 中断操作 |
 | pbcopy < a.txt | 复制文件内容 |
 | pbpaste > b.txt | 粘贴文件内容 |
+| command + shift + p | 图片右侧显示预览 |
 
 ### 文件
 
@@ -188,11 +189,6 @@ git config --global core.editor "code --wait"
 执行 git commit 即可跳转至 vscode 中输入 commit 的信息
 ```
 
-## nginx
-
-## redis
-
-
 ## shadowsocks
 
 ```
@@ -201,4 +197,34 @@ ss-server -p 1234 -k 1234 -m aes-256-gcm
 # 配置nginx 代理
 设置选项->hosts->配置 192.168.11.135 test.aa.com
 
+# 页面无法打开
+微信：debugx5.qq.com 可尝试清除缓存，cookie等
+```
+
+## 手机chrome调试
+
+```
+1. 打开手机设置 -> 开发者权限 -> use 调试
+2. 用数据线连接手机和电脑
+3. chrome输入：chrome://inspect
+4. 手机上访问页面，再点击inspect即可
+
+注：需要访问 翻墙 才可
+```
+
+## brew
+
+### unrar
+
+解压 rar 类型的文件
+
+```
+brew install unrar
+
+# 常用命令
+unrar t test.rar # 测试文件是否可解压
+unrar i test.rar # 查看解压的文件信息
+unrar v test.rar # 查看解压的文件详细信息
+unrar e test.rar # 解压到当前目录
+unrar x test.rar ./test # 解压到当前目录下的 test 文件夹下
 ```
