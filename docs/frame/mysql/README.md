@@ -7,7 +7,8 @@ sidebarDepth: 2
 ## 基础语法
 
 :::tip
-执行顺序：select –>where –> group by–> having–>order by
+1. 执行顺序：select –>where –> group by–> having–>order by。
+2. mysql 中使用 order by 可能会导致性能问题造成查询失败。
 :::
 
 ### 语法汇总

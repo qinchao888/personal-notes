@@ -57,3 +57,15 @@ html, body {
 </body>
 <script>
 ```
+
+### 背景图片自适应
+
+```css
+.container {
+  width: 100%;
+  min-height: 100%;
+  background-image: url('../images/bg.jpg');
+  /* background-position: center; */
+  background-size: cover;
+}
+```

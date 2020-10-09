@@ -294,6 +294,30 @@ new Date(new Date(Date.now() + 24 * 3600 * 1000).setHours(0, 0, 0, 0))
 new Date(new Date(Date.now() + 24 * 3600 * 1000).setHours(23, 59, 59, 99))
 ```
 
+### JS实现倒计时
+
+```js
+function getTime (time) {
+  var date = new Date('2020/09/30 23:59:59') - time
+  var day = format(Math.floor(date / (24 * 3600 * 1000)))
+  var hour = format(Math.floor((date / (3600 * 1000)) % 24))
+  var minute = format(Math.floor((date / (60 * 1000)) % 60))
+  var second = format(Math.floor((date / 1000) % 60))
+  timeEl.innerHTML = `${day}天${hour}时${minute}分${second}秒`
+}
+/**
+ * var time = Date.now()
+ * ...
+ * time = time + 1000
+*/
+setInterval(() => {
+  getTime(Date.now()) 
+}, 1000)
+function format (time) {
+  return +time < 10 ? `0${time}` : time
+}
+```
+
 ## 常见方法
 
 ### sort

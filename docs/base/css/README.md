@@ -431,6 +431,45 @@ body {
 </html>
 ```
 
+## css变量
+
+1. css变量使用 --name 表示。
+2. 使用 var() 函数引用变量。
+3. 变量名区分大小写，--color 和 --Color 不是同一个变量。
+4. var()函数第二个参数表示默认值：var(--colorr, pink)。
+5. 变量值只能用作属性值，不能用作属性名。
+6. 如果变量值是数值，不能与数值单位直接连用。
+
+```css
+/* 例1 */
+:root {
+  --color: red;
+}
+@supports (--color: red) {
+  div {
+    color: var(--color);
+  }
+}
+@supports not (--color: red) { /* not 和 ( 之间必须有一个空格 */
+  div {
+    color: skyblue;
+  }
+}
+
+/* 例2 */
+.red {
+  --color: color;
+  var(--color): red; /* 不合法 */
+}
+
+/* 例3 */
+.gap {
+  --gap: 20;
+  margin-top: var(--gap)px; /* 无效 */
+  margin-top: calc(var(--gap) * 1px); /* right */
+}
+```
+
 ## css选择器
 
 ### first-of-type
@@ -518,6 +557,10 @@ li:first-child:nth-last-child(3) ~ li {}
 ```
 
 ### :root 和 html 元素的区别
+
+```
+The :root pseudo-class represents an element that is the root of the document. In HTML 4, this is always the HTML element.
+```
 
 1. :root 指文档的根元素，对于 html 文档来说，:root 就是 html 元素
 2. 优先级不同：:root > html

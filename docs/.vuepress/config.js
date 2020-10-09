@@ -50,6 +50,7 @@ module.exports = {
           { text: 'Git', link: '/tools/git/' },
           { text: 'Webpack', link: '/tools/webpack/' },
           { text: 'Mac', link: '/tools/mac/' },
+          { text: 'Linux', link: '/tools/linux/' },
           {text: 'nginx', link: '/tools/nginx/'},
           {text: 'js-sdk', link: '/tools/js-sdk/'},
           {text: 'vscode', link: '/tools/vscode/'}
@@ -123,6 +124,7 @@ module.exports = {
       ],
       '/tools/git/': [''],
       '/tools/mac/': [''],
+      '/tools/linux/': [''],
       '/tools/webpack/': [
         ['', 'vue环境构建'],
         ['loader', 'loader'],

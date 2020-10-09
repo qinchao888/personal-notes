@@ -226,5 +226,5 @@ unrar t test.rar # 测试文件是否可解压
 unrar i test.rar # 查看解压的文件信息
 unrar v test.rar # 查看解压的文件详细信息
 unrar e test.rar # 解压到当前目录
-unrar x test.rar ./test # 解压到当前目录下的 test 文件夹下
+unrar x test.rar ./test # 解压到当前目录下的 test 文件夹下(文件夹为已存在的文件夹)
 ```
