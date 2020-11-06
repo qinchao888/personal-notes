@@ -1405,6 +1405,136 @@ function myInstanceof(left, right) {
 '10001'.replace(/(0|1)/g, m => m ^ 1) // 01110
 ```
 
+### typeof 的返回值类型有哪些
+
+string, number, boolean, undefined, function, object, symbol
+
+### 输出 [typeof null, null instanceof Object]
+
+['object', false]
+
+原因：instanceof：判断构造函数的prototype属性是否在实例的原型链上。
+
+实例本质上是一个对象，而 null 并不是一个对象，它是没有原型链的。
+
+### 以下代码输出什么
+
+```js
+for (let i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1);
+}
+// 0 1 2
+// 分析：使用 let 关键字声明变量 i 是具有块作用域的
+
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1);
+}
+// 3 3 3
+```
+
+### 执行结果
+
+```js
+function f(){
+  return f;
+}
+console.log(new f() instanceof f); // false
+
+// 原因：返回的是一个函数f，并不是f的实例
+
+function f() {}
+new f() instanceof f // true
+
+// 等价于
+function fn () {
+  var obj = {}
+  obj.__proto__ = fn.prototype
+  fn.prototype.contructor = fn
+  return obj
+}
+new fn() instanceof fn
+```
+
+```js
+var x = 1;
+if(function f(){}){
+  x += typeof f;
+}
+console.log(x) // 1undefined
+/*
+函数声明写在运算符中，其为true，但放在运算符中的函数声明在执行阶段是找不到的。
+另外，对未声明的变量执行typeOf不会报错，会返回undefined
+*/
+```
+
+```js
+var a = 1;
+(function a () {
+  a = 2;
+  console.log(a);
+})();
+/*
+ƒ a () {
+  a = 2;
+  console.log(a);
+}
+变量与函数声明冲突会被忽略
+*/
+```
+
+```js
+var min = Math.min(); 
+max = Math.max();
+console.log(min < max); // false
+
+// Math.min()返回Infinity，Math.max()返回-Infinity
+```
+
+### 变量与函数声明冲突
+
+```js
+function fn(){
+  console.log(a); // function a(){alert(1);}
+  function a(){alert(1);};
+  var a=1234545;
+  console.log(a); // 1234545
+}
+fn();
+
+// 下面的第一个console.log会在函数预执行结束后立即调用，此时a类型是函数
+function fn(){
+  console.log(a); // function a(){alert(1);}
+  var a=1234545;
+  function a(){alert(1);};
+  console.log(a); // 1234545
+}
+fn();
+
+```
+对于同名的函数声明和变量声明，Javascript采用的是声明阶段忽略变量声明，赋值阶段覆盖原则，函数声明没有赋值阶段，所以被变量的赋值给覆盖了。
+
+
+### 函数柯理化
+
+```js
+// add(1)(2)()
+function curry () {
+  var args = []
+  return function () {
+    if (arguments.length === 0) {
+      return args.reduce((total, val) => total + val, 0)
+    } else {
+      args = args.concat([...arguments])
+      return arguments.callee
+    }
+  }
+}
+// var add = curry()
+console.log(curry()(1, 2)()) // 3
+console.log(curry()(1)(2)(3)()) // 6
+console.log(curry()(1, 2)(3, 4, 5)(6)()) // 21
+```
+
 ## vue
 
 ### MVVM的理解
@@ -1608,6 +1738,44 @@ this.$route.push({name: 'test', params: {id: '123', name: 'aaa'}})
 3. router.forward()
 4. router.back()
 5. router.go(n)
+
+### 为什么要用 vm.$set() 解决对象新增属性不能响应的问题
+
+Vue使用了Object.defineProperty实现双向数据绑定，在初始化时会给data中的属性执行 getter和setter转化，而对象中新增或删除的属性是无法被侦测到的，因此需要调用 $set 方法进行响应式处理。
+
+### vue中组件name的作用
+
+```js
+export default {
+  name: 'xxx'
+}
+```
+1. 当组件使用 keep-alive，可以使用 name 进行过滤。
+2. 当组件递归调用自身时，需要使用 name。
+3. 使用 vue-devtools 时显示的组件名称就是由 name 指定的。
+
+### router-vue中name的作用
+
+1. 为一个页面中不同的router-view渲染不同的组件。
+2. 可以使用$route.name获取组件的name。
+3. 路由跳转是可以使用name。
+
+```js
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/',
+      components: {
+        default: Foo,
+        a: Bar,
+        b: Baz
+      }
+    }
+  ]
+})
+
+this.$router.push({name: 'register',params: {}})
+```
 
 ## es6
 

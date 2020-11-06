@@ -3,6 +3,280 @@ title: JS
 lang: zh-CN
 sidebarDepth: 2
 ---
+## JS类型比较和转化规则
+
+### Number的转化规则
+
+1.原始类型值
+
+```js
+Number(123) // 123
+Number('123') // 123
+Number('123abc') // NaN
+Number('') // 0
+Number(true) // 1
+Number(false) // 0
+Number(null) // 0
+Number(undefined) // NaN
+
+Number('\t\n\r123\t\n\r') // 123
+Number(NaN) // NaN
+```
+Number()在进行转化时会忽略前后的空格。
+
+如:\t (制表符) \r (回车符) \n (换行符)
+
+2.对象
+
+::: tip 转化规则：
+第一步：先调用valueOf()，如果返回原始类型值，再使用Number()。否则执行第二步。
+
+第二步：调用toString()，如果返回原始类型值，再使用Number()。否则报错。
+:::
+
+```js
+Number({}) // NaN
+Number([1]) // 1
+Number([1, 2]) // NaN
+```
+对象和数组调用 valueOf() 返回自身，{} 再调用 toString() 返回 "[object Object]" (字符串类型)，再调用 Number() 返回NaN。
+
+```js
+// Number()转化对象等价于
+if (typeof obj.valueOf() === 'object') {
+  Number(obj.toString());
+} else {
+  Number(obj.valueOf());
+}
+```
+覆写对象的 valueOf() 和 toString() 方法：
+```js
+// 例1：
+var obj = {
+  valueOf: function () {
+    return {}
+  },
+  toString: function () {
+    return {}
+  }
+}
+Number(obj) // Uncaught TypeError: Cannot convert object to primitive value
+
+// 例2：
+Number({
+  valueOf: function () {
+    return 1;
+  },
+  toString: function () {
+    return 2;
+  }
+}) // 1
+```
+### String的转化规则
+
+1.原始类型值
+
+```js
+String('123') // '123'
+String(123) // '123'
+String(true) // 'true'
+String(null) // 'null'
+String(undefined) // 'undefined'
+String(NaN) // 'NaN'
+```
+2.对象
+
+::: tip 转化规则：（与Number相反）
+第一步：先调用toString()，如果返回原始类型值，再使用String()。否则执行第二步：
+
+第二步：调用valueOf()，如果返回原始类型值，再使用String()。否则报错。
+:::
+
+```js
+String({a: 1}) // "[object Object]"
+String([1, 2, 3]) // "1,2,3"
+
+String({a: 1}) // "[object Object]"
+// 等同于
+String({a: 1}.toString()) // "[object Object]"
+```
+覆写对象的 toString() 和 valueOf() 方法：
+```js
+// 例1：
+var obj = {
+  toString: function () {
+    return {};
+  },
+  valueOf: function () {
+    return {};
+  }
+};
+String(obj) // TypeError: Cannot convert object to primitive value
+
+// 例2：
+String({
+  valueOf: function () {
+    return 1;
+  },
+  toString: function () {
+    return 2;
+  }
+}) // "2"
+```
+### Boolean的转化规则
+
+#### 转化为Boolean为false的值
+:::v-pre
+`null、undefined、NaN、-0 或 +0、''、false`
+:::
+
+```js
+Boolean({}) // true
+Boolean([]) // true
+Boolean(new Boolean(false)) // true
+```
+所有对象的布尔值都是true，原因：出于性能的考虑，对象转化为布尔值可能需要过多的计算。为了保证性能，统一规定对象的布尔值为true。
+
+### 自动转化
+
+#### 自动转化为布尔值
+
+```js
+if (undefined) {...} // if的隐式转化
+
+expression ? true: false // 三元表达式
+
+!!expression
+```
+#### 自动转化为字符串
+
+在进行加法运算时，一个值为字符串，一个值为非字符串会自动将非字符串的值转化为字符串进行运算。
+
+```js
+'5' + 1 // '51'
+'5' + true // "5true"
+'5' + false // "5false"
+'5' + {} // "5[object Object]"
+'5' + [] // "5"
+'5' + function (){} // "5function (){}"
+'5' + undefined // "5undefined"
+'5' + null // "5null"
+
+// 例1：
+var obj = {
+  valueOf: function () {
+    return 1
+  },
+  toString: function () {
+    return 2
+  }
+}
+console.log('1' + obj) // '11'
+
+// 例2：
+var obj = {
+  valueOf: function () {
+    return {}
+  },
+  toString: function () {
+    return 2
+  }
+}
+console.log('1' + obj) // '12'
+
+// 例3：
+var obj = {
+  valueOf: function () {
+    return {}
+  },
+  toString: function () {
+    return {}
+  }
+}
+console.log('1' + obj) // Uncaught TypeError: Cannot convert object to primitive value
+```
+在进行字符串和非字符串加法运算时，如果非字符串为一个对象会优先调用 valueOf() 转化为原始值类型，如果返回的是对象会再次调用 toString() 转化为原始值类型，再将其转化为字符串，再进行字符串拼接。
+
+#### 自动转化为数值
+
+先将非数值类型通过 Number() 转化为数值类型，再进行运算。
+```js
+'5' - '2' // 3
+'5' * '2' // 10
+true - 1  // 0
+false - 1 // -1
+'1' - 1   // 0
+'5' * []    // 0
+false / '5' // 0
+'abc' - 1   // NaN
+null + 1 // 1
+undefined + 1 // NaN
++'abc' // NaN
+-'abc' // NaN
++true // 1
+-false // 0
+```
+::: tip 比较规则
+1. 如果 x 或 y 中有一个为 NaN，则返回 false；
+2. 如果 x 与 y 皆为 null 或 undefined 中的一种类型，则返回 true（null == undefined // true）；否则返回 false（null == 0 // false）；
+3. 如果 x, y 类型不一致，且 x, y 为 String、Number、Boolean 中的某一类型，则将 x, y 使用 Number() 转化数值类型再进行比较；
+4. 如果 x，y 中有一个为 Object，则先转化为原始类型，再进行比较。
+:::
+#### 注：在 ECMAScript 中规定，如果 < 为 false，则 >= 为 true。
+
+```js
+[] == ![] // true
+
+/**转化过程：
+1. [] 转化为''，![]转化为布尔值为false
+2. 两边通过 Number() 转化为数值，均为0，故返回true */
+
+NaN !== NaN // true
+null > 0 // false
+null < 0 // false
+null == 0 // false
+null >= 0 // true
+
+null == undefined // true
+// null只和undefined和null相等，和其他所有的值都不相等
+
+{} + 1 // 1，这里的 {} 被当成了代码块
+{ 1 + 1 } + 1 // 1
+
+var obj = {}
+obj + 1 // [object Object]1
+
+{} + {} // Chrome 上显示 "[object Object][object Object]"，Firefox 显示 NaN
+[] + {} // [object Object]
+{} + [] // 0
+{} + ({}) // NaN
+
+[2,3] + [1,2] // '2,31,2'
+[2] + 1 // '21'
+[2] + (-1) // "2-1"
+
+// google调试工具console上输入以下内容
+{} + {}; // NaN
+{} + {} // [object Object][object Object]
+```
+{} + [] 值为 0 的原因：{} 被解析为代码块，即 {} + [] === + []，+ []会先通过 Number()将 []转化为0。
+
+{} + {} 在Chorme浏览器下被解析为({} + {})，因此返回'[object Object][object Object]'而在Firefox下第一个{}被解析为代码块返回值是NaN。这个和浏览器的解析引擎有关。
+
+
+```js
+var obj = {
+  valueOf: function () {
+    return 1
+  },
+  toString: function () {
+    return 2
+  }
+}
+console.log(obj === 1) // false
+console.log(obj == 1) // true
+```
+
 ## JS开发技巧
 
 ### 幂运算

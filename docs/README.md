@@ -1,715 +1,1079 @@
 ---
-title: 前端笔记
+title: 开发总结
 lang: zh-CN
 sidebarDepth: 2
 ---
-## JS类型比较和转化规则
 
-### Number的转化规则
+## h5
 
-1.原始类型值
+### 调试工具
 
-```js
-Number(123) // 123
-Number('123') // 123
-Number('123abc') // NaN
-Number('') // 0
-Number(true) // 1
-Number(false) // 0
-Number(null) // 0
-Number(undefined) // NaN
+1. vconsole
+2. eruda
 
-Number('\t\n\r123\t\n\r') // 123
-Number(NaN) // NaN
+```html
+<!-- 引入vconsole -->
+<script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.3.4/vconsole.min.js"></script>
+<script>new VConsole()</script>
+
+<!-- 引入eruda -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
 ```
-Number()在进行转化时会忽略前后的空格。
 
-如:\t (制表符) \r (回车符) \n (换行符)
+### reset.css
 
-2.对象
+```css
+/* reset.css */
+*, ::before, ::after { /* 选中所有的元素和伪元素 */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box; /* 主流浏览器兼容（主流浏览器的内核为webkit内核） */
+  -webkit-tap-highlight-color: transparent; /* 清除点击高亮效果 */
+}
+body {
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+ul, ol {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: #333;
+}
+input, textarea {
+  border: none;
+  outline: none;
+  resize: none;
+  -webkit-appearance: none; /* 清除移动端输入框特有样式 */
+  -webkit-tap-highlight-color: transparent;
+}
+```
 
-::: tip 转化规则：
-第一步：先调用valueOf()，如果返回原始类型值，再使用Number()。否则执行第二步。
+### h5初始字体设置
 
-第二步：调用toString()，如果返回原始类型值，再使用Number()。否则报错。
+```css
+html, body {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+html, body {
+  font-family: "Helvetica Neue",Helvetica, Arial,sans-serif; /*美团*/
+  font-family: -apple-system,Helvetica,sans-serif; /*京东*/
+  font-family: sans-serif; /*阿里云，腾讯*/
+  font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif; /*腾讯*/
+}
+```
+
+### 设置 letter-spacing 后 文字不居中
+
+```css
+.text {
+  letter-spacing: 2px;
+  text-indent: 2px;
+}
+```
+### 移动端元素点击时背景高亮显示
+
+```css
+/* 解决办法 */
+.text {
+  -webkit-tap-highlight-color: transparent;
+}
+```
+
+### textarea 不显示右下角的角标
+
+```css
+textarea {
+  resize: none;
+}
+```
+
+### 移动端获取图片自适应高度
+
+使用 rem 布局，图片宽高比假设为 2 : 1，则图片的自适应高度为 375 / 37.5 * 0.5 = 5rem
+
+::: tip 注：
+js 脚本中的 rem 适配设置了 540px 的限制，即超过该限制 rem 的值不再改变。
 :::
 
-```js
-Number({}) // NaN
-Number([1]) // 1
-Number([1, 2]) // NaN
-```
-对象和数组调用 valueOf() 返回自身，{} 再调用 toString() 返回 "[object Object]" (字符串类型)，再调用 Number() 返回NaN。
+### 移动端禁止页面缩放
+
+当设置 user-scalable=0 或 user-scalable=no 无效。
 
 ```js
-// Number()转化对象等价于
-if (typeof obj.valueOf() === 'object') {
-  Number(obj.toString());
-} else {
-  Number(obj.valueOf());
+<script>
+window.onload = function () {  
+  document.addEventListener('touchstart', function (event) {
+    if (event.touches.length > 1) {  
+      event.preventDefault();  
+    }  
+  })
+  var lastTouchEnd = 0;  
+  document.addEventListener('touchend', function (event) {
+    var now = (new Date()).getTime();  
+    if (now - lastTouchEnd <= 300) {  
+      event.preventDefault();  
+    }  
+    lastTouchEnd = now;  
+  }, false)  
+}
+</script>
+```
+### 设置行高影响了其他的元素
+
+需要：左侧文字内容超出换行，设置行高 line-height 调节行间距，导致右侧内容受行高影响。
+
+解决方法：给右侧的元素嵌套一个 div 即可。
+
+```html
+<head>
+<style>
+.detail {
+  display: flex;
+}
+.detail>.description {
+  flex: 1;
+  color: #999;
+  margin-right: 10px;
+  line-height: 22px;
+}
+.detail .apply {
+  display: flex;
+}
+.detail .apply div {
+  align-self: flex-end;
+  color: #fff;
+  background-color: #626dad;
+  font-size: 13px;
+  padding: 0.133333rem 0.4rem;
+  border-radius: 30px;
+}
+</style>
+</head>
+<body>
+  <div class="detail">
+    <div class="description">描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述</div>
+    <div class="apply"><div>立即申请</div></div>
+  </div>
+</body>
+```
+### h5页面缓存
+
+需求：从h5跳转至第三方页面后返回仍旧保持之前访问的状态。避免微信进入h5页面安卓不缓存，IOS缓存h5页面引起的状态不一致。
+
+使用sessionStorage存储需要缓存的数据
+
+### 重置页面滚动条状态
+
+```js
+<script>
+  history.scrollRestoration = 'manual'
+</script>
+```
+### 电脑微信浏览器进入 h5 页面空白
+
+原因：电脑版的微信浏览器有一部分 es6 语法不兼容，如：let 、箭头函数。页面中的 let 修改为 var ,箭头函数修改为     function。
+
+### swiper 组件在 ios 下的 bug
+
+描述：设置 loop: true 后的轮播图固定定位在顶部，ios 下的回弹效果导致图片显示为空白。
+
+```
+// 解决办法
+.swiper-slide {
+  transform: translateZ(1px);
 }
 ```
-覆写对象的 valueOf() 和 toString() 方法：
-```js
-// 例1：
-var obj = {
-  valueOf: function () {
-    return {}
-  },
-  toString: function () {
-    return {}
+### less 中使用 calc() 无效
+
+原因：和 less 的语法冲突了，less 把 calc 的参数当作运算式执行了。解决方式是使用 Less 的转义字符~。
+
+```css
+min-height: calc(~"100% - 3rem");
+
+div{
+  @val: 0.20rem;
+  width: calc(~"100% - @{val}");
+}
+```
+### 1px 边框
+
+```
+.border_b(@color) {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-bottom: 1px solid @color;
+    transform: scaleY(0.5);
   }
 }
-Number(obj) // Uncaught TypeError: Cannot convert object to primitive value
 
-// 例2：
-Number({
-  valueOf: function () {
-    return 1;
-  },
-  toString: function () {
-    return 2;
-  }
-}) // 1
-```
-### String的转化规则
-
-1.原始类型值
-
-```js
-String('123') // '123'
-String(123) // '123'
-String(true) // 'true'
-String(null) // 'null'
-String(undefined) // 'undefined'
-String(NaN) // 'NaN'
-```
-2.对象
-
-::: tip 转化规则：（与Number相反）
-第一步：先调用toString()，如果返回原始类型值，再使用String()。否则执行第二步：
-
-第二步：调用valueOf()，如果返回原始类型值，再使用String()。否则报错。
-:::
-
-```js
-String({a: 1}) // "[object Object]"
-String([1, 2, 3]) // "1,2,3"
-
-String({a: 1}) // "[object Object]"
-// 等同于
-String({a: 1}.toString()) // "[object Object]"
-```
-覆写对象的 toString() 和 valueOf() 方法：
-```js
-// 例1：
-var obj = {
-  toString: function () {
-    return {};
-  },
-  valueOf: function () {
-    return {};
-  }
-};
-String(obj) // TypeError: Cannot convert object to primitive value
-
-// 例2：
-String({
-  valueOf: function () {
-    return 1;
-  },
-  toString: function () {
-    return 2;
-  }
-}) // "2"
-```
-### Boolean的转化规则
-
-#### 转化为Boolean为false的值
-:::v-pre
-`null、undefined、NaN、-0 或 +0、''、false`
-:::
-
-```js
-Boolean({}) // true
-Boolean([]) // true
-Boolean(new Boolean(false)) // true
-```
-所有对象的布尔值都是true，原因：出于性能的考虑，对象转化为布尔值可能需要过多的计算。为了保证性能，统一规定对象的布尔值为true。
-
-### 自动转化
-
-#### 自动转化为布尔值
-
-```js
-if (undefined) {...} // if的隐式转化
-
-expression ? true: false // 三元表达式
-
-!!expression
-```
-#### 自动转化为字符串
-
-在进行加法运算时，一个值为字符串，一个值为非字符串会自动将非字符串的值转化为字符串进行运算。
-
-```js
-'5' + 1 // '51'
-'5' + true // "5true"
-'5' + false // "5false"
-'5' + {} // "5[object Object]"
-'5' + [] // "5"
-'5' + function (){} // "5function (){}"
-'5' + undefined // "5undefined"
-'5' + null // "5null"
-
-// 例1：
-var obj = {
-  valueOf: function () {
-    return 1
-  },
-  toString: function () {
-    return 2
-  }
+/*单个边框*/
+.qb-alert-confirm-btn {
+  position: relative;
+  font-size: 18px;
 }
-console.log('1' + obj) // '11'
-
-// 例2：
-var obj = {
-  valueOf: function () {
-    return {}
-  },
-  toString: function () {
-    return 2
-  }
-}
-console.log('1' + obj) // '12'
-
-// 例3：
-var obj = {
-  valueOf: function () {
-    return {}
-  },
-  toString: function () {
-    return {}
-  }
-}
-console.log('1' + obj) // Uncaught TypeError: Cannot convert object to primitive value
-```
-在进行字符串和非字符串加法运算时，如果非字符串为一个对象会优先调用 valueOf() 转化为原始值类型，如果返回的是对象会再次调用 toString() 转化为原始值类型，再将其转化为字符串，再进行字符串拼接。
-
-#### 自动转化为数值
-
-先将非数值类型通过 Number() 转化为数值类型，再进行运算。
-```js
-'5' - '2' // 3
-'5' * '2' // 10
-true - 1  // 0
-false - 1 // -1
-'1' - 1   // 0
-'5' * []    // 0
-false / '5' // 0
-'abc' - 1   // NaN
-null + 1 // 1
-undefined + 1 // NaN
-+'abc' // NaN
--'abc' // NaN
-+true // 1
--false // 0
-```
-::: tip 比较规则
-1. 如果 x 或 y 中有一个为 NaN，则返回 false；
-2. 如果 x 与 y 皆为 null 或 undefined 中的一种类型，则返回 true（null == undefined // true）；否则返回 false（null == 0 // false）；
-3. 如果 x, y 类型不一致，且 x, y 为 String、Number、Boolean 中的某一类型，则将 x, y 使用 Number() 转化数值类型再进行比较；
-4. 如果 x，y 中有一个为 Object，则先转化为原始类型，再进行比较。
-:::
-#### 注：在 ECMAScript 中规定，如果 < 为 false，则 >= 为 true。
-
-```js
-[] == ![] // true
-
-/**转化过程：
-1. [] 转化为''，![]转化为布尔值为false
-2. 两边通过 Number() 转化为数值，均为0，故返回true */
-
-NaN !== NaN // true
-null > 0 // false
-null < 0 // false
-null == 0 // false
-null >= 0 // true
-
-null == undefined // true
-// null只和undefined和null相等，和其他所有的值都不相等
-
-{} + 1 // 1，这里的 {} 被当成了代码块
-{ 1 + 1 } + 1 // 1
-
-var obj = {}
-obj + 1 // [object Object]1
-
-{} + {} // Chrome 上显示 "[object Object][object Object]"，Firefox 显示 NaN
-[] + {} // [object Object]
-{} + [] // 0
-{} + ({}) // NaN
-
-[2,3] + [1,2] // '2,31,2'
-[2] + 1 // '21'
-[2] + (-1) // "2-1"
-
-// google调试工具console上输入以下内容
-{} + {}; // NaN
-{} + {} // [object Object][object Object]
-```
-{} + [] 值为 0 的原因：{} 被解析为代码块，即 {} + [] === + []，+ []会先通过 Number()将 []转化为0。
-
-{} + {} 在Chorme浏览器下被解析为({} + {})，因此返回'[object Object][object Object]'而在Firefox下第一个{}被解析为代码块返回值是NaN。这个和浏览器的解析引擎有关。
-
-
-```js
-var obj = {
-  valueOf: function () {
-    return 1
-  },
-  toString: function () {
-    return 2
-  }
-}
-console.log(obj === 1) // false
-console.log(obj == 1) // true
-```
-## 变量提升带来的问题
-
-1. 无法获取期望的值
-
-```js
-var num = 1
-function f () {
-  console.log(num)
-  if (false) {
-    var num = 2
-  }
-}
-f() // undefined
-```
-2. for循环中的变量会泄漏为全局变量
-
-```js
-for (var i = 0; i < 10; i++){}
-console.log(i) // 10
-```
-::: tip 用 var 声明变量的缺陷：
-1. 存在变量提升。
-2. 污染全局变量，声明的变量会作为window对象的属性。
-:::
-
-## 箭头函数
-
-```js
-// 例1：
-function foo() {
-  setTimeout(function () {
-    console.log('id:', this.id);
-  });
+.qb-alert-confirm-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #ddd;
+  transform-origin: left top;
+  transform: scaleY(0.5);
 }
 
-var id = 21;
-foo(); // id: 21
-foo.call({ id: 42 }); // id: 21
-
-// 例2：
-function foo() {
-  setTimeout(() => {
-    console.log('id:', this.id);
-  });
+/*多个边框*/
+.qb-alert-confirm-btn {
+  position: relative;
+  font-size: 18px;
 }
-
-var id = 21;
-foo.call({ id: 42 }); // id: 42
+.qb-alert-confirm-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  border: 1px solid #ddd;
+  transform-origin: left top;
+  transform: scaleY(0.5);
+}
 ```
-箭头函数中的this是定义时所在的对象，而不是使用时所在的对象。
+### 元素垂直居中
 
-题中箭头函数的定义生效是在foo函数生成时，如果是普通函数，执行时this应该指向全局对象window，这时应该输出21。但是，箭头函数导致this总是指向函数定义生效时所在的对象，所以输出的是42。
+```
+/*固定定位元素垂直居中*/
+.qb-alert-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: table;
+  margin: auto;
+  width: 80%;
+  max-width: 300px;
+  border-radius: 3px;
+  text-align: center;
+  background-color: #fff;
+}
+``` 
+### 清除定时器
+
+setTimeout 设置后需要使用 clearTimeout 清除，否则虽然 setTimeout 执行完成，但其仍旧存在在内存中，并且其引用需要设为 null，否则即使计时器被清除，但返回值不会清除，之后设置的计时器的返回值是在之前的返回值上累加。
+
+### flex布局设置overflow无效
+
+设置 min-height: 0 或 min-width: 0 即可
+```css
+min-height: 0; /*min-width: 0;*/
+overflow: auto;
+```
+
+### 固定高度的多行文本垂直水平居中
+
+```html
+<div style="display:table;height:400px;width:100%;">
+  <span style="display:table-cell;vertical-align:middle;text-align:center;">你要填写的内容</span>
+</div>
+```
+
+### 插值{{}}中使用换行符
+
+```html
+<!-- 方式一：使用 v-html -->
+<body>
+<div id = "app" v-html="msg"></div>
+</body>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      msg: `1111<br/>222`
+    }
+  })
+</script>
+
+<!-- 方式二：使用 white-space: pre-wrap -->
+<!-- 作用：类似于 pre 标签-->
+<style>
+  #app {
+    white-space: pre-wrap;
+  }
+</style>
+<body>
+<div id = "app">{{msg}}</div>
+</body>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      msg: `1111\n222`
+    }
+  })
+// 或
+  new Vue({
+      el: '#app',
+      data: {
+        msg: `1111
+222`
+      }
+    })
+</script>
+```
+
+### 禁止输入框粘贴内容
+
+```html
+<input type="text" onpaste="return false;">
+```
+
+### 文本超出显示省略号
+
+```css
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+```
+
+### 拷贝和剪切内容至剪贴板
+
+```html
+<input type="text"  id="url" value="http://www.baid.com/">
+<!--拷贝-->
+<input type="button" value="copyLink" onclick="url.select();document.execCommand('copy')">
+<!--剪切-->
+<input type="button" value="cutLink" onclick="url.select();document.execCommand('cut')">
+
+
+<body>
+<button onclick="copy()">1111</button>
+<script>
+function copy () {
+  var text = Math.random() + '';
+  var input = document.createElement('input')
+  input.value = text
+  /* 不能设置display:none或visibility:hidden */
+  input.style = 'opacity: 0;position:absolute;z-index:-1000;'
+  document.body.appendChild(input)
+  input.select()
+  document.execCommand('copy');
+  console.log('复制成功！')
+}
+</script>
+```
+select()：选取文本。
+
+### 可编辑段落
+
+```html
+<p contenteditable="true">这是一个可编辑的段落。</p>
+```
+
+### ios下某些文字变色
+
+原因：safari总会把长串数字识别为电话号码，文字变成蓝色，点击还会弹出菜单添加到通讯录。
+
+```html
+<!--解决方案-->
+<meta name="format-detection" content="telephone=no" />
+```
+
+### iphoneX下使用rem适配导致页面显示不全
+
+```html
+<!--解决方案-->
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,viewport-fit=cover">
+```
+
+### ios下时间无法解析
+
+原因：ios不识别时间格式中的 '-'
 
 ```js
-// 箭头函数的行为可以理解为：
-function foo() {
-  var that = this
-  setTimeout(function () {
-    console.log('this', that)
+// 解决方案
+var time = '2019-11-29 17:30:30';
+time = time.replace(/-/g, '/');
+```
+
+### input type=button按钮在ios和android渲染效果不一致
+
+在IOS系统下按钮显示的效果是：有渐变的效果-由白变灰
+
+原因：IOS下有默认的按钮渲染方式（颜色渐变和圆角）
+
+解决方法：添加样式  -webkit-appearance:none;
+
+### ios input输入时白屏
+
+描述：部分 ios 机型下，在 input 框中输入内容时会导致包含 input 的那个大的div白屏。
+
+解决方案：给该父 div 添加 position: relative 即可。
+
+### ios input 默认设置 autofocus 时无法弹出软键盘
+
+在ios移动端， 弹出软键盘只能 行为事件才能触发 弹出软键盘， 脚本事件是不能触发 弹出软键盘。
+
+1. 行为事件：如点击，触屏等。
+2. 脚本事件：如 定时器定时触发。
+
+```html
+<input type="text" autofocus/>
+```
+
+### input 设置高度无效
+
+给 input 设置一个 border 或者 background-color 即可。
+
+```css
+input {
+  width: 100px;
+  height: 60px;
+  background-color: transparent; // 或设置 border: none
+}
+```
+
+### vue中使用$route问题
+
+使用this.$route.path 或 this.$router.currentRoute.path无法获取对应的path。
+
+原因：使用路由懒加载导致的。
+
+#### 不使用懒加载
+
+生命周期顺序为：
+
+父组件的beforeCreate、created、beforeMount --> 所有子组件的beforeCreate、created、beforeMount --> 所有子组件的mounted --> 父组件的mounted 
+
+#### 使用懒加载
+
+生命周期顺序为：
+
+父组件的beforeCreate、created、beforeMount、mounted --> 子组件的beforeCreate、created、beforeMount、mounted,
+
+异步加载组件会导致生命周期的顺序发生改变。
+
+### 检测设备类型跳转至对应的pc或h5页面
+
+```js
+// main.js
+// 此种方法的缺点：会等当前页面路由完成后在跳转，即会执行前一个页面中的生命周期函数
+router.onReady(() => { // 检测设备类型跳转至相应的pc和移动页面
+  const isMobile = checkIsMobile()
+  const currentPath = router.currentRoute.path
+  if (isMobile && !currentPath.includes('/mobile')) { // 移动设备
+    router.replace( `/mobile${currentPath}`)
+  } else if (!isMobile && currentPath.includes('/mobile')){ // pc设备
+    router.replace(currentPath.replace('/mobile', '')
+    )
+  }  
+})
+
+// 较优的方法(直接在路由之前修改url路径)
+// router/index.js
+export default function createRouter () {
+  
+  const deviceIsMobile = checkIsMobile()
+  const urlIsMobile = location.pathname.indexOf('/mobile/') === 0
+  const fullPath = location.href.replace(`${location.origin}`, '')
+  if (urlIsMobile && !deviceIsMobile) { // pc页面
+    history.replaceState({}, '', fullPath.replace(/^\/mobile/i, ''))
+  } else if (!urlIsMobile && deviceIsMobile) { // h5页面
+    history.replaceState({}, '', `/mobile${fullPath}`)
+  }
+
+  return new VueRouter({
+    mode: 'history',
+    routes: [
+      {
+        path: '/order/:id',
+        component: _import('pc/Index'),
+      },
+      {
+        path: '/order/:id/finish',
+        component: _import('pc/Finish')
+      },
+      {
+        path: '/mobile/order/:id',
+        component: _import('mobile/Index'),
+      },
+      // {
+      //   path: '/mobile/order/:id/finish',
+      //   component: _import('Finish')
+      // },
+      {
+        path: '*',
+        component: _import('NotFound'),
+      }
+    ],
+    scrollBehavior (to, from, savedPosition) {
+      if (!savedPosition) {
+        return { x: 0, y: 0 };
+      }
+      return savedPosition;
+    }
   })
 }
+
+function checkIsMobile () { // 检测是移动端还是pc端设备
+  const reg = /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone|Opera Mini|MiuiBrowser|XiaoMi)/i;
+  return reg.test(navigator.userAgent);
+}
 ```
-## 解构赋值
+### 使用rem布局或vw布局导致部分图片显示不圆的bug
 
-### 数组的解构赋值
+解决方案：将图片放大 10 倍再缩小 10 倍即可。
 
-1. 对象：其数据结构必须具有Iterator接口。
+### position: sticky在table中不生效
+
+[参考](https://xiaotiandada.github.io/2019/07/15/Position-Sticky-and-Table-Headers%E3%80%90%E8%A1%A8%E6%A0%BC%E5%A4%B4%E9%83%A8%E5%9B%BA%E5%AE%9A%E3%80%91/)
+
+简述：chrome 中 设置position: sticky; 在table，thead，tr中设置是无效的，只能设置在 th 中。
+
+```css
+.header-sticky tr th {
+  position: sticky;
+  top: 50px;
+  background-color: #fff !important;
+}
+```
+注：使用了 position: sticky; 后会忽略掉表格中的设置的border，即border的样式在顶部固定时并不会生效。
+
+解决办法：使用伪元素。
+
+[参考](https://stackoverflow.com/questions/41882616/why-border-is-not-visible-with-position-sticky-when-background-color-exists)
+
+```css
+.header-sticky tr th:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  border-top: 3px solid #71D189;
+}
+```
+### 禁用手机浏览器长按保存图片功能
+
+```css
+img {
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+```
+
+### 移动端video禁用进度条
 
 ```js
-// 具有iterator接口的数据结构
-Array | Map | Set | 类数组对象 | NodeList | String
+<video width="100%" height="100%" id="video" playsinline webkit-playsinline="true" x-webkit-airplay="true" x5-video-player-type="h5-page" x5-video-orientation="landscape" controlslist="nofullscreen" poster="../images/transparent.png">
 ```
 
-2. 原始类型数据：转化为对象时具备Iterator接口。
+### video中设置poster属性后在部分安卓机中点击无法播放视频的bug
+
+部分安卓手机的微信浏览器中不识别 touchstart 事件，换成 click 事件即可。
 
 ```js
-let [foo] = {}; // Uncaught TypeError: {} is not iterable
-// 对象是不具备Iterator接口的
+var video = document.getElementById('video');
+document.addEventListener('touchstart', function(){ 
+  video.play();
+}, false);
 
-let [a] = '123'
-a // 1
-// 此处的字符串会被转换成了一个类似数组的对象。具备Iterator接口，故解构成功
-
-let [b] = new String('123')
-b // 1
+document.addEventListener('click', function(){ 
+  video.play();
+}, false);
 ```
-#### 数组：
-![image](https://note.youdao.com/yws/api/personal/file/E703686725904ADD869488D764160D5A?method=download&shareKey=80cde9ca79b66d183498533c4ae4c10a)
 
-#### 对象：
-![image](https://note.youdao.com/yws/api/personal/file/FC91358DA1724891B3E28C9F1178201B?method=download&shareKey=92bbcb223d0b4eb83c845e669e0fe2f6)
+### input type="file" 上传相同的文件不会触发change事件
 
-#### 数组解构的原理其实是消耗数组的迭代器，把生成对象的value属性的值赋值给对应的变量
+原因：input 会存储触发change事件的值，第二次上传时会判断两个是否相等，相等则不触发change事件。
+
+解决办法：上传后清空input的value值即可。
 
 ```js
-// 执行 Generator 函数会返回一个遍历器对象
-function* fibs() {
-  let a = 0;
-  let b = 1;
-  while (true) {
-    yield a;
-    [a, b] = [b, a + b];
+// <input ref="file" class="file" @change="fileChange" type="file"/>
+
+function fileChange () {
+  const file = this.$refs.file.files[0]
+  ...
+  this.$refs.file.value = null
+}
+```
+
+### 微信二次分享异常
+
+表现：从别人分享的页面再次进入后分享给别人，此时分享的页面异常。
+
+原因：微信分享后的页面会携带参数，导致签名获取异常，分享失效。
+
+解决办法：使用重定向
+
+```js
+/* 此写法使用与本身不携带参数的页面 */
+if (window.location.search.length > 0) {
+  window.location.replace('/')
+}
+```
+
+### 关闭iOS键盘首字母自动大写
+
+```html
+<input type="text" autocapitalize="off" />
+```
+
+### 关闭iOS输入自动修正
+
+```html
+<input type="text" autocorrect="off" />
+```
+
+### 关闭input的拼写检查
+
+行为：输入字母或数字时底部会出现红色的下划线。
+
+```html
+<input type="text" spellcheck="false" />
+```
+
+### 禁止复制图片
+
+```css
+img {
+  pointer-events: none;
+}
+```
+
+### 设置文字在指定的空间中两端对齐
+
+```css
+label {
+  text-align-last: justify;
+  width: 200px;
+}
+```
+
+### input和label设置宽度溢出
+
+```css
+/* 样式重置 */
+input {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+}
+.form-wrap {
+  width: 200px;
+  font-size: 0; /* 解决空格 */
+  margin: 0 auto;
+}
+label {
+  display: inline-block;
+  width: 60px;
+  font-size: 16px;
+}
+input {
+  padding: 0 6px;
+  height: 24px;
+  width: 140px;
+  background-color: silver;
+  box-sizing: border-box;
+}
+```
+```html
+<div class="form-wrap">
+  <div class="form-item">
+    <label>名称：</label>
+    <input type="text"/>
+  </div>
+</div>
+```
+
+###  post请求数据量过大错误
+
+1. node 中的 body-parser 允许传输的数据量默认为100kb。
+2. nginx 中默认限制文件上传的大小为 1M。
+
+```js
+app.use(bodyParser.json({
+  limit : '100000kb'
+}))
+```
+
+```
+// 路径： /usr/local/etc/nginx/nginx.conf
+
+#user  nobody;
+user root admin;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    #access_log  logs/access.log  main;
+    client_max_body_size 35m; <- 设置此配置即可
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+```
+
+### 使用 new Buffer() 报错
+
+原因：由于安全性和可用性问题，不建议使用Buffer()和new Buffer()构造函数，请改用new Buffer.alloc()、Buffer.allocUnsafe()或Buffer.from()构造方法。
+
+```js
+Buffer.from(base64Data, 'base64')
+```
+
+### 文件转成base64数据至 oss 存储后文件损坏
+
+原因：base64数据需要手动剔除头部。
+
+```js
+var base64Data = base64.replace(/^data:image\/\w+;base64,/, '')
+```
+
+### input="file"传输的file对象转化成base64
+
+```js
+function upload (e) {
+  var img = e.target.files[0]
+  if(img){
+    var reader = new FileReader();
+    reader.onload = function (evt) {
+      var base64 = evt.target.result
+      var base64Data = base64.replace(/^data:image\/\w+;base64,/, '')
+      console.log('base64Data', base64Data)
+    };
+    reader.readAsDataURL(img); // 将 Blob 或 File 对象转成base64
   }
 }
-
-let [first, second, third, fourth, fifth, sixth] = fibs();
-sixth // 5
-// 上述的解构赋值等同于调用了五次next()获取相应的value值。
-```
-### 对象的解构赋值
-
-#### 解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象。
-
-```js
-{a, a: [b]} = {a: [10]}
-a // [10]
-b // 10
-
-let {toString: s} = 123;
-s === Number.prototype.toString // true
-
-let {toString: s} = true;
-s === Boolean.prototype.toString // true
-
-let { prop: x } = undefined; // TypeError
-let { prop: y } = null; // TypeError
-```
-## 扩展运算符
-
-扩展运算符的原理其实是利用了数组的迭代器，它会消耗3个点后面的数组的所有迭代器，读取所有迭代器生成对象的value属性。
-
-```js
-// 例1：
-let [first, ...arr] = [1, 2, 3, 4]
-first // 1
-arr // [2, 3, 4]
-
-// 例2：
-let [...arr, last] = [1, 2, 3, 4] // Uncaught SyntaxError: Rest element must be last element
-```
-分析：例1中的first会先消耗掉一个迭代器，...arr 会消耗掉剩下的迭代器。而例2中的 ...arr 直接消耗掉了所有的迭代器，导致last没有迭代器可以消耗。
-
-#### 扩展运算符拷贝数组是浅拷贝，类似于Object.assign，只能拷贝一层。
-
-```js
-let arr = [{a: {b: 11}}]
-let s = [...arr]
-s[0].a = 10
-console.log('s', s) // [{a: 10}]
-console.log('arr', arr) // [{a: 10}]
 ```
 
-## for...of 循环
+### ios 下的 select option 中的第一个选项无法选中
 
-::: tip for...of 和 for...in 的区别：
+```html
+<select v-model="optionValue">
+  <option value="1">选项一</option>
+  <option value="2">选项二</option>
+</select>
 
-1. for ... of遍历获取的是对象的键值,for ... in 获取的是对象的键名。
-2. for ... in会遍历对象的整个原型链,性能非常差不推荐使用,而for ... of只遍历当前对象不会遍历原型链。
-3. 对于数组的遍历,for ... in会返回数组中所有可枚举的属性(包括原型链上可枚举的属性),for ... of只返回数组的下标对应的属性值。
-:::
-
-#### for...of 循环内部实现机制可以理解为：
-
-```js
-let arr = [1, 2, 3, 4]
-let iterator = arr[Symbol.iterator]()
-for (let value, res; (res = iterator.next()) && !res.done;) {
-  value = res.value
-}
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    optionValue: ''
+  }
+})
+</script>
 ```
-## microtask 和 macrotask
 
-microtask：微任务
+需要手动滑一下第一个选项才能选中。在选中 option 时必须要等选择的动画结束才能选中。
 
-macrotask：宏任务
-```js
-macrotask: setTimeout, setInterval, setImmediate, I/O, UI rendering
-microtask: process.nextTick, Promises, Object.observe(废弃), MutationObserver
+#### 解决方案：
+
+1. 添加一个 “请选择“ 选项，设置为 disabled，display: none。
+2. 添加一个”空“选项，设置 disabled，display: none。
+
+```html
+<select v-model="optionValue">
+  <option style="display:none;" disabled>请选择</option>
+  <option value="1">选项一</option>
+  <option value="2">选项二</option>
+</select>
+
+<!-- 或 -->
+<select v-model="optionValue">
+  <option style="display:none;" disabled></option>
+  <option value="1">选项一</option>
+  <option value="2">选项二</option>
+</select>
 ```
-执行顺序：microtask -> macrotask
 
-## Promise对象
+### node 连接 mysql 八小时自动断开
 
-(1)Promise对象内部抛出的错误未捕获不会影响外层代码的执行。
+mysql中设置8小时内未访问则会自动断开链接
+
+```sql
+show global variables like '%timeout%';
+-- 其中 wait_timeout 和 interactive_timeout 为28800，即8小时
+```
 
 ```js
-const promise = new Promise(function (resolve, reject) {
-  resolve('ok');
-  setTimeout(function () { 
-    throw new Error('test') 
+// 解决办法
+
+// 方式一：使用监听
+const mysql = require('mysql');
+let connection;
+function connect () {
+  connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'qinchao'
+  });
+  connection.on('error', function (err) {
+    console.log('err', err)
+    console.log('errCode', err.code)
+    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+      connect()
+    }
   })
-});
-promise.then(function (value) { 
-  console.log(value) 
-});
-setTimeout(function () {
-  console.log('test1')
-})
-/**
-ok
-Uncaught Error: test
-test1 */
-```
-(2)如果有then或catch成功执行，其后所有的then在正常情况下都会执行。
+  connection.connect(function(){
+    console.log('数据库连接成功！')
+  });
+}
+connect()
 
-调用then后正常情况下返回的状态就是一个resolved状态。
-```js
-// 例1：
-new Promise((resolve, reject) => {
-  console.log('111')
-  return 222
-}).then(res => {
-  console.log('success')
-})
-// 111
-
-// 例2：
-new Promise((resolve, reject) => {
-  resolve(x + 1)
-}).catch (err => console.log(err))
-.then(res => {
-  console.log('res', res)
-  console.log('catch success')
-})
-/**
-ReferenceError: x is not defined
-res undefined
-catch success */
-
-// 例3：
-new Promise((resolve, reject) => {
-  resolve(1)
-}).then(res => {
-  console.log('res', res)
-}).then(res => {
-  console.log('true')
-})
-/**
-res 1
-true */
-
-// 例4：
-new Promise((resolve, reject) => {
-  resolve(1)
-}).then(res => {
-  console.log('res', res)
-  throw new Error('1111')
-}).then(res => {
-  console.log('true')
-})
-/**
-res 1
-Uncaught (in promise) Error: 1111
-    at Promise.then.res */
-
-// 例5：
-new Promise((resolve, reject) => {
-  resolve(x + 1)
-}).then(res => {
-  console.log(1)
-}).catch(err => {
-  console.log('err', err)
-}).then(res => {
-  console.log(22)
-})
-/**
-err ReferenceError: x is not defined
-    at Promise (2.html:43)
-    at new Promise (<anonymous>)
-    at 2.html:42
-22
-*/
-
-// 例6：
-new Promise((resolve, reject) => {
-  resolve(1)
-}).then(res => {
-  console.log(1)
-}).catch(err => { // 没有报错时会跳过catch方法
-  console.log('err', err)
-}).then(res => {
-  console.log(22)
-})
-/**
-1
-22
-*/
-```
-## Generator函数
-
-该函数返回一个遍历器对象。具备Iterator接口。
-
-#### yield*
-
-作用：
-
-1. 允许在Generator函数内部执行另一个Generator函数。
-2. 返回该Generator函数的遍历器对象的值。等同于使用 for...of 循环遍历该遍历器对象。
-3. 如果该Generator函数内部使用了return返回某个值，则需要额外使用形如：let value = yield* test() 去接收return出来的值。
-
-## Set  和 Map 
-
-#### Set 和 Map 的区别：
-
-Set -> 集合，Map -> 字典
-
-1. 共同点：集合、字典可以存储不重复的值。
-2. 不同点：集合是以[值，值]的形式存储元素，字典是以[键，值]的形式存储。
-
-#### Set 和 Map函数中使用new创建时，其参数必须具备iterator接口。
-
-任何具有 Iterator 接口、且每个成员都是一个双元素的数组的数据结构都可以当作Map构造函数的参数。
-
-```js
-Map.prototype[Symbol.iterator] === Map.prototype.entries //true
-Set.prototype[Symbol.iterator] === Set.prototype.keys // true
-Set.prototype[Symbol.iterator] === Set.prototype.values // true
-```
-
-```js
-let s = new WeakSet()
-s.add({a: 1})
-console.log(s)
-
-// 等价于
-
-let s = new WeakSet([{a: 1}])
-console.log(s)
-```
-#### WeakSet：成员只能是对象。
-
-成员都是弱引用，不会发生内存泄漏。
-
-#### WeakMap：只接受对象作为键名（null除外）。
-
-作用：
-1. 键名所引用的对象都是弱引用，垃圾回收机制不会将该引用考虑在内。即只要所引用的对象的其他引用都被清除，垃圾回收机制就会释放该对象所占用的内存。一旦不再需要，WeakMap 里面的键名对象和所对应的键值对会自动消失，不用手动删除引用。
-2. 有助于防止内存泄漏。
-
-## Class
-
-1. 类的数据类型就是函数
-
-```js
-class Point {
-    constructor () {
-        ...
+// 调用
+app.post('/test', (req, res) => {
+  console.log('req', req.body)
+  const name = req.body.name
+  const sql = 'insert into test values(?, ?, ?, ?)'
+  const time = new Date()
+  const values = [null, name, time, time]
+  console.log('values', values)
+  connection.query(sql, values, function (err, result) {
+    if (err) {
+      console.log('err', err)
+      return
     }
-}
-typeof Point // function
-```
-2. 类的所有方法都定义在类的prototype属性上
+    res.send({
+      result
+    })
+  })
+})
 
-```js
-class Point {
-    constructor () {...}
-    toString () {...}
+// 方式二：使用连接池
+const mysql = require('mysql')
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'qinchao'
+})
+const query = function(sql, callback) { // 查询操作  
+  pool.getConnection(function(err, connection) {  
+    connection.query(sql, function(err, result) {  
+      callback(err, result) // 结果回调
+        connection.release()
+      }
+    );
+  })
+}
+const insert = function(sql, values, callback) { // 插入操作  
+  pool.getConnection(function(err, connection) {  
+    connection.query(sql, values, function(err, result) {  
+      callback(err, result) // 结果回调
+        connection.release() // 释放连接资源 | 跟 connection.destroy() 不同，它是销毁
+      }
+    );
+  })
 }
 
-// 等价于
-
-Point.prototype = {
-    constructor () {...},
-    toString () {...}
-}
-```
-3. 类内部定义的方法都是不可枚举的
-4. 使用 new 创建对象时，contructor函数会默认执行，如果未显式定义，一个空的contructor函数会被默认添加。constructor方法默认返回实例对象（即this）。
-5. 类必须使用new调用，而普通构造函数不用new也可以执行。
-6. 类和模块内部默认启用严格模式。
-7. 类class不存在变量提升。
-```js
-// 例 1：
-class Point {
-  constructor (x = 0, y = 0) {
-    this.x = x
-    this.y = y
-    this.sayHello = function () { // 私有方法
-      console.log('hello')
+// 调用
+app.get('/test', (req, res) => {
+  query('select * from test', function (err, result) {
+    if (err) {
+      console.log('err', err)
+      return
     }
-  }
-  test () { // 原型上的方法
-    return '(' + this.x + this.y + ')'
-  }
-}
-let p1 = new Point()
-let p2 = new Point()
-console.log(p1.test === p2.test) // true
-p1.sayHello() // 'hello'
-console.log(Object.getPrototypeOf(p1) === p1.__proto__) // true (获取实例的原型对象)
+    res.send({
+      result: JSON.parse(JSON.stringify(result))
+    })
+  })
+})
+
+app.post('/test', (req, res) => {
+  console.log('req', req.body)
+  const name = req.body.name
+  const sql = 'insert into test values(?, ?, ?, ?)'
+  const time = new Date()
+  const values = [null, name, time, time]
+  console.log('values', values)
+  insert('insert into test values(?, ?, ?, ?)', values, function (err, result) {
+    if (err) {
+      console.log('err', err)
+      return
+    }
+    res.send({
+      result
+    })
+  })
+})
+```
+
+## 开发经验
+
+1. 多个页面的Header部分结构大致相同，可将其抽离成组件，不同部分通过 slot 节点传入。
+
+```js
+/*HeaderTop组件*/
+<div>
+  <slot name="left"></slot>
+  <div>common部分</div>
+  <slot name="right"></slot>
+</div>
+```
+
+2. 多个页面有的需要显示Footer部分，有的不需要显示。
+
+先在App.vue中引入 Footer组件，通过在路由router中设置meta属性控制Footer组件是否显示。
+
+```js
+// router/index.js
+const router = new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'index',
+      component: _import(...),
+      meta: {
+        showFooter: true
+      }
+    },
+    {
+      path: '/other',
+      name: 'other',
+      component: _import(...)
+    }
+  ]
+})
+
+// App.vue
+<div>
+  ...
+  <footer-guide v-show="$route.meta.showFooter"/>
+</div>
+```
+3. 列表数据使用ul、li标签显示。
+4. 默认数据显示需要一定的时间，因此可以通过图片显示大致的结构，通过v-if和v-else控制显示列表还是显示结构图。
+5. 表单中使用按钮，点击时默认会触发表单的提交，解决办法：给按钮使用 @click.prevent 阻止表单的默认行为。
+6. 获取图片验证码。
+
+```html
+<!-- http://localhost:4000/captcha 返回一个svg图片，每调用一次返回一个新的svg图片 -->
+<img src="http://localhost:4000/captcha" @click="getCaptcha">
 ```
 
 ```js
-// 例 2：
-class Person {
-  get name () {
-    return this._name
-  }
-  set name (value) {
-    this._name = value
-  }
+getCaptcha (event) {
+  // 保证每次设置的 src 值都不同，否则不会再次调用。
+  event.target.src = 'http://localhost:4000/captcha?time=' + Date.now()
 }
-let p = new Person()
-p.name = 'a'
-console.log(p.name) // 'a'
-let desc = Object.getOwnPropertyDescriptor(Person.prototype, 'name') // 获取属性描述符对象
-// name属性部署在Person.prototype上,set 和 get 函数部署在该属性的属性描述符对象上。
-console.log(desc) // {get: ƒ, set: ƒ, enumerable: false, configurable: true}
 ```
+7. 设置精灵图
+
+假设：现图片大小为 400px * 400px。使用二倍图解决图片失真问题。
+
+```css
+/* 设置公用样式 */
+[class^="icon_"], [class*=" icon_"] { /* 包括了 class="icon_xxx 和 class="red icon_xxx" */
+  background-image: url("../../images/sprites.png") no-repeat;
+  background-size: 200px 200px; /* 对图片进行缩放 */
+}
+```
+```html
+<style>
+.icon_search {
+  width: 20px;
+  height: 20px;
+  background-position: 0 -103px;
+}
+</style>
+<i class="icon_search"></i>
+<i class="icon_logo"><i>
+```
+
+### 使用 date-fns 替代 moment.js 减少打包后文件的大小
 
 ```js
-// 例 3：
-// 创建一个立即执行类实例
-let person = new class {
-  constructor (name) {
-    this.name = name
-  }
-  sayName () { 
-    console.log(this.name)
-  }
-}('aa')
-person.sayName() // aa
+// 引入方式
+import format from 'date-fns/format'
+
+// 此种方式引入的包要比上面的大
+import { format } from 'date-fns'
 ```
 
-```js
-// 例 4：
-function Person () {
-  this.x = 20 // 实例属性
+### 启动 dist 目录的方法
+
+<p class="fg_t">方式一：使用 serve</p>
+
+```
+npm install -g serve
+
+// 切换到指定的项目路径
+serve dist
+```
+
+<p class="fg_t">方式二：使用anywhere（推荐）</p>
+
+```
+npm install -g anywhere
+anywhere // 可自动打开浏览器
+```
+
+<p class="fg_t">方式三：使用 http-server</p>
+
+```
+npm install -g http-server
+hs // 启动（或http-server）
+```
+
+配置：
+
+```
+// package.json
+scripts:{
+  "dist1": "serve dist",
+  "dist2": "anywhere -d dist",
+  "dist3": "hs dist -a 10.10.20.172 -o -c-1"
 }
-Person.x = 10 // 构造函数的属性
-let p = new Person()
-console.log(p.x) // 20
-console.log(p.__proto__.constructor.x) // 10
-console.log(p.__proto__.constructor.name) // Person
 
-// 属性分为三种：实例属性，原型属性，构造函数的属性
+// 命令行启动
+npm run dist1
+// 或 
+npm run dist2
+// 或
+npm run dist3
 ```
+注：使用 http-server 访问时需要指向具体的文件，如：http://10.10.20.172:8083/index.html
+
+<p class="fg_t">方式四：使用 chrome 插件</p>
+
+安装：Web Server for Chrome
+
+[链接地址]<a href="https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb">https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb</a>

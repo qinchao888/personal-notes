@@ -96,8 +96,7 @@ module.exports = {
       '/base/html/' : [
         ['', '基础汇总'],
         ['tag', '标签用法'],
-        ['canvas', 'canvas'],
-        ['test1', '我是标题2']
+        ['canvas', 'canvas']
       ],
       '/base/js/': [
         ['', 'JS'],
@@ -196,7 +195,7 @@ module.exports = {
         ['', '安全'],
       ],
       '/other/internet/': [
-        ['', '计算机网络']
+        ['', '计算机']
       ],
       '/other/study/': [
         ['', '总结'],
@@ -205,14 +204,9 @@ module.exports = {
         ['js', 'js']
       ],
       '/': [
-        ['', '前端笔记'],
-        ['knowledge', '知识总结'],
+        ['', '开发总结'],
         ['optimize', '性能优化'],
-        ['experience', '开发总结'],
-        ['design', '开发模式'],
-        ['summary', '读后感'],
-        ['unique', '罕见特性'],
-        ['video', '视频学习'],
+        ['design', '开发模式']
       ],
     },
   },

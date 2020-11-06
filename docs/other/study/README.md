@@ -4,6 +4,10 @@ lang: zh-CN
 sidebarDepth: 2
 ---
 
+:::tip
+使用 .localhost 后缀的域名（不用在 hosts 添加，自动指向 localhost）
+:::
+
 ## 编码
 
 ### Ascii Unicode UTF-8 编码

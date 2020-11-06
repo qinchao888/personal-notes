@@ -3,6 +3,108 @@ title: 面试必备
 lang: zh-CN
 sidebarDepth: 2
 ---
+### 大图片打包成base64字符串的缺点
+
+大图片会导致打包后会占据较大的空间。影响页面渲染。
+
+### stylus 和 stylus-loader
+
+stylus是把stylus转化为css。
+
+stylus-loader是使webpack能够理解和处理stylus类型的文件。
+
+### in 关键字的使用
+
+1. 数组：判断索引是否存在
+
+```js
+var arr = ['a', 'b']
+0 in arr // true
+2 in arr // false
+'a' in arr // false
+```
+
+2. 对象：判断对象的属性是否存在
+
+```js
+var obj = {a: 1, b: 2}
+a in obj // true
+1 in obj // false
+```
+
+### 引入路由 router
+
+```
+可以使用 <router-view> <router-link> <keep-alive> ，提供了 $route 和 $router
+```
+### vue 中模板数据来源
+
+1. data：自身数据
+2. props：传入的数据
+3. computed：数据来源：data/props/别的compute/state/getters
+
+### 页面报错
+
+1. Cannot read property 'a' of null
+
+```js
+var obj = null
+obj.a // Cannot read property 'a' of null
+```
+2. Cannot read property 'b' of undefined 
+
+```js
+var obj = {}
+obj.a.b // Cannot read property 'b' of undefined 
+```
+### 创建 better-scroll 实例的时机
+
+滚动原理：子元素内容总高度超出父元素高度。
+
+```js
+// 方法一：
+/*
+1. 异步获取数据和页面更新完成才能创建实例
+2. 利用回调函数
+*/
+
+// store
+actions: {
+  getGoodsInfo ({commit}, cb) {
+    reqGoodsInfo().then(res => { // 发起请求
+      if (res.status === 200) {
+        const data = res.result
+        commit('GOODS_INFO', data) // 执行 mutation
+        cb && cb() // 执行回调
+      }
+    })
+  }
+}
+
+// 页面
+this.$store.dispatch('getGoodsInfo', () => { // 异步请求获取数据
+  this.$nextTick(() => { // 页面数据更新完成
+    new BScroll('.category') // 此处创建 better-scroll 实例
+  })
+})
+
+// 方法二：
+/* 通过 watch 监听数据，然后再 nextTick 中创建实例 */
+watch: {
+  goodList () { // 数据 goodList 已经异步获取成功
+    this.$nextTick(() => {
+      new BScroll('.category')
+    })
+  }
+}
+```
+### 滚动的三种方式
+
+1. 手指触摸滚动
+
+2. 手机触摸滚动后离开产生的惯性滚动
+
+3. 调用方法产生的滚动
 
 ### 实现css布局
 
@@ -109,9 +211,9 @@ a2
 promise2
 script end
 promise1
+a1 end
 promise2.then
 promise3
-a1 end
 setTimeout
 */
 ```

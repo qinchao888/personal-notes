@@ -4,6 +4,10 @@ lang: zh-CN
 sidebarDepth: 2
 ---
 
+:::tip
+compgen -c :mac上查看所有可用的系统命令
+:::
+
 ## 基础用法
 
 ### grep
