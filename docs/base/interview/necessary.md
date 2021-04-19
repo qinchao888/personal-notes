@@ -48,7 +48,7 @@ X5内核是腾讯基于优秀开源Webkit深度优化的浏览器渲染引擎，
 
 ### cookies，sessionStorage 和 localStorage 的区别？
 
-1. 数据都是存储在客户端。
+1. 数据都是存储在客户端浏览器中。
 2. cookie存储的数据量要比sessionStorage和localStorage存储的数据量要少。cookie存储的数据不能超过4kb，而sessionStorage和localStorage存储的数据量可以达到5M或更大。
 3. sessionStorage在用户关闭浏览器时，存储的数据消失。localStorage是持久存储，除非用户主动删除本地的数据。cookie在过期时间之前数据都是有效的。
 
@@ -105,12 +105,20 @@ change：输入框内容改变并且鼠标失焦时触发。（比较失焦后�
 
 ### url中输入地址的流程
 
-1. URL解析：判断是否是一个合法的url地址。
-2. DNS解析
-3. TCP连接
-4. 发起HTTP请求
-5. 接受响应结果
-6. 浏览器解析html，进行布局和渲染。
+1.URL解析：判断是否是一个合法的url地址。
+
+2.DNS解析
+（1）在DNS缓存中读取域名对应的IP地址，查找不到执行第二步；
+（2）查找系统中的hosts文件，找到对应的IP地址，查找不到执行第三步；
+（3）向DNS服务器发起一个DNS查询，DNS服务器返回该域名对应的IP地址并将其存入DNS缓存中。
+
+3.TCP连接
+
+4.发起HTTP请求
+
+5.接受响应结果
+
+6.浏览器解析html，进行布局和渲染。
 
 ### keydown、keypress、keyup的区别
 
@@ -410,7 +418,7 @@ box-shadow：水平阴影 垂直阴影 模糊距离 阴影尺寸 颜色 内侧�
 transition: all 1s ease 0s;
 ```
 
-### 给指定的元素添加样式
+### 获取指定元素
 
 ```html
 <div>
@@ -673,6 +681,7 @@ function fn () {
 定义：
 
 1. 从理论角度，能够访问自由变量的函数。（自由变量：指在函数中使用的，但既不是函数参数也不是函数的局部变量的变量。）
+
 ```js
 var a = 1;
 function foo() {
@@ -680,6 +689,7 @@ function foo() {
 }
 foo();
 ```
+
 2. 从实践角度，能够访问一个函数中变量的函数。
 
 ### JSON.parse(JSON.stringify(obj))的限制
@@ -766,6 +776,8 @@ common.js: require module.exports exports
 3. import是es6的语法，最终会转化为require。
 4. 使用require引入文件时可以使用变量，而import不可以。
 
+可以使用 import() 动态加载文件，返回一个promise对象。
+
 ### 修改this指向的方式
 
 apply、call 和 bind
@@ -782,7 +794,7 @@ push(), pop(), shift(), unshift(), sort(), reverse(), splice()
 
 ```
 function leaks(){  
-    leak = 'xxxxxx';//leak 成为一个全局变量，不会被回收
+  leak = 'xxxxxx';//leak 成为一个全局变量，不会被回收
 }
 ```
 2. 定时器: 未被正确关闭，导致所引用的外部变量无法被释放
@@ -1096,6 +1108,7 @@ Object.defineProperties(obj, {
   }
 });
 ```
+
 属性： get set value writable enumerable configurable
 
 数据属性：value writable enumerable configurable
@@ -1207,10 +1220,12 @@ function download () {
 
 ### js中常见的Error有哪些
 
-1. SyntaxError：语法错误。
-2. ReferenceError：引用错误。
-3. TypeError：变量或参数不属于有效类型。
-4. RangeError：数值变量或参数超出其有效范围。
+1. SyntaxError：语法错误
+2. ReferenceError：引用错误
+3. TypeError：变量或参数不属于有效类型
+4. RangeError：数值变量或参数超出其有效范围
+5. URIError：encodeURI()或decodeURI()传递的参数无效
+6. EvalError：eval()抛出的错误
 
 ```js
 a // Uncaught ReferenceError: c is not defined
@@ -1218,11 +1233,16 @@ a // Uncaught ReferenceError: c is not defined
 var a = 1
 a.b.c // Uncaught TypeError: Cannot read property 'c' of undefined
 
+var a = 10
+a.slice() // Uncaught TypeError: a.slice is not a function
+
 function a () {
   a()
 }
 a() // 递归调用
 // Uncaught RangeError: Maximum call stack size exceeded
+
+eval('1+a') // Uncaught EvalError: Refused to evaluate a string as JavaScript...
 ```
 
 ### 监听图片加载异常提供默认图片，如何防止因默认图片也无法加载导致异常函数的循环调用
@@ -1435,12 +1455,23 @@ for (var i = 0; i < 3; i++) {
 ### 执行结果
 
 ```js
+// situation
 function f(){
   return f;
 }
 console.log(new f() instanceof f); // false
-
 // 原因：返回的是一个函数f，并不是f的实例
+
+
+function f () {
+  return {}
+}
+console.log(new f() instanceof f); // false
+
+function f () {
+  return 1 // 基本数据类型会被忽略，并不会返回
+}
+console.log(new f() instanceof f); // true
 
 function f() {}
 new f() instanceof f // true
@@ -1448,7 +1479,7 @@ new f() instanceof f // true
 // 等价于
 function fn () {
   var obj = {}
-  obj.__proto__ = fn.prototype
+  obj.__proto__ = fn.prototype // 一定要有这一步使用instanceof才可以
   fn.prototype.contructor = fn
   return obj
 }
@@ -1463,7 +1494,7 @@ if(function f(){}){
 console.log(x) // 1undefined
 /*
 函数声明写在运算符中，其为true，但放在运算符中的函数声明在执行阶段是找不到的。
-另外，对未声明的变量执行typeOf不会报错，会返回undefined
+另外，对未声明的变量执行typeof不会报错，会返回undefined
 */
 ```
 

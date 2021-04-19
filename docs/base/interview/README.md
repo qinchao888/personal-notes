@@ -50,6 +50,7 @@ window.a // 10
 delete a // true
 a // Uncaught ReferenceError: a is not defined
 ```
+
 ### 图片使用 Data Url 引入
 
 即将图片打包成base64的形式引入到页面中，可以减少http请求次数，提升网页性能。
@@ -62,7 +63,7 @@ Base64编码的数据体积通常是原数据的体积4/3，即Data URL形式的
 
 2. 未声明直接赋值的变量。
 
-```
+```js
 function f () {
   a = 10
 }
@@ -117,6 +118,7 @@ f()
 console.log(a) // ƒ a () {}
 var a = 10
 function a () {}
+console.log(a) // 10
 ```
 ### 浏览器的缓存机制
 
@@ -459,6 +461,7 @@ console.log(reg.exec(str1)) // null
 console.log(reg.exec(str2)) // null
 console.log(reg.exec(str3)) // ["你好", index: 0, input: "你好", groups: undefined]
 ```
+
 ?= ^ $ 等字符匹配的都是位置，可以将位置理解为空字符。
 
 ```js
@@ -487,14 +490,14 @@ console.log(result);
 1. a -> b (新窗口打开), b页面中包含a和b中设置的sessionKey，a页面只包含a中设置的sessionKey。
 2. a -> b (共用同一个标签页)，b页面中包含a和b中设置的sessionKey，b返回a，a中包含a和b中的sessionKey。
 3. 通过带target="_blank"的a标签、window.open等方式打开新窗口时，会把旧窗口（或标签）的sessionStorage数据带过去，但从此之后，新窗口（或标签）的sessionStorage的增删改和旧窗口已经没有关系了。即旧窗口中的sessionStorage不受新窗口的影响。
-4. sessionStorage的session存在周期仅限当前标签页或者当前标签页打开的新标签页，通过其它方式新开的窗口或标签不认为是同一个session。
+4. sessionStorage的session存在周期仅限当前标签页或者当前标签页打开的新标签页，通过其它方式新开的窗口或标签不认为是同一个session。新窗口（或标签）的sessionStorage的增删改和旧窗口已经没有关系了。即旧窗口中的sessionStorage不受新窗口的影响。
 
 ### 12. background
 
 ```css
 background-position:50% 50%;
 
-图片水平和垂直居中。与 background-position:center center;效果等同。
+图片水平和垂直居中(位于容器的正中央)。与 background-position:center center;效果等同。
 
 等同于x：{容器(container)的宽度—背景图片的宽度}*x百分比，超出的部分隐藏。
 等同于y：{容器(container)的高度—背景图片的高度}*y百分比，超出的部分隐藏。
@@ -509,14 +512,14 @@ background-position:50% 50%;
 ```js
 // 1.图片完全显示，不裁剪，但给定的容器会出现部分空白区域
 .wrap {
-    width: 300px;
-    height: 300px;
+  width: 300px;
+  height: 300px;
 }
 .image {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 <div class="wrap">
@@ -640,6 +643,7 @@ console.log(arr2)
 3. 动画执行完成会回到起始状态。
 
 附：可以设置animation-fill-mode: forwards，使动画停留在最后一个关键帧。
+
 ```js
 animation-fill-mode : none | forwards | backwards | both;
 
@@ -869,7 +873,7 @@ css 3d 坐标轴：
 
 ![image](../../images/3d-css.png)
 
-### css 阻塞
+### css阻塞
 
 1. css加载不会阻塞DOM树的解析。
 2. css加载会阻塞DOM树的渲染。（DOM树解析完成但未显示在页面上）
@@ -963,14 +967,6 @@ css3硬件加速：通过GPU进行渲染，解放cpu。
 4. Painting(重绘):根据渲染树以及回流得到的几何信息，得到节点的绝对像素。
 
 5. Display:将像素发送给GPU，展示在页面上。（涉及GPU将多个合成层合并为同一个层，并展示在页面中。而css3硬件加速的原理则是新建合成层）。
-
-#### 构建渲染树过程
-
-1. 从DOM树的根节点开始遍历每个可见节点。
-
-2. 对于每个可见的节点，找到CSSOM树中对应的规则，并应用它们。
-
-3. 根据每个可见节点以及其对应的样式，组合生成渲染树。
 
 #### 不可见的节点包括：
 

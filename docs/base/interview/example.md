@@ -89,15 +89,23 @@ const a = {
   value:[3,2,1],
   valueOf: function () {return this.value.pop(); },
 } 
+
+// 或
+var a = {
+  num: 0,
+  valueOf: function () {
+    this.num += 1
+    return this.num
+  }
+}
 ```
 
 ### 获取当前日期第二天凌晨 00:00:00 的时间戳
 
 ```js
-const d = new Date();
-d.setDate(d.getDate() + 1);
-d.setHours(0, 0, 0, 0);
-console.log(d.getTime());
+new Date(new Date(new Date().setDate(new Date().getDate() + 1)).setHours(0, 0, 0, 0))
+// 或
+new Date(new Date(Date.now() + 1000 * 24 * 3600).setHours(0, 0, 0, 0))
 ```
 
 ### 将下面的数据归类
@@ -138,6 +146,7 @@ let nameList = [{
   hair: 'long'
 }]
 
+// 方法一
 let res = []
 while (nameList.length !== 0) {
   let list = nameList.shift()
@@ -151,6 +160,11 @@ while (nameList.length !== 0) {
   res.push(arr)
 }
 console.log(res)
+
+// 方法二
+function mergeCategoryByAge (arr) {
+  return Object.values(arr.reduce((t, v) => (t[v.age] = t[v.age] ? t[v.age].concat(v) : [v]) && t, {}))
+}
 ```
 ### 输出结果为
 
@@ -181,6 +195,7 @@ const list = [
 {name: "cc", num: "3"}]
 */
 
+// 方法一
 function merge (list) {
   let res = []
   list.forEach(item => {
@@ -193,16 +208,34 @@ function merge (list) {
   })
   return res
 }
+
+// 方法二
+function merge (list) {
+  return list.reduce((total, val) => {
+    const sameItem = total.find(item => item.name === val.name)
+    if (sameItem) {
+      sameItem.num = +val.num + +sameItem.num
+    } else {
+      total.push(val)
+    }
+    return total
+  }, [])
+}
 ```
 ### 传递两个参数m，n，返回长度为m，所有元素都为n的数组，要求不能用循环
 
 #### 实现：使用递归和 concat 方法
 
 ```js
-function fn (m, n) {s
+function fn (m, n) {
   return m ? fn(m - 1, n).concat(n) : [] 
 }
 console.log(fn(3, 2)) // [2, 2, 2]
+
+// 或
+function fn (m, n) {
+  return new Array(m + n).fill(n)
+}
 ```
 ### 以下代码输出
 
@@ -326,6 +359,17 @@ function fn (n) {
     n2 = res
   }
   return res
+}
+
+function fn (n) {
+  var p1 = 1, p2 = 1
+  if (n === 1 || n === 2) return 1
+  for (var i = 3; i < n; i++) {
+    var t = p1 + p2
+    p1 = p2
+    p2 = t
+  }
+  return p1 + p2
 }
 ```
 
@@ -794,6 +838,9 @@ function fn (arr) {
   })
 }
 fn(arr)
+
+// 方法三：
+arr.flat(Infinity)
 ```
 
 ### 变量提升和函数提升
