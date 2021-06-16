@@ -247,7 +247,7 @@ div{
   height: 200%;
   border: 1px solid #ddd;
   transform-origin: left top;
-  transform: scaleY(0.5);
+  transform: scale(0.5);
 }
 ```
 ### 元素垂直居中
